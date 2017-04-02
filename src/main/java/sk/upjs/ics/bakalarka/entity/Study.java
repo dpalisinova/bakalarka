@@ -1,14 +1,13 @@
-
 package sk.upjs.ics.bakalarka.entity;
 
 import java.util.Date;
 
-
 public class Study {
-private Long id;
-private Date startDate;
-private Date endDate;
-private Long patientId;
+
+    private Long id;
+    private Date startDate;
+    private Date endDate;
+    private Long patientId;
 
     public Long getId() {
         return id;
@@ -40,5 +39,10 @@ private Long patientId;
 
     public void setPatientId(Long patientId) {
         this.patientId = patientId;
+    }
+
+    @Override
+    public String toString() {
+        return "Study{" + "id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", patientId=" + patientId + '}';
     }
 }

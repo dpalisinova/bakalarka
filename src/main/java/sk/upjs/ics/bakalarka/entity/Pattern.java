@@ -1,4 +1,3 @@
-
 package sk.upjs.ics.bakalarka.entity;
 
 import java.sql.Time;
@@ -6,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pattern {
-    private int id;
+
+    private Long id;
     private String type;
     private String daytime;
     private Time timePeriodStart;
@@ -14,6 +14,7 @@ public class Pattern {
     private int noOfDays;
     private List<String> possibleCauses = new ArrayList<>();
 
+    // list possibleCauses budemnaplnat, ked mi pride JSON s polom stringov, dam si Pattern.setPossibleCauses a ako parameter dam pole ktore si vytvorim zo stringov, ktore prisli
     public List<String> getPossibleCauses() {
         return possibleCauses;
     }
@@ -22,11 +23,11 @@ public class Pattern {
         this.possibleCauses = possibleCauses;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -69,7 +70,8 @@ public class Pattern {
     public void setNoOfDays(int noOfDays) {
         this.noOfDays = noOfDays;
     }
-     @Override
+
+    @Override
     public String toString() {
         return "Pattern{" + "id=" + id + ", type=" + type + ", daytime=" + daytime + ", timePeriodStart=" + timePeriodStart + ", timePeriodEnd=" + timePeriodEnd + ", noOfDays=" + noOfDays + '}';
     }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
 import java.util.List;
@@ -19,13 +15,15 @@ public class PostgreSqlPossibleCauseDao implements PossibleCauseDao {
     }
 
     @Override
-    public List<String> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<PossibleCause> getAll() {
+        String sql = "SELECT * FROM possiblecause";
+        BeanPropertyRowMapper<PossibleCause> mapper = BeanPropertyRowMapper.newInstance(PossibleCause.class);
+        return jdbcTemplate.query(sql, mapper);
     }
 
     @Override
-    public int getIdByString(PossibleCause cause) {
-        String sql = "SELECT id FROM possibleCauses WHERE cause LIKE ?";
+    public Long getIdByString(String cause) {
+        String sql = "SELECT id FROM possiblecause WHERE cause LIKE ?";
         BeanPropertyRowMapper<PossibleCause> mapper = BeanPropertyRowMapper.newInstance(PossibleCause.class);
         return jdbcTemplate.query(sql, mapper, cause).get(0).getId();
 
@@ -33,7 +31,8 @@ public class PostgreSqlPossibleCauseDao implements PossibleCauseDao {
 
     @Override
     public void add(PossibleCause possibleCause) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    String sql = "INSERT INTO possiblecause (cause) VALUES (?)";
+    jdbcTemplate.update(sql, possibleCause.getCause());
     }
 
 }

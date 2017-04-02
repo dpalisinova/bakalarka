@@ -1,18 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sk.upjs.ics.bakalarka.entity;
 
 import java.util.Date;
 
-
 public class Patient {
-    
+
     private String name;
     private String surname;
-    private int id;
+    private Long id;
     private Date dob;
 
     public String getName() {
@@ -31,11 +25,11 @@ public class Patient {
         this.surname = surname;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -51,6 +45,5 @@ public class Patient {
     public String toString() {
         return "Patient{" + "name=" + name + ", surname=" + surname + ", id=" + id + ", dob=" + dob + '}';
     }
-   
 
 }

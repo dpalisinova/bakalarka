@@ -1,20 +1,23 @@
-
 package sk.upjs.ics.bakalarka.entity;
 
 public class PossibleCause {
-    private int id;
+
+    private Long id;
     private String cause;
 
     public PossibleCause(String cause) {
         this.cause = cause;
     }
-    
 
-    public int getId() {
+    public PossibleCause() {
+
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

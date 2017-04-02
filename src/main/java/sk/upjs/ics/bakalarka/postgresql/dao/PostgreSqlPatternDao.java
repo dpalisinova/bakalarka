@@ -9,6 +9,7 @@ import sk.upjs.ics.bakalarka.entity.PossibleCause;
 public class PostgreSqlPatternDao implements PatternDao {
 
     private JdbcTemplate jdbcTemplate;
+    PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao();
 
     public PostgreSqlPatternDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -25,16 +26,15 @@ public class PostgreSqlPatternDao implements PatternDao {
 
     @Override
     public void add(Pattern pattern) {
-        //ID na LONG"""""""""""""""""""""""""""""""
         String sql = "INSERT INTO pattern ( Type, Daytime, TimePeriodStart,  TimePeriodEnd,  NoOfDays) VALUES(?,?,?,?,?)";
         jdbcTemplate.update(sql, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays());
         
         for(String cause : pattern.getPossibleCauses()){
-            if(PossibleCauseDao.getIdByString(cause) == -1){
-                PossibleCauseDao.add(new PossibleCause(cause));
+            if(possibleCauseDao.getIdByString(cause) == -1){
+                possibleCauseDao.add(new PossibleCause(cause));
             }
-           String sql = "INSERT INTO pattern_possiblecauses (patternId, causeId) VALUES (?,?)";
-           jdbcTemplate.update(sql, pattern.getId(), possiblecauseDao.getIdByString(cause));
+           String sql2 = "INSERT INTO pattern_possiblecause (patternId, causeId) VALUES (?,?)";
+           jdbcTemplate.update(sql2, pattern.getId(), possibleCauseDao.getIdByString(cause));
                    
         }
     }

@@ -1,11 +1,10 @@
-
 package sk.upjs.ics.bakalarka.entity;
 
-
 public class Range {
+
     private Long id;
-    private double high;
-    private double low;
+    private float high;
+    private float low;
     private int noOfDays;
     private String units;
 
@@ -17,19 +16,19 @@ public class Range {
         this.id = id;
     }
 
-    public double getHigh() {
+    public float getHigh() {
         return high;
     }
 
-    public void setHigh(double high) {
+    public void setHigh(float high) {
         this.high = high;
     }
 
-    public double getLow() {
+    public float getLow() {
         return low;
     }
 
-    public void setLow(double low) {
+    public void setLow(float low) {
         this.low = low;
     }
 
@@ -47,5 +46,10 @@ public class Range {
 
     public void setUnits(String units) {
         this.units = units;
+    }
+
+    @Override
+    public String toString() {
+        return "Range{" + "id=" + id + ", high=" + high + ", low=" + low + ", noOfDays=" + noOfDays + ", units=" + units + '}';
     }
 }

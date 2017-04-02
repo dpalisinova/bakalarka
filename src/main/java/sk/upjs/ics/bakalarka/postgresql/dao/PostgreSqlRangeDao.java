@@ -23,7 +23,8 @@ public class PostgreSqlRangeDao implements RangeDao {
 
     @Override
     public void add(Range range) { //DOROBIT ADD
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "INSERT INTO Range(high, low, noofdays, units) VALUES ( ?, ?, ?, ?);";
+        jdbcTemplate.update(sql, range.getHigh(), range.getLow(), range.getNoOfDays(), range.getUnits());
     }
 
     @Override

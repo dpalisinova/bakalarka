@@ -10,25 +10,26 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.bakalarka.entity.Patient;
 
-
-public class PostgreSqlPatientDao implements PatientDao{
+public class PostgreSqlPatientDao implements PatientDao {
 
     private JdbcTemplate jdbcTemplate;
-    
+
     public PostgreSqlPatientDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     @Override
     public List<Patient> getAll() {
-     String sql = "SELECT * FROM Patient";
+        String sql = "SELECT * FROM Patient";
         BeanPropertyRowMapper<Patient> mapper = BeanPropertyRowMapper.newInstance(Patient.class);
-        
-        return jdbcTemplate.query(sql, mapper);   
+
+        return jdbcTemplate.query(sql, mapper);
     }
 
     @Override
     public void add(Patient patient) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "INSERT INTO Patient(name, surname, \"DOB\") VALUES ( ?, ?, ?);";
+        jdbcTemplate.update(sql, patient.getName(), patient.getSurname(), patient.getDob());
     }
 
     @Override
@@ -40,5 +41,5 @@ public class PostgreSqlPatientDao implements PatientDao{
     public void delete(Patient patient) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
