@@ -1,4 +1,3 @@
-
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
 import java.util.List;
@@ -25,14 +24,19 @@ public class PostgreSqlPossibleCauseDao implements PossibleCauseDao {
     public Long getIdByString(String cause) {
         String sql = "SELECT id FROM possiblecause WHERE cause LIKE ?";
         BeanPropertyRowMapper<PossibleCause> mapper = BeanPropertyRowMapper.newInstance(PossibleCause.class);
+        if (jdbcTemplate.query(sql, mapper, cause).isEmpty()) {
+
+            return -1L;
+        }
+        System.out.println(jdbcTemplate.query(sql, mapper, cause).get(0).getId());
         return jdbcTemplate.query(sql, mapper, cause).get(0).getId();
 
     }
 
     @Override
     public void add(PossibleCause possibleCause) {
-    String sql = "INSERT INTO possiblecause (cause) VALUES (?)";
-    jdbcTemplate.update(sql, possibleCause.getCause());
+        String sql = "INSERT INTO possiblecause (cause) VALUES (?)";
+        jdbcTemplate.update(sql, possibleCause.getCause());
     }
 
 }
