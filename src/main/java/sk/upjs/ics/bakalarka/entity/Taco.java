@@ -34,11 +34,11 @@ public class Taco {
          System.out.println(vypis.get(i).toString());
          //System.out.println(vypis.get(i).getPatientId()+ ", " + vypis.get(i).getStudyId()+ ", " + vypis.get(i).getFirstName()+ ", " + vypis.get(i).getSurname());
          }*/
-        /* List<PossibleCause> causes = new ArrayList<>();
+         List<PossibleCause> causes = new ArrayList<>();
          causes = possibleCauseDao.getAll();
          for (int i = 0; i < causes.size(); i++) {
          System.out.println(causes.get(i).getCause());
-         }*/
+         }
         List<Range> pole = rangeDao.getAll();
         for (int i = 0; i < pole.size(); i++) {
             System.out.println(pole.get(i).toString());
@@ -51,13 +51,13 @@ public class Taco {
         for (int i = 0; i < pacienti.size(); i++) {
             System.out.println(pacienti.get(i).toString());
         }
+        System.out.println(possibleCauseDao.getIdByString("haha"));
 
     }
 
     public static void main(String[] args) {
         Taco ta = new Taco();
         ta.metoda();
-
     }
 
 }

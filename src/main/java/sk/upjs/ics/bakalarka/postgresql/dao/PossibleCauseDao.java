@@ -11,4 +11,5 @@ public interface PossibleCauseDao {
     public List<PossibleCause> getAll();
     public Long getIdByString(String cause);
     
+    
 }

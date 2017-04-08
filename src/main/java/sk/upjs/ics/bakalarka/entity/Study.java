@@ -1,6 +1,7 @@
 package sk.upjs.ics.bakalarka.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Study {
 
@@ -8,6 +9,15 @@ public class Study {
     private Date startDate;
     private Date endDate;
     private Long patientId;
+    private List<Pattern> patterns;
+
+    public List<Pattern> getPatterns() {
+        return patterns;
+    }
+
+    public void setPatterns(List<Pattern> patterns) {
+        this.patterns = patterns;
+    }
 
     public Long getId() {
         return id;

@@ -13,6 +13,19 @@ public class Pattern {
     private Time timePeriodEnd;
     private int noOfDays;
     private List<String> possibleCauses = new ArrayList<>();
+    private List<Range> ranges = new ArrayList<>();
+
+    public Pattern() {
+    }
+    
+
+    public List<Range> getRanges() {
+        return ranges;
+    }
+//to iste pre naplnenie listu ranges, ked pride JSON, naplnim list cez pattern.setRanges
+    public void setRanges(List<Range> ranges) {
+        this.ranges = ranges;
+    }
 
     // list possibleCauses budemnaplnat, ked mi pride JSON s polom stringov, dam si Pattern.setPossibleCauses a ako parameter dam pole ktore si vytvorim zo stringov, ktore prisli
     public List<String> getPossibleCauses() {

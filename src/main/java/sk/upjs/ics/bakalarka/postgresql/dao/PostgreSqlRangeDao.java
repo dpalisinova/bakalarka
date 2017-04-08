@@ -22,6 +22,16 @@ public class PostgreSqlRangeDao implements RangeDao {
     }
 
     @Override
+    public Long getId(Range range) {
+        String sql = "SELECT id FROM Range WHERE high = ? AND WHERE low = ? AND WHERE noofdays = ? AND WHERE units LIKE ?";
+        BeanPropertyRowMapper<Range> mapper = BeanPropertyRowMapper.newInstance(Range.class);
+        if (jdbcTemplate.query(sql, mapper, range.getHigh(), range.getLow(), range.getNoOfDays(), range.getUnits()).isEmpty()) {
+            return -1L;
+        }
+        return jdbcTemplate.query(sql, mapper, range.getHigh(), range.getLow(), range.getNoOfDays(), range.getUnits()).get(0).getId();
+    }
+
+    @Override
     public void add(Range range) { //DOROBIT ADD
         String sql = "INSERT INTO Range(high, low, noofdays, units) VALUES ( ?, ?, ?, ?);";
         jdbcTemplate.update(sql, range.getHigh(), range.getLow(), range.getNoOfDays(), range.getUnits());

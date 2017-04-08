@@ -8,6 +8,16 @@ public class Range {
     private int noOfDays;
     private String units;
 
+    public Range(Range range) {
+        this.high = range.high;
+        this.low = range.low;
+        this.noOfDays = range.noOfDays;
+        this.units = range.units;
+    }
+
+    public Range() {
+    }
+
     public Long getId() {
         return id;
     }
