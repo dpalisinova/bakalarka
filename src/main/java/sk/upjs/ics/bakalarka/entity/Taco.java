@@ -34,12 +34,12 @@ public class Taco {
          System.out.println(vypis.get(i).toString());
          //System.out.println(vypis.get(i).getPatientId()+ ", " + vypis.get(i).getStudyId()+ ", " + vypis.get(i).getFirstName()+ ", " + vypis.get(i).getSurname());
          }*/
-         List<PossibleCause> causes = new ArrayList<>();
-         causes = possibleCauseDao.getAll();
-         for (int i = 0; i < causes.size(); i++) {
-         System.out.println(causes.get(i).getCause());
-         }
-        List<Range> pole = rangeDao.getAll();
+        List<PossibleCause> causes = new ArrayList<>();
+        causes = possibleCauseDao.getAll();
+        for (int i = 0; i < causes.size(); i++) {
+            System.out.println(causes.get(i).getCause());
+        }
+        List<GlucoseRange> pole = rangeDao.getAll();
         for (int i = 0; i < pole.size(); i++) {
             System.out.println(pole.get(i).toString());
         }
@@ -47,7 +47,10 @@ public class Taco {
         for (int i = 0; i < studie.size(); i++) {
             System.out.println(studie.get(i).toString());
         }
+        long startTime = System.currentTimeMillis();
         List<Patient> pacienti = patientDao.getAll();
+        long endTime = System.currentTimeMillis();
+        System.out.println("duration of getAll from PostgreSql: " + (endTime - startTime));
         for (int i = 0; i < pacienti.size(); i++) {
             System.out.println(pacienti.get(i).toString());
         }
