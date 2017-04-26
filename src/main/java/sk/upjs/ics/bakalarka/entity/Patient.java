@@ -1,6 +1,7 @@
 package sk.upjs.ics.bakalarka.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Patient {
 
@@ -8,6 +9,16 @@ public class Patient {
     private String surname;
     private Long id;
     private Date dob;
+    private List<Study> studies;
+    //TODO dorobit study 1/N, do listu zoznam studii
+
+    public List<Study> getStudies() {
+        return studies;
+    }
+
+    public void setStudies(List<Study> studies) {
+        this.studies = studies;
+    }
 
     public String getName() {
         return name;
@@ -45,5 +56,4 @@ public class Patient {
     public String toString() {
         return "Patient{" + "name=" + name + ", surname=" + surname + ", id=" + id + ", dob=" + dob + '}';
     }
-
 }

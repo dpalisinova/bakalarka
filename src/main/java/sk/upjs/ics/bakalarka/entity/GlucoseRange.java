@@ -1,6 +1,6 @@
 package sk.upjs.ics.bakalarka.entity;
 
-public class Range {
+public class GlucoseRange {
 
     private Long id;
     private float high;
@@ -8,14 +8,14 @@ public class Range {
     private int noOfDays;
     private String units;
 
-    public Range(Range range) {
+    public GlucoseRange(GlucoseRange range) {
         this.high = range.high;
         this.low = range.low;
         this.noOfDays = range.noOfDays;
         this.units = range.units;
     }
 
-    public Range() {
+    public GlucoseRange() {
     }
 
     public Long getId() {
