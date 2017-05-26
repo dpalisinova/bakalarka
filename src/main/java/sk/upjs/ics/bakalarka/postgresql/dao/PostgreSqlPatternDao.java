@@ -1,11 +1,15 @@
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
+import sk.upjs.ics.bakalarka.dao.RangeDao;
+import sk.upjs.ics.bakalarka.dao.PossibleCauseDao;
+import sk.upjs.ics.bakalarka.dao.PatternDao;
+import sk.upjs.ics.bakalarka.dao.DaoFactory;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.bakalarka.entity.Pattern;
 import sk.upjs.ics.bakalarka.entity.PossibleCause;
-import sk.upjs.ics.bakalarka.entity.Range;
+import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 
 public class PostgreSqlPatternDao implements PatternDao {
 
@@ -38,9 +42,9 @@ public class PostgreSqlPatternDao implements PatternDao {
             String sql2 = "INSERT INTO pattern_possiblecause (patternId, causeId) VALUES (?,?)";
             jdbcTemplate.update(sql2, pattern.getId(), possibleCauseDao.getIdByString(cause));
         }
-        for (Range range : pattern.getRanges()) {
+        for (GlucoseRange range : pattern.getGlucoseRanges()) {
             if (rangeDao.getId(range) == -1L) {
-                rangeDao.add(new Range(range));
+                rangeDao.add(new GlucoseRange(range));
             }
 
             String sql3 = "INSERT INTO range_pattern (rangeid, patternid) VALUES (?,?)";

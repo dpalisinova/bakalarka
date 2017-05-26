@@ -3,12 +3,13 @@ package sk.upjs.ics.bakalarka.entity;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.Date;
 import java.util.List;
+//premenovat stlpce tu aj v postgre databaze
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -21,54 +22,54 @@ import java.util.List;
 public class Report {
 
     @JsonProperty("ID")
-    private String patientId;
+    private String id;
     @JsonProperty("Name")
-    private String patientName;
+    private String name;
     @JsonProperty("Surname")
-    private String patientSurname;
+    private String surname;
     @JsonProperty("DOB")
-    private String patientDOB;
+    private Date DOB;
     @JsonProperty("Study")
     private List<Study> studies;
 
     @JsonProperty("ID")
-    public String getPatientID() {
-        return patientId;
+    public String getpatientID() {
+        return id;
     }
 
     @JsonProperty("ID")
     public void setPatientID(String id) {
-        this.patientId = id;
+        this.id = id;
     }
 
     @JsonProperty("Name")
     public String getPatientName() {
-        return patientName;
+        return name;
     }
 
     @JsonProperty("Name")
     public void setPatientName(String name) {
-        this.patientName = name;
+        this.name = name;
     }
 
     @JsonProperty("Surname")
     public String getPatientSurname() {
-        return patientSurname;
+        return surname;
     }
 
     @JsonProperty("Surname")
     public void setPatientSurname(String surname) {
-        this.patientSurname = surname;
+        this.surname = surname;
     }
 
     @JsonProperty("DOB")
-    public String getPatientDOB() {
-        return patientDOB;
+    public Date getPatientDOB() {
+        return DOB;
     }
 
     @JsonProperty("DOB")
-    public void setPatientDOB(String dob) {
-        this.patientDOB = dob;
+    public void setPatientDOB(Date DOB) {
+        this.DOB = DOB;
     }
 
     @JsonProperty("Study")
@@ -83,9 +84,7 @@ public class Report {
 
     @Override
     public String toString() {
-        return "Report{" + "patientId=" + patientId + ", patientName=" + patientName + ", patientSurname=" + patientSurname + ", patientDOB=" + patientDOB + ", studies=" + studies + '}';
+        return "Patient{" + "iD=" + id + ", name=" + name + ", surname=" + surname + ", DOB=" + DOB + ", studies=" + studies + '}';
     }
-
-  
 
 }

@@ -1,6 +1,4 @@
-package sk.upjs.ics.bakalarka.entity;
-
-
+package sk.upjs.ics.bakalarka.zalozneEntityRucneVytvorene;
 
 public class PossibleCause {
 
@@ -29,10 +27,5 @@ public class PossibleCause {
 
     public void setCause(String cause) {
         this.cause = cause;
-    }
-
-    @Override
-    public String toString() {
-        return "PossibleCause{" + "id=" + id + ", cause=" + cause + '}';
     }
 }

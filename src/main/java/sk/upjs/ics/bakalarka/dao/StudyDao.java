@@ -1,4 +1,4 @@
-package sk.upjs.ics.bakalarka.postgresql.dao;
+package sk.upjs.ics.bakalarka.dao;
 
 import java.util.List;
 import sk.upjs.ics.bakalarka.entity.Study;

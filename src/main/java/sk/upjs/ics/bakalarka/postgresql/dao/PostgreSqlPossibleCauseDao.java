@@ -1,5 +1,6 @@
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
+import sk.upjs.ics.bakalarka.dao.PossibleCauseDao;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

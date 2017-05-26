@@ -1,4 +1,4 @@
-package sk.upjs.ics.bakalarka.postgresql.dao;
+package sk.upjs.ics.bakalarka.dao;
 
 import java.sql.Connection;
 
@@ -8,21 +8,26 @@ import javax.sql.DataSource;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlPatternDao;
+import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlPossibleCauseDao;
+import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlRangeDao;
+import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlReportDao;
+import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlStudyDao;
 
 public enum DaoFactory {
 
     INSTANCE;
     private JdbcTemplate jdbcTemplate;
     private PGSimpleDataSource source;
-    private PatientDao patientDao;
+    private ReportDao patientDao;
     private PatternDao patternDao;
     private PossibleCauseDao possibleCauseDao;
     private RangeDao rangeDao;
     private StudyDao studyDao;
 
-    public PatientDao getPatientDao() {
+    public ReportDao getReportDao() {
         if (this.patientDao == null) {
-            this.patientDao = new PostgreSqlPatientDao(getJdbcTemplate());
+            this.patientDao = new PostgreSqlReportDao(getJdbcTemplate());
         }
         return this.patientDao;
     }

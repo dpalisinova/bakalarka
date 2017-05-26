@@ -1,16 +1,40 @@
 package sk.upjs.ics.bakalarka.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "NoOfDays",
+    "RangeHigh",
+    "RangeLow",
+    "Units"
+})
+
 public class GlucoseRange {
 
     private Long id;
-    private float high;
-    private float low;
-    private int noOfDays;
+    
+    @JsonProperty("RangeHigh")
+    private float rangeHigh;
+    @JsonProperty("RangeLow")
+    private float rangeLow;
+    
+    @JsonProperty("NoOfDays")
+    private Integer noOfDays;
+    
+    @JsonProperty("Units")
     private String units;
 
     public GlucoseRange(GlucoseRange range) {
-        this.high = range.high;
-        this.low = range.low;
+        this.rangeHigh = range.rangeHigh;
+        this.rangeLow = range.rangeLow;
         this.noOfDays = range.noOfDays;
         this.units = range.units;
     }
@@ -25,41 +49,49 @@ public class GlucoseRange {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public float getHigh() {
-        return high;
+@JsonProperty("RangeHigh")
+    public float getRangeHigh() {
+        return rangeHigh;
     }
 
-    public void setHigh(float high) {
-        this.high = high;
+    @JsonProperty("RangeHigh")
+    public void setRangeHigh(float rangeHigh) {
+        this.rangeHigh = rangeHigh;
     }
 
-    public float getLow() {
-        return low;
+    @JsonProperty("RangeLow")
+    public float getRangeLow() {
+        return rangeLow;
     }
 
-    public void setLow(float low) {
-        this.low = low;
+    @JsonProperty("RangeLow")
+    public void setRangeLow(float rangeLow) {
+        this.rangeLow = rangeLow;
     }
 
-    public int getNoOfDays() {
+     @JsonProperty("NoOfDays")
+    public Integer getNoOfDays() {
         return noOfDays;
     }
 
-    public void setNoOfDays(int noOfDays) {
+    @JsonProperty("NoOfDays")
+    public void setNoOfDays(Integer noOfDays) {
         this.noOfDays = noOfDays;
     }
-
+    @JsonProperty("Units")
     public String getUnits() {
         return units;
     }
 
+    @JsonProperty("Units")
     public void setUnits(String units) {
         this.units = units;
     }
 
+   
+
     @Override
     public String toString() {
-        return "Range{" + "id=" + id + ", high=" + high + ", low=" + low + ", noOfDays=" + noOfDays + ", units=" + units + '}';
+        return "Range{" + "id=" + id + ", high=" + rangeHigh + ", low=" + rangeLow + ", noOfDays=" + noOfDays + ", units=" + units + '}';
     }
 }

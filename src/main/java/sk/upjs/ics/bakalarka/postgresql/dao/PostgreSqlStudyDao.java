@@ -1,5 +1,8 @@
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
+import sk.upjs.ics.bakalarka.dao.StudyDao;
+import sk.upjs.ics.bakalarka.dao.PatternDao;
+import sk.upjs.ics.bakalarka.dao.DaoFactory;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,7 +14,7 @@ public class PostgreSqlStudyDao implements StudyDao {
     private JdbcTemplate jdbcTemplate;
     private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao();
 
-    PostgreSqlStudyDao(JdbcTemplate jdbcTemplate) {
+    public PostgreSqlStudyDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

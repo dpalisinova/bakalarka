@@ -10,9 +10,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import sk.upjs.ics.bakalarka.entity.Patient;
-import sk.upjs.ics.bakalarka.postgresql.dao.DaoFactory;
-import sk.upjs.ics.bakalarka.postgresql.dao.PatientDao;
+import sk.upjs.ics.bakalarka.entity.Report;
+import sk.upjs.ics.bakalarka.dao.DaoFactory;
+import sk.upjs.ics.bakalarka.dao.ReportDao;
 
 /**
  *
@@ -20,11 +20,11 @@ import sk.upjs.ics.bakalarka.postgresql.dao.PatientDao;
  */
 public class PostgreSqlPatientDaoTest {
 
-    PatientDao patientDao = DaoFactory.INSTANCE.getPatientDao();
+    ReportDao patientDao = DaoFactory.INSTANCE.getPatientDao();
 
     @Test
     public void dajVsetkyTest() {
-        List<Patient> patients = patientDao.getAll();
+        List<Report> patients = patientDao.getAll();
         System.out.println(patients.size() + "velkoooooooost");
         assertEquals(2, patients.size());
     }
