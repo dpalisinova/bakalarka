@@ -22,9 +22,9 @@ public class GlucoseRange {
     private Long id;
     
     @JsonProperty("RangeHigh")
-    private float rangeHigh;
+    private float high;
     @JsonProperty("RangeLow")
-    private float rangeLow;
+    private float low;
     
     @JsonProperty("NoOfDays")
     private Integer noOfDays;
@@ -33,8 +33,8 @@ public class GlucoseRange {
     private String units;
 
     public GlucoseRange(GlucoseRange range) {
-        this.rangeHigh = range.rangeHigh;
-        this.rangeLow = range.rangeLow;
+        this.high = range.high;
+        this.low = range.low;
         this.noOfDays = range.noOfDays;
         this.units = range.units;
     }
@@ -50,23 +50,23 @@ public class GlucoseRange {
         this.id = id;
     }
 @JsonProperty("RangeHigh")
-    public float getRangeHigh() {
-        return rangeHigh;
+    public float getHigh() {
+        return high;
     }
 
     @JsonProperty("RangeHigh")
-    public void setRangeHigh(float rangeHigh) {
-        this.rangeHigh = rangeHigh;
+    public void setHigh(float high) {
+        this.high = high;
     }
 
     @JsonProperty("RangeLow")
-    public float getRangeLow() {
-        return rangeLow;
+    public float getLow() {
+        return low;
     }
 
     @JsonProperty("RangeLow")
-    public void setRangeLow(float rangeLow) {
-        this.rangeLow = rangeLow;
+    public void setLow(float low) {
+        this.low = low;
     }
 
      @JsonProperty("NoOfDays")
@@ -92,6 +92,6 @@ public class GlucoseRange {
 
     @Override
     public String toString() {
-        return "Range{" + "id=" + id + ", high=" + rangeHigh + ", low=" + rangeLow + ", noOfDays=" + noOfDays + ", units=" + units + '}';
+        return "Range{" + "id=" + id + ", high=" + high + ", low=" + low + ", noOfDays=" + noOfDays + ", units=" + units + '}';
     }
 }

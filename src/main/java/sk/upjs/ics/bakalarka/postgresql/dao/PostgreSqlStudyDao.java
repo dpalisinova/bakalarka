@@ -27,14 +27,14 @@ public class PostgreSqlStudyDao implements StudyDao {
 
     @Override
     public void add(Study study) {
-        String sql = "INSERT INTO Study VALUES()";//DOKONC
+        String sql = "INSERT INTO Study(startDate, endDate, patientId) VALUES(?,?,?)";//DOKONC
         jdbcTemplate.update(sql, study.getStartDate(), study.getEndDate(), study.getPatientId());
-
+//doplnit, patientID ziskat z Reportu
         for (Pattern p : study.getPatterns()) {
             if (patternDao.getIdBy(p) == -1L) {
                 patternDao.add(p);
             }
-            String sql2 = "INSERT INTO Study_pattern () VALUES()";
+            String sql2 = "INSERT INTO Study_pattern (studyId, patternId) VALUES(?,?)";
             jdbcTemplate.update(sql2, study.getId(), patternDao.getIdBy(p));
         }
     }

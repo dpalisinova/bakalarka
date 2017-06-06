@@ -54,12 +54,22 @@ public class PostgreSqlPatternDao implements PatternDao {
 
     @Override
     public Long getIdBy(Pattern pattern) {
-        String sql = "SELECT id FROM pattern WHERE Type LIKE ? AND Daytime LIKE ? AND TimePeriodStart = ? AND  TimePeriodEnd = ?,  NoOfDays = ?";
+        String sql = "SELECT id FROM pattern WHERE Type LIKE ? AND Daytime LIKE ? AND TimePeriodStart = ? AND  TimePeriodEnd = ? AND NoOfDays = ?";
         BeanPropertyRowMapper<Pattern> mapper = BeanPropertyRowMapper.newInstance(Pattern.class);
         if (jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays()).isEmpty()) {
             return -1L;
         }
         return jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays()).get(0).getId();
+    }
+
+    public List<Float> skusobny(Float hladina) {
+        String sql = "SELECT r.* FROM Pattern p JOIN range_pattern rp ON p.id = rp.patternid\n"
+                + "JOIN Range r ON r.id = rp.rangeid WHERE r.high = ? AND p.noofdays = 2";
+        PatternRowCallbackHandler handler = new PatternRowCallbackHandler();
+        jdbcTemplate.query(sql, handler, hladina);
+
+        return handler.getHighResult();
+
     }
 
     @Override

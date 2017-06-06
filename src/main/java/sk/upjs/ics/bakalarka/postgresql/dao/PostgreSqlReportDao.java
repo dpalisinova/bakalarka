@@ -16,6 +16,7 @@ import sk.upjs.ics.bakalarka.entity.Study;
 public class PostgreSqlReportDao implements ReportDao {
 
     private JdbcTemplate jdbcTemplate;
+    private PostgreSqlStudyDao studyDao = (PostgreSqlStudyDao) DaoFactory.INSTANCE.getStudyDao();
 
     public PostgreSqlReportDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -32,42 +33,45 @@ public class PostgreSqlReportDao implements ReportDao {
     @Override
     public void add(Report report) {
 
-        for (Report r : getAll()) {
-            if (r.getpatientID() == report.getpatientID()) {
+        for (Report r : this.getAll()) {
+            if (r.getID().equals(report.getID())) {
                 // taky pacient uz je v db, nemusim nic robit
                 return;
             }
         }
-        String sql = "INSERT INTO Patient(name, surname, \"DOB\") VALUES ( ?, ?, ?);";
-        jdbcTemplate.update(sql, report.getPatientName(), report.getPatientSurname(), report.getPatientDOB());
-        PostgreSqlStudyDao studyDao = (PostgreSqlStudyDao) DaoFactory.INSTANCE.getStudyDao();
+        String sql = "INSERT INTO Patient(id, name, surname, \"DOB\") VALUES ( ?,?, ?, ?);";
+        jdbcTemplate.update(sql, report.getID(),report.getName(), report.getSurname(), report.getDOB());
+        // PostgreSqlStudyDao studyDao = (PostgreSqlStudyDao) DaoFactory.INSTANCE.getStudyDao();
         boolean studyExists = false;
-        for (Study study : report.getStudies()) {
-            for (Study dbStudy : studyDao.getAll()) {
-                if (study.getId() == dbStudy.getId()) {
-                    studyExists = true;
-                    break;
+        if (report.getStudies() != null) {
+            for (Study study : report.getStudies()) {
+                for (Study dbStudy : studyDao.getAll()) {
+                    if (study.getId() == dbStudy.getId()) {
+                        studyExists = true;
+                        break;
+                    }
                 }
-            }
-            if (!studyExists) {
-                studyDao.add(study);
-            }
+                if (!studyExists) {
+                    study.setPatientId(report.getID());
+                    studyDao.add(study);
+                }
 
-            studyExists = false;
-
+                studyExists = false;
+            }
         }
     }
 //TODO
-    public Report select1() {
-        String sql = "SELECT pt.name, pt.surname from Range r \n"
-                + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
-                + "JOIN Pattern p ON p.id = rp.patternid\n"
-                + "JOIN Study_Pattern sp ON sp.patternid = p.id\n"
-                + "JOIN Study s ON s.id = sp.studyid\n"
-                + "JOIN Patient pt ON pt.id = s.patientid\n"
-                + "WHERE r.noofdays >=3 AND r.high > 33";
-        jdbcTemplate.query(sql, null);
-    }
+   /* public Report select1() {
+     String sql = "SELECT pt.name, pt.surname from Range r \n"
+     + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
+     + "JOIN Pattern p ON p.id = rp.patternid\n"
+     + "JOIN Study_Pattern sp ON sp.patternid = p.id\n"
+     + "JOIN Study s ON s.id = sp.studyid\n"
+     + "JOIN Patient pt ON pt.id = s.patientid\n"
+     + "WHERE r.noofdays >=3 AND r.high > 33";
+     jdbcTemplate.query(sql, null);
+     }
+     */
 
     @Override
     public void update(Report report) {

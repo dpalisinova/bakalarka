@@ -1,17 +1,14 @@
 package sk.upjs.ics.bakalarka.entity;
 
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Date;
 import sk.upjs.ics.bakalarka.entity.Pattern;
-
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -23,12 +20,16 @@ import sk.upjs.ics.bakalarka.entity.Pattern;
 public class Study {
 
     @JsonProperty("id")
-    private String id;
+    private Long id;
     @JsonProperty("StartDate")
-    private String startDate;
+    @JsonDeserialize(using = DateAndTimeDeserialize.class)
+    private Date startDate;
     @JsonProperty("EndDate")
-    private String endDate;
+    @JsonDeserialize(using = DateAndTimeDeserialize.class)
+    private Date endDate;
     private Long patientId;
+    @JsonProperty("Patterns")
+    private List<Pattern> patterns = null;
 
     public Long getPatientId() {
         return patientId;
@@ -37,38 +38,34 @@ public class Study {
     public void setPatientId(Long patientId) {
         this.patientId = patientId;
     }
-    @JsonProperty("Patterns")
-    private List<Pattern> patterns = null;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     @JsonProperty("StartDate")
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
     @JsonProperty("StartDate")
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
     @JsonProperty("EndDate")
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
     @JsonProperty("EndDate")
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -82,19 +79,9 @@ public class Study {
         this.patterns = patterns;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
     @Override
     public String toString() {
-        return "Study{" + "id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", patientId=" + patientId + ", patterns=" + patterns + ", additionalProperties=" + additionalProperties + '}';
+        return "Study{" + "id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", patientId=" + patientId + ", patterns=" + patterns + '}';
     }
 
 }

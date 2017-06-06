@@ -1,6 +1,7 @@
 package sk.upjs.ics.bakalarka.dao;
 
 import java.util.List;
+import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 import sk.upjs.ics.bakalarka.entity.Pattern;
 
 public interface PatternDao {
@@ -14,4 +15,6 @@ public interface PatternDao {
     public void delete(Pattern pattern);
 
     public Long getIdBy(Pattern pattern);
+
+    public List<Float> skusobny(Float hladina);
 }

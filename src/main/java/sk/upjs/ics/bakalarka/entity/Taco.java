@@ -1,8 +1,13 @@
 package sk.upjs.ics.bakalarka.entity;
 
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sk.upjs.ics.bakalarka.dao.DaoFactory;
 import sk.upjs.ics.bakalarka.dao.ReportDao;
 
@@ -18,6 +23,8 @@ public class Taco {
     RangeDao rangeDao = DaoFactory.INSTANCE.getRangeDao();
     StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao();
     ReportDao reportDao = DaoFactory.INSTANCE.getReportDao();
+    private SimpleDateFormat dateFormat = new SimpleDateFormat(
+            "dd.MM.yyyy");
 
     public void metoda() {
         /* Pattern novy = new Pattern();
@@ -28,6 +35,30 @@ public class Taco {
          novy.setTimePeriodStart(Time.valueOf("15:00:00"));
          novy.setTimePeriodEnd(Time.valueOf("12:00:00"));
          patternDao.add(novy);*/
+
+        /* Report novy = new Report();
+         Date d = null;
+         d =new Date("1.5.2002");
+         novy.setName("skuska2");
+         novy.setSurname("datumu2");*/
+       // reportDao.add(novy);
+        /* SimpleDateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");
+         Date date2 = null;
+         try {
+         date2 = dateFormat.parse(d.toString());
+         } catch (ParseException ex) {
+         Logger.getLogger(Taco.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         novy.setDOB(date2);
+         System.out.println(date2);*/
+        // novy.setDOB(new Date("14/2/2001"));
+        String str = "20.1.1975";
+        try {
+            System.out.println("datum: " + dateFormat.parse(str));
+        } catch (ParseException ex) {
+            Logger.getLogger(Taco.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         List<Pattern> vypis = new ArrayList<>();
         vypis = patternDao.getAll();
         for (int i = 0; i < vypis.size(); i++) {
@@ -44,13 +75,15 @@ public class Taco {
         for (int i = 0; i < pole.size(); i++) {
             System.out.println(pole.get(i).toString());
         }
-        System.out.println(pole.get(0).getRangeLow());
+        System.out.println(pole.get(0).getLow());
+
         List<Study> studie = studyDao.getAll();
         for (int i = 0; i < studie.size(); i++) {
             System.out.println(studie.get(i).toString());
 
         }
         long startTime = System.currentTimeMillis();
+
         List<Report> reports = reportDao.getAll();
         long endTime = System.currentTimeMillis();
         System.out.println("duration of getAll from PostgreSql: " + (endTime - startTime));
@@ -58,11 +91,12 @@ public class Taco {
             System.out.println(reports.get(i).toString());
         }
         System.out.println(possibleCauseDao.getIdByString("Exercised around breakfast"));
+        System.out.println(patternDao.skusobny(33.3f));
 
-        
     }
-    public void select1(){
-    
+
+    public void select1() {
+
     }
 
     public static void main(String[] args) {

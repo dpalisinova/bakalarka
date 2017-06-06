@@ -32,7 +32,7 @@ public class JsonToJava {
         try {
             ObjectMapper mapper = new ObjectMapper();
 
-            Report[] ex = mapper.readValue(new File("C:\\Users\\Juraj\\Desktop\\skuska.json"), Report[].class);
+            Report[] ex = mapper.readValue(new File("C:\\Users\\Juraj\\Desktop\\nove.json"), Report[].class);
             JsonFactory fact = new JsonFactory();
             
             for (Report report : ex) {
