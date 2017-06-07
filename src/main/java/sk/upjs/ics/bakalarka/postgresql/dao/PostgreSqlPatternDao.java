@@ -1,5 +1,6 @@
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
+import java.math.BigDecimal;
 import sk.upjs.ics.bakalarka.dao.RangeDao;
 import sk.upjs.ics.bakalarka.dao.PossibleCauseDao;
 import sk.upjs.ics.bakalarka.dao.PatternDao;
@@ -35,12 +36,12 @@ public class PostgreSqlPatternDao implements PatternDao {
         String sql = "INSERT INTO pattern ( Type, Daytime, TimePeriodStart,  TimePeriodEnd,  NoOfDays) VALUES(?,?,?,?,?)";
         jdbcTemplate.update(sql, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays());
 
-        for (String cause : pattern.getPossibleCauses()) {
-            if (possibleCauseDao.getIdByString(cause) == -1) {
-                possibleCauseDao.add(new PossibleCause(cause));
+        for (PossibleCause possibleCause : pattern.getPossibleCauses()) {
+            if (possibleCauseDao.getIdByString(possibleCause.getCause()) == -1) {
+                possibleCauseDao.add(new PossibleCause(possibleCause.getCause()));
             }
             String sql2 = "INSERT INTO pattern_possiblecause (patternId, causeId) VALUES (?,?)";
-            jdbcTemplate.update(sql2, pattern.getId(), possibleCauseDao.getIdByString(cause));
+            jdbcTemplate.update(sql2, pattern.getId(), possibleCauseDao.getIdByString(possibleCause.getCause()));
         }
         for (GlucoseRange range : pattern.getGlucoseRanges()) {
             if (rangeDao.getId(range) == -1L) {
@@ -62,13 +63,13 @@ public class PostgreSqlPatternDao implements PatternDao {
         return jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays()).get(0).getId();
     }
 
-    public List<Float> skusobny(Float hladina) {
-        String sql = "SELECT r.* FROM Pattern p JOIN range_pattern rp ON p.id = rp.patternid\n"
-                + "JOIN Range r ON r.id = rp.rangeid WHERE r.high = ? AND p.noofdays = 2";
+    public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(BigDecimal hladina, int noOfDays) {
+        String sql = "SELECT r.* FROM Pattern p JOIN range_pattern rp ON p.id = rp.patternid "
+                + " JOIN Range r ON r.id = rp.rangeid WHERE r.high = ? AND p.noofdays = ?";
         PatternRowCallbackHandler handler = new PatternRowCallbackHandler();
-        jdbcTemplate.query(sql, handler, hladina);
+        jdbcTemplate.query(sql, handler, hladina, noOfDays);
 
-        return handler.getHighResult();
+        return handler.getRanges();
 
     }
 

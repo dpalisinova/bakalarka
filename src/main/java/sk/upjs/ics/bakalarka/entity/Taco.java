@@ -1,5 +1,6 @@
 package sk.upjs.ics.bakalarka.entity;
 
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -91,7 +92,7 @@ public class Taco {
             System.out.println(reports.get(i).toString());
         }
         System.out.println(possibleCauseDao.getIdByString("Exercised around breakfast"));
-        System.out.println(patternDao.skusobny(33.3f));
+        System.out.println(patternDao.getRangesByHighRangeAndNoOfDays(new BigDecimal("33.3"), 2));
 
     }
 

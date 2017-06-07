@@ -34,13 +34,13 @@ public class PostgreSqlReportDao implements ReportDao {
     public void add(Report report) {
 
         for (Report r : this.getAll()) {
-            if (r.getID().equals(report.getID())) {
+            if (r.getId().equals(report.getId())) {
                 // taky pacient uz je v db, nemusim nic robit
                 return;
             }
         }
         String sql = "INSERT INTO Patient(id, name, surname, \"DOB\") VALUES ( ?,?, ?, ?);";
-        jdbcTemplate.update(sql, report.getID(),report.getName(), report.getSurname(), report.getDOB());
+        jdbcTemplate.update(sql, report.getId(), report.getName(), report.getSurname(), report.getDOB());
         // PostgreSqlStudyDao studyDao = (PostgreSqlStudyDao) DaoFactory.INSTANCE.getStudyDao();
         boolean studyExists = false;
         if (report.getStudies() != null) {
@@ -52,7 +52,7 @@ public class PostgreSqlReportDao implements ReportDao {
                     }
                 }
                 if (!studyExists) {
-                    study.setPatientId(report.getID());
+                    study.setPatientId(report.getId());
                     studyDao.add(study);
                 }
 

@@ -1,7 +1,5 @@
 package sk.upjs.ics.bakalarka.entity;
 
-
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -10,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 //premenovat stlpce tu aj v postgre databaze
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "ID",
@@ -21,7 +18,6 @@ import java.util.List;
 })
 public class Report {
 
-    
     @JsonProperty("Name")
     private String name;
     @JsonProperty("Surname")
@@ -29,18 +25,18 @@ public class Report {
     @JsonProperty("ID")
     private Long id;
     @JsonProperty("DOB")
-    @JsonDeserialize(using=DateAndTimeDeserialize.class)
+    @JsonDeserialize(using = DateAndTimeDeserialize.class)
     private Date dob;
     @JsonProperty("Study")
     private List<Study> studies;
 
     @JsonProperty("ID")
-    public Long getID() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("ID")
-    public void setID(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -69,22 +65,19 @@ public class Report {
         return dob;
     }
 
-
     @JsonProperty("DOB")
     public void setDOB(Date DOB) {
-      /*  SimpleDateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");
-        Date date2 = null;
+        /*  SimpleDateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");
+         Date date2 = null;
         
-        try {
-            date2 = dateFormat.parse(DOB.toString());
-        } catch (ParseException ex) {
-            Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        
-        
+         try {
+         date2 = dateFormat.parse(DOB.toString());
+         } catch (ParseException ex) {
+         Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
+         }*/
+
         this.dob = DOB;
     }
-   
 
     @JsonProperty("Study")
     public List<Study> getStudies() {

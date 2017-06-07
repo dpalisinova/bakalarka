@@ -19,11 +19,11 @@ import sk.upjs.ics.bakalarka.entity.Pattern;
  * @author Juraj
  */
 public class PatternRowCallbackHandler implements RowCallbackHandler {
-    
+
     private List<Pattern> patterns = new LinkedList<>();
     List<GlucoseRange> ranges = new ArrayList<>();
     private List<Float> highResults = new ArrayList<>();
-    
+
     @Override
     public void processRow(ResultSet rs) throws SQLException {
         GlucoseRange range = new GlucoseRange();
@@ -35,21 +35,25 @@ public class PatternRowCallbackHandler implements RowCallbackHandler {
         Pattern p = new Pattern();
         System.out.println("Processing result set" + rs.toString());
         ranges.add(range);
-        
+
         p.setGlucoseRanges(ranges);
-        
+
         patterns.add(p);
     }
-    
+
     public List<Pattern> getPatterns() {
         return patterns;
     }
-    
+
     public List<Float> getHighResult() {
-        
+
         for (GlucoseRange r : ranges) {
             highResults.add(r.getHigh());
         }
         return highResults;
+    }
+
+    public List<GlucoseRange> getRanges() {
+        return ranges;
     }
 }

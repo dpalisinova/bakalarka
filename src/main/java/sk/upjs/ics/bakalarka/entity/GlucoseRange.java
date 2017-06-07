@@ -49,7 +49,7 @@ public class GlucoseRange {
     public void setId(Long id) {
         this.id = id;
     }
-@JsonProperty("RangeHigh")
+    @JsonProperty("RangeHigh")
     public float getHigh() {
         return high;
     }
