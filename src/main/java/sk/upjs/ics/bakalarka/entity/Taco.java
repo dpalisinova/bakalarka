@@ -93,10 +93,10 @@ public class Taco {
         }
         System.out.println(possibleCauseDao.getIdByString("Exercised around breakfast"));
         System.out.println(patternDao.getRangesByHighRangeAndNoOfDays(new BigDecimal("33.3"), 2));
-
-    }
-
-    public void select1() {
+        //System.out.println(reportDao.select1());
+        System.out.println(reportDao.getRangeHighPatternPatientInfo());
+        // System.out.println(reportDao.select2());
+        System.out.println(reportDao.getRangesBy("Steve"));
 
     }
 

@@ -1,13 +1,9 @@
 package sk.upjs.ics.bakalarka.entity;
 
-import java.util.HashMap;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.math.BigDecimal;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -20,15 +16,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class GlucoseRange {
 
     private Long id;
-    
+
     @JsonProperty("RangeHigh")
-    private float high;
+    private BigDecimal high;
     @JsonProperty("RangeLow")
-    private float low;
-    
+    private BigDecimal low;
+
     @JsonProperty("NoOfDays")
     private Integer noOfDays;
-    
+
     @JsonProperty("Units")
     private String units;
 
@@ -49,27 +45,28 @@ public class GlucoseRange {
     public void setId(Long id) {
         this.id = id;
     }
+
     @JsonProperty("RangeHigh")
-    public float getHigh() {
+    public BigDecimal getHigh() {
         return high;
     }
 
     @JsonProperty("RangeHigh")
-    public void setHigh(float high) {
+    public void setHigh(BigDecimal high) {
         this.high = high;
     }
 
     @JsonProperty("RangeLow")
-    public float getLow() {
+    public BigDecimal getLow() {
         return low;
     }
 
     @JsonProperty("RangeLow")
-    public void setLow(float low) {
+    public void setLow(BigDecimal low) {
         this.low = low;
     }
 
-     @JsonProperty("NoOfDays")
+    @JsonProperty("NoOfDays")
     public Integer getNoOfDays() {
         return noOfDays;
     }
@@ -78,6 +75,7 @@ public class GlucoseRange {
     public void setNoOfDays(Integer noOfDays) {
         this.noOfDays = noOfDays;
     }
+
     @JsonProperty("Units")
     public String getUnits() {
         return units;
@@ -87,8 +85,6 @@ public class GlucoseRange {
     public void setUnits(String units) {
         this.units = units;
     }
-
-   
 
     @Override
     public String toString() {

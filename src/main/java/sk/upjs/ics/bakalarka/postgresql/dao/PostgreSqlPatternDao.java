@@ -1,5 +1,6 @@
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
+import sk.upjs.ics.bakalarka.postgresql.dao.queries.PatternRowCallbackHandler;
 import java.math.BigDecimal;
 import sk.upjs.ics.bakalarka.dao.RangeDao;
 import sk.upjs.ics.bakalarka.dao.PossibleCauseDao;
