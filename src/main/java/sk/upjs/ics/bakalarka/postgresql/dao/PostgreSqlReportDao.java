@@ -5,7 +5,8 @@
  */
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
-import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportRangeHandler;
+import java.math.BigDecimal;
+import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportGetRangeHandler;
 import sk.upjs.ics.bakalarka.postgresql.dao.queries.RangeHighPatternTypePatientInfo;
 import sk.upjs.ics.bakalarka.dao.ReportDao;
 import sk.upjs.ics.bakalarka.dao.DaoFactory;
@@ -16,6 +17,7 @@ import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 import sk.upjs.ics.bakalarka.entity.Pattern;
 import sk.upjs.ics.bakalarka.entity.Report;
 import sk.upjs.ics.bakalarka.entity.Study;
+import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportGetPatientByDaytimeAndRangeHighHandler;
 import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportGetRangePatternPatientInfoHandler;
 
 public class PostgreSqlReportDao implements ReportDao {
@@ -74,33 +76,34 @@ public class PostgreSqlReportDao implements ReportDao {
                 + "JOIN Study s ON s.id = sp.studyid\n"
                 + "JOIN Patient pt ON pt.id = s.patientid\n"
                 + "WHERE pt.name LIKE ?";
-        ReportRangeHandler handler = new ReportRangeHandler();
+        ReportGetRangeHandler handler = new ReportGetRangeHandler();
         jdbcTemplate.query(sql, handler, patientName);
         return handler.getRanges();
     }
 
-    /*public List<Pattern> select2() {
-     String sql = "SELECT p.* from Range r \n"
-     + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
-     + "JOIN Pattern p ON p.id = rp.patternid\n"
-     + "JOIN Study_Pattern sp ON sp.patternid = p.id\n"
-     + "JOIN Study s ON s.id = sp.studyid\n"
-     + "JOIN Patient pt ON pt.id = s.patientid\n"
-     + "WHERE r.noofdays >=3 AND r.high > 33";
-     // ReportRowCallbackHandler handler = new ReportRowCallbackHandler();
-     jdbcTemplate.query(sql, handler);
-     return handler.getPatterns();
-     }*/
-    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientInfo() {
+    public List<Report> getPatientInfoBy(String daytime, BigDecimal rangeHigh) {
+        String sql = "SELECT pt.* from Range r \n"
+                + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
+                + "JOIN Pattern p ON p.id = rp.patternid\n"
+                + "JOIN Study_Pattern sp ON sp.patternid = p.id\n"
+                + "JOIN Study s ON s.id = sp.studyid\n"
+                + "JOIN Patient pt ON pt.id = s.patientid\n"
+                + "WHERE p.daytime LIKE ? AND r.high > ?";
+        ReportGetPatientByDaytimeAndRangeHighHandler handler = new ReportGetPatientByDaytimeAndRangeHighHandler();
+        jdbcTemplate.query(sql, handler, daytime, rangeHigh);
+        return handler.getReports();
+    }
+
+    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientInfoBy(int noOfDays, BigDecimal rangeHigh) {
         String sql = "SELECT r.high, p.type, pt.* from Range r \n"
                 + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
                 + "JOIN Pattern p ON p.id = rp.patternid\n"
                 + "JOIN Study_Pattern sp ON sp.patternid = p.id\n"
                 + "JOIN Study s ON s.id = sp.studyid\n"
                 + "JOIN Patient pt ON pt.id = s.patientid\n"
-                + "WHERE r.noofdays >=3 AND r.high > 33";
+                + "WHERE r.noofdays >= ? AND r.high > ?";
         ReportGetRangePatternPatientInfoHandler handler = new ReportGetRangePatternPatientInfoHandler();
-        jdbcTemplate.query(sql, handler);
+        jdbcTemplate.query(sql, handler, noOfDays, rangeHigh);
         return handler.getTypes();
     }
 

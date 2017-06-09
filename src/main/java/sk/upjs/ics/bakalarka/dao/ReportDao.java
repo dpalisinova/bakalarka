@@ -1,5 +1,6 @@
 package sk.upjs.ics.bakalarka.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 import sk.upjs.ics.bakalarka.entity.Pattern;
@@ -18,7 +19,8 @@ public interface ReportDao {
 
     public List<GlucoseRange> getRangesBy(String patientName);
 
-   // public List<Pattern> select2();
+    public List<Report> getPatientInfoBy(String daytime, BigDecimal rangeHigh);
 
-    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientInfo();
+    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientInfoBy(int noOfDays, BigDecimal rangeHigh);
+
 }

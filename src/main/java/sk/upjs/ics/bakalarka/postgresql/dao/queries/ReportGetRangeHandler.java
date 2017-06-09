@@ -12,7 +12,7 @@ import sk.upjs.ics.bakalarka.entity.Report;
 import sk.upjs.ics.bakalarka.entity.Study;
 import sk.upjs.ics.bakalarka.postgresql.dao.queries.RangeHighPatternTypePatientInfo;
 
-public class ReportRangeHandler implements RowCallbackHandler {
+public class ReportGetRangeHandler implements RowCallbackHandler {
 
     private List<Report> reports = new ArrayList<>();
     private List<Study> studies = new ArrayList<>();
