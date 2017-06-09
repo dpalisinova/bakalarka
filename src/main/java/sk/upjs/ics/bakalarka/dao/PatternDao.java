@@ -18,4 +18,6 @@ public interface PatternDao {
     public Long getIdBy(Pattern pattern);
 
     public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(BigDecimal highRange, int noOfDays);
+
+    public void checkRelatedTables(Pattern pattern);
 }

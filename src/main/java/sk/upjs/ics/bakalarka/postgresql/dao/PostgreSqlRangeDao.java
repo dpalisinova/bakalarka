@@ -24,7 +24,7 @@ public class PostgreSqlRangeDao implements RangeDao {
 
     @Override
     public Long getId(GlucoseRange range) {
-        String sql = "SELECT id FROM Range WHERE high = ? AND WHERE low = ? AND WHERE noofdays = ? AND WHERE units LIKE ?";
+        String sql = "SELECT id FROM Range WHERE high = ? AND low = ? AND noofdays = ? AND units LIKE ?";
         BeanPropertyRowMapper<GlucoseRange> mapper = BeanPropertyRowMapper.newInstance(GlucoseRange.class);
         if (jdbcTemplate.query(sql, mapper, range.getHigh(), range.getLow(), range.getNoOfDays(), range.getUnits()).isEmpty()) {
             return -1L;

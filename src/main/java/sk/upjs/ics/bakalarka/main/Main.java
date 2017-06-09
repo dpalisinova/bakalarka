@@ -23,7 +23,7 @@ import sk.upjs.ics.bakalarka.entity.Report;
 import sk.upjs.ics.bakalarka.entity.Study;
 
 public class Main {
-    
+
     PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao();
     PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao();
     RangeDao rangeDao = DaoFactory.INSTANCE.getRangeDao();
@@ -31,7 +31,7 @@ public class Main {
     ReportDao reportDao = DaoFactory.INSTANCE.getReportDao();
     private SimpleDateFormat dateFormat = new SimpleDateFormat(
             "dd.MM.yyyy");
-    
+
     public void metoda() {
         /* Pattern novy = new Pattern();
          //  novy.setId(0L);
@@ -74,18 +74,24 @@ public class Main {
          System.out.println(reports.get(i).toString());
          }*/
         //System.out.println(possibleCauseDao.getIdByString("Exercised around breakfast"));
-        System.out.println(patternDao.getRangesByHighRangeAndNoOfDays(new BigDecimal("33.3"), 2));
-        //System.out.println(reportDao.select1());
-        System.out.println(reportDao.getRangeHighPatternPatientInfoBy(3, new BigDecimal("33")));
-        // System.out.println(reportDao.select2());
-        System.out.println(reportDao.getRangesBy("Steve"));
-        System.out.println(reportDao.getPatientInfoBy("Post-dinner", new BigDecimal("33")));
-        
+      /*  System.out.println(patternDao.getRangesByHighRangeAndNoOfDays(new BigDecimal("33.3"), 2));
+         //System.out.println(reportDao.select1());
+         System.out.println(reportDao.getRangeHighPatternPatientInfoBy(3, new BigDecimal("33")));
+         // System.out.println(reportDao.select2());
+         System.out.println(reportDao.getRangesBy("Steve"));
+         System.out.println(reportDao.getPatientInfoBy("Post-dinner", new BigDecimal("33")));
+         */
+        List<GlucoseRange> pole = rangeDao.getAll();
+        for (int i = 0; i < pole.size(); i++) {
+            System.out.println(pole.get(i).toString());
+        }
+        System.out.println(rangeDao.getId(pole.get(1)));
+
     }
-    
+
     public static void main(String[] args) {
         Main ta = new Main();
         ta.metoda();
     }
-    
+
 }

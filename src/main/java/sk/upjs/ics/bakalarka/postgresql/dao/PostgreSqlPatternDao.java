@@ -35,23 +35,8 @@ public class PostgreSqlPatternDao implements PatternDao {
     @Override
     public void add(Pattern pattern) {
         String sql = "INSERT INTO pattern ( Type, Daytime, TimePeriodStart,  TimePeriodEnd,  NoOfDays) VALUES(?,?,?,?,?)";
-        jdbcTemplate.update(sql, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays());
-
-        for (PossibleCause possibleCause : pattern.getPossibleCauses()) {
-            if (possibleCauseDao.getIdByString(possibleCause.getCause()) == -1) {
-                possibleCauseDao.add(new PossibleCause(possibleCause.getCause()));
-            }
-            String sql2 = "INSERT INTO pattern_possiblecause (patternId, causeId) VALUES (?,?)";
-            jdbcTemplate.update(sql2, pattern.getId(), possibleCauseDao.getIdByString(possibleCause.getCause()));
-        }
-        for (GlucoseRange range : pattern.getGlucoseRanges()) {
-            if (rangeDao.getId(range) == -1L) {
-                rangeDao.add(new GlucoseRange(range));
-            }
-
-            String sql3 = "INSERT INTO range_pattern (rangeid, patternid) VALUES (?,?)";
-            jdbcTemplate.update(sql3, rangeDao.getId(range), pattern.getId());
-        }
+        jdbcTemplate.update(sql, pattern.getId(), pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays());
+        System.out.println("pattern.getID nastavil nejake id" + pattern.getId());
     }
 
     @Override
@@ -61,7 +46,37 @@ public class PostgreSqlPatternDao implements PatternDao {
         if (jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays()).isEmpty()) {
             return -1L;
         }
+
         return jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays()).get(0).getId();
+    }
+
+    public void checkRelatedTables(Pattern pattern) {
+        for (PossibleCause possibleCause : pattern.getPossibleCauses()) {
+            if (possibleCauseDao.getIdByString(possibleCause.getCause()) == -1) {
+                possibleCauseDao.add(new PossibleCause(possibleCause.getCause()));
+
+                if (pattern.getId() == null) {
+                    pattern.setId(this.getIdBy(pattern));
+                }
+
+                System.out.println("ma pattern.getid nejaku hodnotu:" + pattern.getId());
+                String sql2 = "INSERT INTO pattern_possiblecause (patternId, possiblecausesId) VALUES (?,?)";
+                jdbcTemplate.update(sql2, pattern.getId(), possibleCauseDao.getIdByString(possibleCause.getCause()));
+            }
+        }
+        for (GlucoseRange range : pattern.getGlucoseRanges()) {
+            System.out.println("je tu vobec nejaky range???" + pattern.getGlucoseRanges().size());
+            if (rangeDao.getId(range) == -1L) {
+                rangeDao.add(new GlucoseRange(range));
+
+                if (pattern.getId() == null) {
+                    pattern.setId(this.getIdBy(pattern));
+                }
+
+                String sql3 = "INSERT INTO range_pattern (rangeid, patternid) VALUES (?,?)";
+                jdbcTemplate.update(sql3, rangeDao.getId(range), pattern.getId());
+            }
+        }
     }
 
     public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(BigDecimal hladina, int noOfDays) {
