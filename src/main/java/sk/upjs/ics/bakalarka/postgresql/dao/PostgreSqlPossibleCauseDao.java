@@ -22,15 +22,14 @@ public class PostgreSqlPossibleCauseDao implements PossibleCauseDao {
     }
 
     @Override
-    public Long getIdByString(String cause) {
+    public Long getIdBy(PossibleCause cause) {
         String sql = "SELECT id FROM possiblecause WHERE cause LIKE ?";
         BeanPropertyRowMapper<PossibleCause> mapper = BeanPropertyRowMapper.newInstance(PossibleCause.class);
-        if (jdbcTemplate.query(sql, mapper, cause).isEmpty()) {
+        if (jdbcTemplate.query(sql, mapper, cause.getCause()).isEmpty()) {
 
             return -1L;
         }
-        System.out.println(jdbcTemplate.query(sql, mapper, cause).get(0).getId());
-        return jdbcTemplate.query(sql, mapper, cause).get(0).getId();
+        return jdbcTemplate.query(sql, mapper, cause.getCause()).get(0).getId();
 
     }
 

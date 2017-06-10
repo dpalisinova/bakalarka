@@ -32,12 +32,12 @@ public class PostgreSqlStudyDao implements StudyDao {
 //doplnit, patientID ziskat z Reportu
         for (Pattern p : study.getPatterns()) {
             System.out.println("je tu vobeeeeeeec niecooooooooo" + study.getPatterns().size() + study.toString());
-            if (patternDao.getIdBy(p) == -1L) {
+            if (patternDao.getIdBy(p) == -1L || patternDao.isNewPattern(p)) {
                 patternDao.add(p);
             }
             String sql2 = "INSERT INTO Study_pattern (studyId, patternId) VALUES(?,?)";
             jdbcTemplate.update(sql2, study.getId(), patternDao.getIdBy(p));
-            patternDao.checkRelatedTables(p);
+        
         }
     }
 

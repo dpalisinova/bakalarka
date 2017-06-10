@@ -23,7 +23,7 @@ import sk.upjs.ics.bakalarka.entity.Report;
 import sk.upjs.ics.bakalarka.entity.Study;
 
 public class Main {
-
+    
     PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao();
     PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao();
     RangeDao rangeDao = DaoFactory.INSTANCE.getRangeDao();
@@ -31,7 +31,7 @@ public class Main {
     ReportDao reportDao = DaoFactory.INSTANCE.getReportDao();
     private SimpleDateFormat dateFormat = new SimpleDateFormat(
             "dd.MM.yyyy");
-
+    
     public void metoda() {
         /* Pattern novy = new Pattern();
          //  novy.setId(0L);
@@ -83,15 +83,18 @@ public class Main {
          */
         List<GlucoseRange> pole = rangeDao.getAll();
         for (int i = 0; i < pole.size(); i++) {
-            System.out.println(pole.get(i).toString());
+           // System.out.println(pole.get(i).toString());
         }
-        System.out.println(rangeDao.getId(pole.get(1)));
-
+        // System.out.println(rangeDao.getId(pole.get(1)));
+        //System.out.println(patternDao.hasMissingPatternPossibleCauseRow(1L, 2L)+ "pattern+possible cause");
+       // System.out.println(possibleCauseDao.getAll().get(5).toString());
+        possibleCauseDao.getIdBy(possibleCauseDao.getAll().get(4));
+        
     }
-
+    
     public static void main(String[] args) {
         Main ta = new Main();
         ta.metoda();
     }
-
+    
 }

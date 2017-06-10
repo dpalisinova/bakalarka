@@ -19,5 +19,9 @@ public interface PatternDao {
 
     public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(BigDecimal highRange, int noOfDays);
 
-    public void checkRelatedTables(Pattern pattern);
+    public boolean isNewPattern(Pattern pattern);
+
+    public boolean hasMissingPatternPossibleCauseRow(long patternId, long causeId);
+
+    public boolean hasMissingPatternRangeRow(long patternId, long range);
 }
