@@ -90,6 +90,7 @@ public class Main {
        // System.out.println(possibleCauseDao.getAll().get(5).toString());
         possibleCauseDao.getIdBy(possibleCauseDao.getAll().get(4));
         
+                
     }
     
     public static void main(String[] args) {

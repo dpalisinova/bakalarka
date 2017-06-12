@@ -39,4 +39,10 @@ public class PostgreSqlPossibleCauseDao implements PossibleCauseDao {
         jdbcTemplate.update(sql, possibleCause.getCause());
     }
 
+    @Override
+    public void delete(PossibleCause cause) {
+        String sql = "DELETE FROM PossibleCause WHERE id = ?";
+        jdbcTemplate.update(sql, cause.getId());
+    }
+
 }

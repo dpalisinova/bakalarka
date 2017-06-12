@@ -32,11 +32,19 @@ public class PostgreSqlPatternDao implements PatternDao {
 
     }
 
+    public Long lastId() {
+        String sql = "SELECT id from Pattern ORDER BY id DESC limit 1";
+        BeanPropertyRowMapper<Pattern> mapper = BeanPropertyRowMapper.newInstance(Pattern.class);
+        return jdbcTemplate.query(sql, mapper).get(0).getId();
+    }
+
     @Override
     public void add(Pattern pattern) {
+        System.out.println("id posledneho patternu:" + this.lastId());
         String sql = "INSERT INTO pattern ( Type, Daytime, TimePeriodStart,  TimePeriodEnd,  NoOfDays) VALUES(?,?,?,?,?)";
-        jdbcTemplate.update(sql,  pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays());
-
+        jdbcTemplate.update(sql, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays());
+        System.out.println("id posledneho patternu po vlozeni:" + this.lastId());
+        pattern.setId(this.lastId());
         System.out.println("pattern.getID nastavil nejake id" + pattern.getId());
 
         for (PossibleCause possibleCause : pattern.getPossibleCauses()) {
@@ -51,73 +59,47 @@ public class PostgreSqlPatternDao implements PatternDao {
 
         for (GlucoseRange range : pattern.getGlucoseRanges()) {
             System.out.println("je tu vobec nejaky range???" + pattern.getGlucoseRanges().size());
-            if (rangeDao.getId(range) == -1L) {
+            if (rangeDao.getIdBy(range) == -1L) {
                 rangeDao.add(new GlucoseRange(range));
             }
             String sql3 = "INSERT INTO range_pattern (rangeid, patternid) VALUES (?,?)";
-            jdbcTemplate.update(sql3, rangeDao.getId(range), pattern.getId());
+            jdbcTemplate.update(sql3, rangeDao.getIdBy(range), pattern.getId());
 
         }
     }
 
     @Override
-    public Long getIdBy(Pattern pattern) {
-        String sql = "SELECT id FROM pattern WHERE Type LIKE ? AND Daytime LIKE ? AND TimePeriodStart = ? AND  TimePeriodEnd = ? AND NoOfDays = ?";
+    public Long getIdBy(Pattern pattern, int index) {
+        String sql = "SELECT id FROM pattern WHERE Type LIKE ? AND Daytime LIKE ? AND TimePeriodStart = ? AND  TimePeriodEnd = ? AND NoOfDays = ? AND id >= ?";
         BeanPropertyRowMapper<Pattern> mapper = BeanPropertyRowMapper.newInstance(Pattern.class);
-        if (jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays()).isEmpty()) {
+        if (jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays(), index).isEmpty()) {
             return -1L;
         }
-
-        return jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays()).get(0).getId();
+        for (GlucoseRange gr : pattern.getGlucoseRanges()) {
+            System.out.println("rangeid" + rangeDao.getIdBy(gr));
+            System.out.println(pattern.getId() + "patternid");
+            String sql2 = "SELECT patternid FROM range_pattern WHERE rangeid = ?";
+            Long idPatternRange = jdbcTemplate.query(sql2, mapper, rangeDao.getIdBy(gr)).get(0).getId();
+            if (idPatternRange != pattern.getId()) {
+                return -1L;
+            }
+        }
+        return jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays(), index).get(0).getId();
     }
 
     public boolean isNewPattern(Pattern pattern) {
-
+//Pattern contains new possibleCause/glucoseRange
         for (PossibleCause possibleCause : pattern.getPossibleCauses()) {
-            System.out.println("id possible cause je" + possibleCause.getId());
-            if (possibleCauseDao.getIdBy(possibleCause) != -1L && possibleCause.getId() == null) {
-                return true;
-//possibleCause.setId(possibleCauseDao.getIdBy(possibleCause));
-                //System.out.println("id possible cause UUUZ je" + possibleCause.getId());
-            }
-
             if (possibleCauseDao.getIdBy(possibleCause) == -1L) {
                 return true;
             }
-
         }
 
-        for (GlucoseRange range
-                : pattern.getGlucoseRanges()) {
+        for (GlucoseRange range : pattern.getGlucoseRanges()) {
             System.out.println("je tu vobec nejaky range???" + pattern.getGlucoseRanges().size());
-            if (rangeDao.getId(range) == -1L || this.hasMissingPatternRangeRow(pattern.getId(), range.getId())) {
+            if (rangeDao.getIdBy(range) == -1L) {
                 return true;
             }
-        }
-
-        return false;
-    }
-//pomocne tabulky
-
-    public boolean hasMissingPatternPossibleCauseRow(long patternId, long causeId) {
-        String sql = "SELECT patternId FROM pattern_possibleCause WHERE patternid = ? AND possiblecausesId = ?";
-        BeanPropertyRowMapper<Pattern> mapper = new BeanPropertyRowMapper<>(Pattern.class
-        );
-        if (jdbcTemplate.query(sql, mapper, patternId, causeId)
-                .isEmpty()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean hasMissingPatternRangeRow(long patternid, long rangeId) {
-        String sql = "SELECT patternId FROM range_Pattern WHERE patternid? AND rangeId = ?";
-        BeanPropertyRowMapper<Pattern> mapper = new BeanPropertyRowMapper<>(Pattern.class
-        );
-        if (jdbcTemplate.query(sql, mapper, patternid, rangeId)
-                .isEmpty()) {
-            return true;
         }
 
         return false;
@@ -140,7 +122,8 @@ public class PostgreSqlPatternDao implements PatternDao {
 
     @Override
     public void delete(Pattern pattern) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "DELETE FROM Pattern WHERE id = ?";
+        jdbcTemplate.update(sql, pattern.getId());
     }
 
 }

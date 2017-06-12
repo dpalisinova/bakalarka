@@ -9,7 +9,7 @@ public interface RangeDao {
 
     public void add(GlucoseRange range);
 
-    public Long getId(GlucoseRange range);
+    public Long getIdBy(GlucoseRange range);
 
     public void update(GlucoseRange range);
 

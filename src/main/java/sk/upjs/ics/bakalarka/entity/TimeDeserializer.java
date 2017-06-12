@@ -5,35 +5,40 @@
  */
 package sk.upjs.ics.bakalarka.entity;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author Juraj
- */
-public class TimeDeserializer extends JsonDeserializer<Date> {
+public class TimeDeserializer extends JsonDeserializer<Time> {
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat(
-            "hhmm");
+    private SimpleDateFormat sdf = new SimpleDateFormat("HHmm");
 
     @Override
-    public Date deserialize(JsonParser paramJsonParser,
-            DeserializationContext paramDeserializationContext)
-            throws IOException, JsonProcessingException {
-        String str = paramJsonParser.getText().trim();
+    public Time deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
         try {
-            return dateFormat.parse(str);
-        } catch (ParseException e) {
+            String timeString = jp.getText().trim();
+            Date time = sdf.parse(timeString);
+            Time sqlTime = new Time(time.getTime());
+            return sqlTime;
 
+        } catch (ParseException ex) {
+            Logger.getLogger(TimeDeserializer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return paramDeserializationContext.parseDate(str);
+        return null;
     }
 
 }

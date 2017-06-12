@@ -30,24 +30,33 @@ public class PostgreSqlStudyDao implements StudyDao {
         String sql = "INSERT INTO Study(id,startDate, endDate, patientId) VALUES(?,?,?,?)";//DOKONC
         jdbcTemplate.update(sql, study.getId(), study.getStartDate(), study.getEndDate(), study.getPatientId());
 //doplnit, patientID ziskat z Reportu
+        int index = 0;
         for (Pattern p : study.getPatterns()) {
             System.out.println("je tu vobeeeeeeec niecooooooooo" + study.getPatterns().size() + study.toString());
-            if (patternDao.getIdBy(p) == -1L || patternDao.isNewPattern(p)) {
+            if (patternDao.getIdBy(p, index) == -1L || patternDao.isNewPattern(p)) {
                 patternDao.add(p);
+                String sql2 = "INSERT INTO Study_pattern (studyId, patternId) VALUES(?,?)";
+                jdbcTemplate.update(sql2, study.getId(), p.getId());
+            } else {
+                while (patternDao.getIdBy(p, index) == -1L) {
+                    index++;
+                }
+                String sql2 = "INSERT INTO Study_pattern (studyId, patternId) VALUES(?,?)";
+                jdbcTemplate.update(sql2, study.getId(), patternDao.getIdBy(p, index));
+
             }
-            String sql2 = "INSERT INTO Study_pattern (studyId, patternId) VALUES(?,?)";
-            jdbcTemplate.update(sql2, study.getId(), patternDao.getIdBy(p));
-        
         }
     }
 
     @Override
-    public void update(Study study) {
+    public void update(Study study
+    ) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void delete(Study study) {
+    public void delete(Study study
+    ) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

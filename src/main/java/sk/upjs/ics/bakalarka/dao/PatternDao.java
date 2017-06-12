@@ -15,13 +15,11 @@ public interface PatternDao {
 
     public void delete(Pattern pattern);
 
-    public Long getIdBy(Pattern pattern);
+    public Long getIdBy(Pattern pattern, int index);
+
+    public Long lastId();
 
     public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(BigDecimal highRange, int noOfDays);
 
     public boolean isNewPattern(Pattern pattern);
-
-    public boolean hasMissingPatternPossibleCauseRow(long patternId, long causeId);
-
-    public boolean hasMissingPatternRangeRow(long patternId, long range);
 }

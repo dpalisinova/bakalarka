@@ -23,7 +23,7 @@ public class PostgreSqlRangeDao implements RangeDao {
     }
 
     @Override
-    public Long getId(GlucoseRange range) {
+    public Long getIdBy(GlucoseRange range) {
         String sql = "SELECT id FROM Range WHERE high = ? AND low = ? AND noofdays = ? AND units LIKE ?";
         BeanPropertyRowMapper<GlucoseRange> mapper = BeanPropertyRowMapper.newInstance(GlucoseRange.class);
         if (jdbcTemplate.query(sql, mapper, range.getHigh(), range.getLow(), range.getNoOfDays(), range.getUnits()).isEmpty()) {
@@ -45,7 +45,8 @@ public class PostgreSqlRangeDao implements RangeDao {
 
     @Override
     public void delete(GlucoseRange range) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "DELETE FROM Range WHERE id = ?";
+        jdbcTemplate.update(sql, range.getId());
     }
 
 }
