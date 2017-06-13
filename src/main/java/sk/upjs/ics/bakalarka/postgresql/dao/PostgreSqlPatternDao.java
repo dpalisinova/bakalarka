@@ -1,7 +1,10 @@
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
+import sk.upjs.ics.bakalarka.postgresql.dao.queries.PatternGetRangeByPatternHandler;
 import sk.upjs.ics.bakalarka.postgresql.dao.queries.PatternRowCallbackHandler;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
 import sk.upjs.ics.bakalarka.dao.RangeDao;
 import sk.upjs.ics.bakalarka.dao.PossibleCauseDao;
 import sk.upjs.ics.bakalarka.dao.PatternDao;
@@ -35,6 +38,9 @@ public class PostgreSqlPatternDao implements PatternDao {
     public Long lastId() {
         String sql = "SELECT id from Pattern ORDER BY id DESC limit 1";
         BeanPropertyRowMapper<Pattern> mapper = BeanPropertyRowMapper.newInstance(Pattern.class);
+        if (jdbcTemplate.query(sql, mapper).isEmpty()) {
+            return 0L;
+        }
         return jdbcTemplate.query(sql, mapper).get(0).getId();
     }
 
@@ -69,22 +75,38 @@ public class PostgreSqlPatternDao implements PatternDao {
     }
 
     @Override
-    public Long getIdBy(Pattern pattern, int index) {
-        String sql = "SELECT id FROM pattern WHERE Type LIKE ? AND Daytime LIKE ? AND TimePeriodStart = ? AND  TimePeriodEnd = ? AND NoOfDays = ? AND id >= ?";
+    public Long getIdBy(Pattern pattern) { //TODO
+        List<Pattern> samePatterns = new ArrayList<>();
+        String sql = "SELECT id FROM pattern WHERE Type LIKE ? AND Daytime LIKE ? AND TimePeriodStart = ? AND  TimePeriodEnd = ? AND NoOfDays = ?";
         BeanPropertyRowMapper<Pattern> mapper = BeanPropertyRowMapper.newInstance(Pattern.class);
-        if (jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays(), index).isEmpty()) {
+        samePatterns = jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays());
+        if (samePatterns.isEmpty()) {
             return -1L;
         }
-        for (GlucoseRange gr : pattern.getGlucoseRanges()) {
-            System.out.println("rangeid" + rangeDao.getIdBy(gr));
-            System.out.println(pattern.getId() + "patternid");
-            String sql2 = "SELECT patternid FROM range_pattern WHERE rangeid = ?";
-            Long idPatternRange = jdbcTemplate.query(sql2, mapper, rangeDao.getIdBy(gr)).get(0).getId();
-            if (idPatternRange != pattern.getId()) {
-                return -1L;
+        System.out.println("same pattern" + samePatterns.toString() + "like input " + pattern.toString());
+        List<GlucoseRange> rangesFromSameList = new ArrayList<>();
+        List<Long> rangeIdFromList = new ArrayList<>();
+        List<Long> rangeIdFromInput = new ArrayList<>();
+
+        for (Pattern patternFromList : samePatterns) {
+            rangesFromSameList = this.getRangeIdByPattern(patternFromList);
+            System.out.println("vypis rangeov z pomocnej tabulky" + rangesFromSameList.toString());
+            for (GlucoseRange rangeFromRP : rangesFromSameList) {
+                rangeIdFromList.add(rangeFromRP.getId());
             }
+            for (GlucoseRange gr : pattern.getGlucoseRanges()) {
+                rangeIdFromInput.add(rangeDao.getIdBy(gr));
+
+            }
+            Collections.sort(rangeIdFromList);
+            Collections.sort(rangeIdFromInput);
+            if (rangeIdFromList.equals(rangeIdFromInput)) {
+                return patternFromList.getId();
+            }
+
         }
-        return jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays(), index).get(0).getId();
+
+        return -1L;
     }
 
     public boolean isNewPattern(Pattern pattern) {
@@ -114,6 +136,17 @@ public class PostgreSqlPatternDao implements PatternDao {
         return handler.getRanges();
 
     }
+
+    public List<GlucoseRange> getRangeIdByPattern(Pattern pattern) {
+        String sql = "SELECT rangeid FROM Range_pattern WHERE patternId = ?";
+        PatternGetRangeByPatternHandler handler = new PatternGetRangeByPatternHandler();
+        jdbcTemplate.query(sql, handler, pattern.getId());
+
+        return handler.getRanges();
+
+    }
+
+    
 
     @Override
     public void update(Pattern pattern) {

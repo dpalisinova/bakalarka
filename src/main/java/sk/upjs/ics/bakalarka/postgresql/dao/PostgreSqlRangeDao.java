@@ -33,7 +33,7 @@ public class PostgreSqlRangeDao implements RangeDao {
     }
 
     @Override
-    public void add(GlucoseRange range) { //DOROBIT ADD
+    public void add(GlucoseRange range) { 
         String sql = "INSERT INTO Range(high, low, noofdays, units) VALUES ( ?, ?, ?, ?);";
         jdbcTemplate.update(sql, range.getHigh(), range.getLow(), range.getNoOfDays(), range.getUnits());
     }

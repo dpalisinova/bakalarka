@@ -15,7 +15,7 @@ public interface PatternDao {
 
     public void delete(Pattern pattern);
 
-    public Long getIdBy(Pattern pattern, int index);
+    public Long getIdBy(Pattern pattern);
 
     public Long lastId();
 
