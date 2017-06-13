@@ -17,10 +17,10 @@ public interface ReportDao {
 
     public void delete(Report report);
 
-    public List<GlucoseRange> getRangesBy(String patientName);
+    public List<GlucoseRange> getRangesByPatient(String patientName);
 
-    public List<Report> getPatientInfoBy(String daytime, BigDecimal rangeHigh);
+    public List<Report> getPatientByDaytimeAndRangeHigh(String daytime, BigDecimal rangeHigh);
 
-    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientInfoBy(int noOfDays, BigDecimal rangeHigh);
+    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientBy(int noOfDays, BigDecimal rangeHigh);
 
 }

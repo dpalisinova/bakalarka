@@ -1,5 +1,6 @@
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
+import sk.upjs.ics.bakalarka.postgresql.dao.queries.PatternGetPossibleCauseByPatternHandler;
 import sk.upjs.ics.bakalarka.postgresql.dao.queries.PatternGetRangeByPatternHandler;
 import sk.upjs.ics.bakalarka.postgresql.dao.queries.PatternRowCallbackHandler;
 import java.math.BigDecimal;
@@ -46,25 +47,24 @@ public class PostgreSqlPatternDao implements PatternDao {
 
     @Override
     public void add(Pattern pattern) {
-        System.out.println("id posledneho patternu:" + this.lastId());
+
         String sql = "INSERT INTO pattern ( Type, Daytime, TimePeriodStart,  TimePeriodEnd,  NoOfDays) VALUES(?,?,?,?,?)";
         jdbcTemplate.update(sql, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays());
-        System.out.println("id posledneho patternu po vlozeni:" + this.lastId());
+
         pattern.setId(this.lastId());
-        System.out.println("pattern.getID nastavil nejake id" + pattern.getId());
 
         for (PossibleCause possibleCause : pattern.getPossibleCauses()) {
             if (possibleCauseDao.getIdBy(possibleCause) == -1) {
                 possibleCauseDao.add(new PossibleCause(possibleCause.getCause()));
             }
-            System.out.println("ma pattern.getid nejaku hodnotu:" + pattern.getId());
+
             String sql2 = "INSERT INTO pattern_possiblecause (patternId, possiblecausesId) VALUES (?,?)";
             jdbcTemplate.update(sql2, pattern.getId(), possibleCauseDao.getIdBy(possibleCause));
 
         }
 
         for (GlucoseRange range : pattern.getGlucoseRanges()) {
-            System.out.println("je tu vobec nejaky range???" + pattern.getGlucoseRanges().size());
+
             if (rangeDao.getIdBy(range) == -1L) {
                 rangeDao.add(new GlucoseRange(range));
             }
@@ -75,42 +75,56 @@ public class PostgreSqlPatternDao implements PatternDao {
     }
 
     @Override
-    public Long getIdBy(Pattern pattern) { //TODO
+    public Long getIdBy(Pattern pattern) {
         List<Pattern> samePatterns = new ArrayList<>();
+
         String sql = "SELECT id FROM pattern WHERE Type LIKE ? AND Daytime LIKE ? AND TimePeriodStart = ? AND  TimePeriodEnd = ? AND NoOfDays = ?";
         BeanPropertyRowMapper<Pattern> mapper = BeanPropertyRowMapper.newInstance(Pattern.class);
         samePatterns = jdbcTemplate.query(sql, mapper, pattern.getType(), pattern.getDaytime(), pattern.getTimePeriodStart(), pattern.getTimePeriodEnd(), pattern.getNoOfDays());
         if (samePatterns.isEmpty()) {
             return -1L;
         }
-        System.out.println("same pattern" + samePatterns.toString() + "like input " + pattern.toString());
+
         List<GlucoseRange> rangesFromSameList = new ArrayList<>();
         List<Long> rangeIdFromList = new ArrayList<>();
         List<Long> rangeIdFromInput = new ArrayList<>();
 
+        List<PossibleCause> causesFromSameList = new ArrayList<>();
+        List<Long> causeIdFromList = new ArrayList<>();
+        List<Long> causeIdFromInput = new ArrayList<>();
+
         for (Pattern patternFromList : samePatterns) {
             rangesFromSameList = this.getRangeIdByPattern(patternFromList);
-            System.out.println("vypis rangeov z pomocnej tabulky" + rangesFromSameList.toString());
-            for (GlucoseRange rangeFromRP : rangesFromSameList) {
-                rangeIdFromList.add(rangeFromRP.getId());
+            causesFromSameList = this.getPossibleCauseByPattern(patternFromList);
+
+            for (GlucoseRange rangeFromRPTable : rangesFromSameList) {
+                rangeIdFromList.add(rangeFromRPTable.getId());
             }
             for (GlucoseRange gr : pattern.getGlucoseRanges()) {
                 rangeIdFromInput.add(rangeDao.getIdBy(gr));
-
             }
             Collections.sort(rangeIdFromList);
             Collections.sort(rangeIdFromInput);
-            if (rangeIdFromList.equals(rangeIdFromInput)) {
+
+            for (PossibleCause causeFromPCPTable : causesFromSameList) {
+                causeIdFromList.add(causeFromPCPTable.getId());
+            }
+            for (PossibleCause ps : pattern.getPossibleCauses()) {
+                causeIdFromInput.add(possibleCauseDao.getIdBy(ps));
+            }
+            Collections.sort(causeIdFromList);
+            Collections.sort(causeIdFromInput);
+
+            if (rangeIdFromList.equals(rangeIdFromInput) && causeIdFromList.equals(causeIdFromInput)) {
                 return patternFromList.getId();
             }
-
         }
 
         return -1L;
     }
 
     public boolean isNewPattern(Pattern pattern) {
-//Pattern contains new possibleCause/glucoseRange
+    //Pattern contains new possibleCause/glucoseRange
         for (PossibleCause possibleCause : pattern.getPossibleCauses()) {
             if (possibleCauseDao.getIdBy(possibleCause) == -1L) {
                 return true;
@@ -146,7 +160,12 @@ public class PostgreSqlPatternDao implements PatternDao {
 
     }
 
-    
+    public List<PossibleCause> getPossibleCauseByPattern(Pattern pattern) {
+        String sql = "SELECT possibleCausesid FROM Pattern_possibleCause WHERE patternId = ?";
+        PatternGetPossibleCauseByPatternHandler handler = new PatternGetPossibleCauseByPatternHandler();
+        jdbcTemplate.query(sql, handler, pattern.getId());
+        return handler.getPossibleCauses();
+    }
 
     @Override
     public void update(Pattern pattern) {

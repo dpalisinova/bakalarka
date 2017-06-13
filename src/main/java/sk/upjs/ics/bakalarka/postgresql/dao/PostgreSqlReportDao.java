@@ -6,7 +6,7 @@
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
 import java.math.BigDecimal;
-import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportGetRangeHandler;
+import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportGetRangeByPatientHandler;
 import sk.upjs.ics.bakalarka.postgresql.dao.queries.RangeHighPatternTypePatientInfo;
 import sk.upjs.ics.bakalarka.dao.ReportDao;
 import sk.upjs.ics.bakalarka.dao.DaoFactory;
@@ -68,7 +68,7 @@ public class PostgreSqlReportDao implements ReportDao {
         }
     }
 
-    public List<GlucoseRange> getRangesBy(String patientName) {
+    public List<GlucoseRange> getRangesByPatient(String patientName) {
         String sql = "SELECT r.* from Range r \n"
                 + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
                 + "JOIN Pattern p ON p.id = rp.patternid\n"
@@ -76,12 +76,13 @@ public class PostgreSqlReportDao implements ReportDao {
                 + "JOIN Study s ON s.id = sp.studyid\n"
                 + "JOIN Patient pt ON pt.id = s.patientid\n"
                 + "WHERE pt.name LIKE ?";
-        ReportGetRangeHandler handler = new ReportGetRangeHandler();
+        ReportGetRangeByPatientHandler handler = new ReportGetRangeByPatientHandler();
         jdbcTemplate.query(sql, handler, patientName);
         return handler.getRanges();
     }
+//1.select
 
-    public List<Report> getPatientInfoBy(String daytime, BigDecimal rangeHigh) {
+    public List<Report> getPatientByDaytimeAndRangeHigh(String daytime, BigDecimal rangeHigh) {
         String sql = "SELECT pt.* from Range r \n"
                 + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
                 + "JOIN Pattern p ON p.id = rp.patternid\n"
@@ -93,8 +94,9 @@ public class PostgreSqlReportDao implements ReportDao {
         jdbcTemplate.query(sql, handler, daytime, rangeHigh);
         return handler.getReports();
     }
+//2.select
 
-    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientInfoBy(int noOfDays, BigDecimal rangeHigh) {
+    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientBy(int noOfDays, BigDecimal rangeHigh) {
         String sql = "SELECT r.high, p.type, pt.* from Range r \n"
                 + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
                 + "JOIN Pattern p ON p.id = rp.patternid\n"
