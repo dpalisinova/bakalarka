@@ -13,6 +13,7 @@ import sk.upjs.ics.bakalarka.dao.DaoFactory;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import sk.upjs.ics.bakalarka.dao.StudyDao;
 import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 import sk.upjs.ics.bakalarka.entity.Pattern;
 import sk.upjs.ics.bakalarka.entity.Report;
@@ -23,7 +24,7 @@ import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportGetRangePatternPatient
 public class PostgreSqlReportDao implements ReportDao {
 
     private JdbcTemplate jdbcTemplate;
-    private PostgreSqlStudyDao studyDao = (PostgreSqlStudyDao) DaoFactory.INSTANCE.getStudyDao();
+    private StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao("postgresql");
 
     public PostgreSqlReportDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

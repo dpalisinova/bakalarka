@@ -14,7 +14,7 @@ import sk.upjs.ics.bakalarka.entity.Report;
 
 public class JsonToJava {
 
-    private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao();
+    private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.MONGODB);
 
     public static void main(String[] args) {
         JsonToJava obj = new JsonToJava();

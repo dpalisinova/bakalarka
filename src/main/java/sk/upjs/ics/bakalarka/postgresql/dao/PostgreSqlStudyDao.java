@@ -12,7 +12,7 @@ import sk.upjs.ics.bakalarka.entity.Study;
 public class PostgreSqlStudyDao implements StudyDao {
 
     private JdbcTemplate jdbcTemplate;
-    private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao();
+    private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao("postgresql");
 
     public PostgreSqlStudyDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

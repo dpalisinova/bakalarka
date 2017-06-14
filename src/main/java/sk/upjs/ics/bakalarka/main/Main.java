@@ -24,11 +24,11 @@ import sk.upjs.ics.bakalarka.entity.Study;
 
 public class Main {
     
-    PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao();
-    PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao();
-    RangeDao rangeDao = DaoFactory.INSTANCE.getRangeDao();
-    StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao();
-    ReportDao reportDao = DaoFactory.INSTANCE.getReportDao();
+    PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao("postgresql");
+    //PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao();
+    RangeDao rangeDao = DaoFactory.INSTANCE.getRangeDao("postgresql");
+    StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao("postgresql");
+    //ReportDao reportDao = DaoFactory.INSTANCE.getReportDao();
     private SimpleDateFormat dateFormat = new SimpleDateFormat(
             "dd.MM.yyyy");
     
@@ -88,7 +88,7 @@ public class Main {
         // System.out.println(rangeDao.getId(pole.get(1)));
         //System.out.println(patternDao.hasMissingPatternPossibleCauseRow(1L, 2L)+ "pattern+possible cause");
        // System.out.println(possibleCauseDao.getAll().get(5).toString());
-        possibleCauseDao.getIdBy(possibleCauseDao.getAll().get(4));
+      //  possibleCauseDao.getIdBy(possibleCauseDao.getAll().get(4));
         
                 
     }

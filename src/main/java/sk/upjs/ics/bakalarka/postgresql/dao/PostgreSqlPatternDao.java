@@ -20,8 +20,8 @@ import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 public class PostgreSqlPatternDao implements PatternDao {
 
     private JdbcTemplate jdbcTemplate;
-    PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao();
-    RangeDao rangeDao = DaoFactory.INSTANCE.getRangeDao();
+    private PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao("postgresql");
+    private RangeDao rangeDao = DaoFactory.INSTANCE.getRangeDao("postgresql");
 
     public PostgreSqlPatternDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
