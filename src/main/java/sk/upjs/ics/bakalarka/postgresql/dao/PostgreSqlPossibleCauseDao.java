@@ -21,7 +21,6 @@ public class PostgreSqlPossibleCauseDao implements PossibleCauseDao {
         return jdbcTemplate.query(sql, mapper);
     }
 
-    @Override
     public Long getIdBy(PossibleCause cause) {
         String sql = "SELECT id FROM possiblecause WHERE cause LIKE ?";
         BeanPropertyRowMapper<PossibleCause> mapper = BeanPropertyRowMapper.newInstance(PossibleCause.class);

@@ -20,8 +20,8 @@ import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 public class PostgreSqlPatternDao implements PatternDao {
 
     private JdbcTemplate jdbcTemplate;
-    private PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.POSTGRESQL);
-    private GlucoseRangeDao rangeDao = DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.POSTGRESQL);
+    private PostgreSqlPossibleCauseDao possibleCauseDao = (PostgreSqlPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.POSTGRESQL);
+    private PostgreSqlGlucoseRangeDao rangeDao = (PostgreSqlGlucoseRangeDao) DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.POSTGRESQL);
 
     public PostgreSqlPatternDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -34,15 +34,6 @@ public class PostgreSqlPatternDao implements PatternDao {
 
         return jdbcTemplate.query(sql, mapper);
 
-    }
-
-    public Long lastId() {
-        String sql = "SELECT id from Pattern ORDER BY id DESC limit 1";
-        BeanPropertyRowMapper<Pattern> mapper = BeanPropertyRowMapper.newInstance(Pattern.class);
-        if (jdbcTemplate.query(sql, mapper).isEmpty()) {
-            return 0L;
-        }
-        return jdbcTemplate.query(sql, mapper).get(0).getId();
     }
 
     @Override
@@ -74,7 +65,7 @@ public class PostgreSqlPatternDao implements PatternDao {
         }
     }
 
-    @Override
+    //insert submethod
     public Long getIdBy(Pattern pattern) {
         List<Pattern> samePatterns = new ArrayList<>();
 
@@ -123,6 +114,8 @@ public class PostgreSqlPatternDao implements PatternDao {
         return -1L;
     }
 
+    //insert submethod
+
     public boolean isNewPattern(Pattern pattern) {
         //Pattern contains new possibleCause/glucoseRange
         for (PossibleCause possibleCause : pattern.getPossibleCauses()) {
@@ -141,6 +134,17 @@ public class PostgreSqlPatternDao implements PatternDao {
         return false;
     }
 
+    //insert submethod
+    public Long lastId() {
+        String sql = "SELECT id from Pattern ORDER BY id DESC limit 1";
+        BeanPropertyRowMapper<Pattern> mapper = BeanPropertyRowMapper.newInstance(Pattern.class);
+        if (jdbcTemplate.query(sql, mapper).isEmpty()) {
+            return 0L;
+        }
+        return jdbcTemplate.query(sql, mapper).get(0).getId();
+    }
+
+    @Override
     public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(BigDecimal hladina, int noOfDays) {
         String sql = "SELECT r.* FROM Pattern p JOIN range_pattern rp ON p.id = rp.patternid "
                 + " JOIN Range r ON r.id = rp.rangeid WHERE r.high = ? AND p.noofdays = ?";
@@ -151,6 +155,7 @@ public class PostgreSqlPatternDao implements PatternDao {
 
     }
 
+    //insert submethod
     public List<GlucoseRange> getRangeIdByPattern(Pattern pattern) {
         String sql = "SELECT rangeid FROM Range_pattern WHERE patternId = ?";
         PatternGetRangeByPatternHandler handler = new PatternGetRangeByPatternHandler();
@@ -160,6 +165,7 @@ public class PostgreSqlPatternDao implements PatternDao {
 
     }
 
+    //insert submethod
     public List<PossibleCause> getPossibleCauseByPattern(Pattern pattern) {
         String sql = "SELECT possibleCausesid FROM Pattern_possibleCause WHERE patternId = ?";
         PatternGetPossibleCauseByPatternHandler handler = new PatternGetPossibleCauseByPatternHandler();

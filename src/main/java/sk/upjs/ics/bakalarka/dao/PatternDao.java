@@ -13,11 +13,6 @@ public interface PatternDao {
 
     public void delete(Pattern pattern);
 
-    public Long getIdBy(Pattern pattern);
-
-    public Long lastId();
-
     public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(BigDecimal highRange, int noOfDays);
 
-    public boolean isNewPattern(Pattern pattern);
 }

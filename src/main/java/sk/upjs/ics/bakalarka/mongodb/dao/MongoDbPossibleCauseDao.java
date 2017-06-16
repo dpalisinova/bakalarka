@@ -32,10 +32,6 @@ public class MongoDbPossibleCauseDao implements PossibleCauseDao {
 
     }
 
-    @Override
-    public Long getIdBy(PossibleCause cause) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void delete(PossibleCause cause) {

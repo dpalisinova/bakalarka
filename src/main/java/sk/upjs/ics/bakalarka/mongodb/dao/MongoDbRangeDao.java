@@ -33,11 +33,6 @@ public class MongoDbRangeDao implements GlucoseRangeDao {
     }
 
     @Override
-    public Long getIdBy(GlucoseRange range) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void delete(GlucoseRange range) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

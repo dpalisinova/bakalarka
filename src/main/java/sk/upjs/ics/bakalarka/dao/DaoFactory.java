@@ -8,7 +8,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlPatternDao;
 import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlPossibleCauseDao;
-import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlRangeDao;
+import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlGlucoseRangeDao;
 import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlReportDao;
 import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlStudyDao;
 
@@ -40,7 +40,7 @@ public enum DaoFactory {
     private MongoDbPatternDao mongoPatternDao;
     private PostgreSqlPossibleCauseDao postgrePossibleCauseDao;
     private MongoDbPossibleCauseDao mongoPossibleCause;
-    private PostgreSqlRangeDao postgreRangeDao;
+    private PostgreSqlGlucoseRangeDao postgreRangeDao;
     private MongoDbRangeDao mongoRangeDao;
     private PostgreSqlStudyDao postgreStudyDao;
     private MongoDbStudyDao mongoStudyDao;
@@ -54,6 +54,7 @@ public enum DaoFactory {
                     this.postgreReportDao = new PostgreSqlReportDao(getJdbcTemplate());
                 }
                 return this.postgreReportDao;
+               
             case MONGODB:
                 if (this.mongoReportDao == null) {
                     try {
@@ -120,7 +121,7 @@ public enum DaoFactory {
         switch (database) {
             case POSTGRESQL:
                 if (this.postgreRangeDao == null) {
-                    this.postgreRangeDao = new PostgreSqlRangeDao(getJdbcTemplate());
+                    this.postgreRangeDao = new PostgreSqlGlucoseRangeDao(getJdbcTemplate());
                 }
                 return this.postgreRangeDao;
             case MONGODB:
@@ -160,6 +161,15 @@ public enum DaoFactory {
                 throw new IllegalArgumentException("Unknown database type.");
         }
 
+    }
+    
+     public StudyDao getStudyDao2() {
+       
+                if (this.postgreStudyDao == null) {
+                    this.postgreStudyDao = new PostgreSqlStudyDao(getJdbcTemplate());
+                }
+                return this.postgreStudyDao;
+         
     }
 
     public JdbcTemplate getJdbcTemplate() {

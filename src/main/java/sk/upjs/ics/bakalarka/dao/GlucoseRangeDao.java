@@ -9,8 +9,6 @@ public interface GlucoseRangeDao {
 
     public void add(GlucoseRange range);
 
-    public Long getIdBy(GlucoseRange range);
-
     public void delete(GlucoseRange range);
 
 }

@@ -9,8 +9,6 @@ public interface PossibleCauseDao {
 
     public List<PossibleCause> getAll();
 
-    public Long getIdBy(PossibleCause cause);
-    
     public void delete(PossibleCause cause);
 
 }

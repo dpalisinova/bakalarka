@@ -24,10 +24,8 @@ import sk.upjs.ics.bakalarka.entity.Study;
 
 public class Main {
     
-    PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao("postgresql");
-    //PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao();
-    GlucoseRangeDao rangeDao = DaoFactory.INSTANCE.getGlucoseRangeDao("postgresql");
-    StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao("postgresql");
+    
+    StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao2();
     //ReportDao reportDao = DaoFactory.INSTANCE.getReportDao();
     private SimpleDateFormat dateFormat = new SimpleDateFormat(
             "dd.MM.yyyy");
@@ -59,12 +57,12 @@ public class Main {
          System.out.println(pole.get(i).toString());
          }
          System.out.println(pole.get(0).getLow());
-
+*/
          List<Study> studie = studyDao.getAll();
          for (int i = 0; i < studie.size(); i++) {
          System.out.println(studie.get(i).toString());
 
-         }
+         }/*
          long startTime = System.currentTimeMillis();
 
          List<Report> reports = reportDao.getAll();
@@ -81,10 +79,10 @@ public class Main {
          System.out.println(reportDao.getRangesBy("Steve"));
          System.out.println(reportDao.getPatientInfoBy("Post-dinner", new BigDecimal("33")));
          */
-        List<GlucoseRange> pole = rangeDao.getAll();
+        /*List<GlucoseRange> pole = rangeDao.getAll();
         for (int i = 0; i < pole.size(); i++) {
-           // System.out.println(pole.get(i).toString());
-        }
+          */ // System.out.println(pole.get(i).toString());
+       // }
         // System.out.println(rangeDao.getId(pole.get(1)));
         //System.out.println(patternDao.hasMissingPatternPossibleCauseRow(1L, 2L)+ "pattern+possible cause");
        // System.out.println(possibleCauseDao.getAll().get(5).toString());

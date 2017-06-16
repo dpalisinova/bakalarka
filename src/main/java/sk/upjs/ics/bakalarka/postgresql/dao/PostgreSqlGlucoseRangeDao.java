@@ -6,11 +6,11 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 
-public class PostgreSqlRangeDao implements GlucoseRangeDao {
+public class PostgreSqlGlucoseRangeDao implements GlucoseRangeDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    public PostgreSqlRangeDao(JdbcTemplate jdbcTemplate) {
+    public PostgreSqlGlucoseRangeDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -22,7 +22,7 @@ public class PostgreSqlRangeDao implements GlucoseRangeDao {
 
     }
 
-    @Override
+   
     public Long getIdBy(GlucoseRange range) {
         String sql = "SELECT id FROM Range WHERE high = ? AND low = ? AND noofdays = ? AND units LIKE ?";
         BeanPropertyRowMapper<GlucoseRange> mapper = BeanPropertyRowMapper.newInstance(GlucoseRange.class);
