@@ -24,7 +24,7 @@ import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportGetRangePatternPatient
 public class PostgreSqlReportDao implements ReportDao {
 
     private JdbcTemplate jdbcTemplate;
-    private StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao("postgresql");
+    private StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao(DaoFactory.POSTGRESQL);
 
     public PostgreSqlReportDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

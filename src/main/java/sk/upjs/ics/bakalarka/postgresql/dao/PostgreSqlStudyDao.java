@@ -12,7 +12,7 @@ import sk.upjs.ics.bakalarka.entity.Study;
 public class PostgreSqlStudyDao implements StudyDao {
 
     private JdbcTemplate jdbcTemplate;
-    private PostgreSqlPatternDao patternDao = (PostgreSqlPatternDao) DaoFactory.INSTANCE.getPatternDao("postgresql");
+    private PostgreSqlPatternDao patternDao = (PostgreSqlPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.POSTGRESQL);
 
     public PostgreSqlStudyDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -20,10 +20,8 @@ public class PostgreSqlStudyDao implements StudyDao {
 
     @Override
     public List<Study> getAll() {
-        String sql = "SELECT * FROM study ";
-        System.out.println("ahoooooj");
+        String sql = "SELECT * FROM study";
         BeanPropertyRowMapper<Study> mapper = BeanPropertyRowMapper.newInstance(Study.class);
-        System.out.println("cauuu");
         return jdbcTemplate.query(sql, mapper);
     }
 

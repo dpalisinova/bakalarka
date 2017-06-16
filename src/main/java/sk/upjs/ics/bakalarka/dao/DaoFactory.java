@@ -162,15 +162,6 @@ public enum DaoFactory {
         }
 
     }
-    
-     public StudyDao getStudyDao2() {
-       
-                if (this.postgreStudyDao == null) {
-                    this.postgreStudyDao = new PostgreSqlStudyDao(getJdbcTemplate());
-                }
-                return this.postgreStudyDao;
-         
-    }
 
     public JdbcTemplate getJdbcTemplate() {
         if (this.jdbcTemplate == null) {
