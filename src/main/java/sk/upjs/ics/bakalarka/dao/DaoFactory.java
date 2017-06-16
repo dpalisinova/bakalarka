@@ -116,7 +116,7 @@ public enum DaoFactory {
 
     }
 
-    public RangeDao getRangeDao(String database) {
+    public GlucoseRangeDao getGlucoseRangeDao(String database) {
         switch (database) {
             case POSTGRESQL:
                 if (this.postgreRangeDao == null) {

@@ -13,8 +13,6 @@ public interface ReportDao {
 
     public void add(Report report);
 
-    public void update(Report report);
-
     public void delete(Report report);
 
     public List<GlucoseRange> getRangesByPatient(String patientName);

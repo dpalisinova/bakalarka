@@ -111,11 +111,6 @@ public class PostgreSqlReportDao implements ReportDao {
     }
 
     @Override
-    public void update(Report report) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void delete(Report report) {
         String sql = "DELETE FROM Patient WHERE id = ?";
         jdbcTemplate.update(sql, report.getId());

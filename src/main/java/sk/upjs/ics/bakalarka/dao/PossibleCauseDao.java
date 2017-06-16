@@ -7,7 +7,6 @@ public interface PossibleCauseDao {
 
     public void add(PossibleCause possibleCause);
 
-    //ID na LONG
     public List<PossibleCause> getAll();
 
     public Long getIdBy(PossibleCause cause);

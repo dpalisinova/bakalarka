@@ -21,15 +21,18 @@ import sk.upjs.ics.bakalarka.postgresql.dao.queries.RangeHighPatternTypePatientI
 public class MongoDbReportDao implements ReportDao {
 
     private DB mongoConnection;
+    private DBCollection collection;
+    private static final String COLLECTION_REPORT = "report";
 
     public MongoDbReportDao(DB db) {
         mongoConnection = db;
+        collection = mongoConnection.getCollection(COLLECTION_REPORT);
     }
 
     @Override
     public List<Report> getAll() {
-        DBCollection col2 = mongoConnection.getCollection("report");
-        DBCursor c = col2.find();
+
+        DBCursor c = collection.find();
         ObjectMapper mapper = new ObjectMapper();
         List<Report> reports = new ArrayList<>();
         while (c.hasNext()) {
@@ -50,10 +53,6 @@ public class MongoDbReportDao implements ReportDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void update(Report report) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void delete(Report report) {

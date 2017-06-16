@@ -11,8 +11,6 @@ public interface PatternDao {
 
     public void add(Pattern patern);
 
-    public void update(Pattern pattern);
-
     public void delete(Pattern pattern);
 
     public Long getIdBy(Pattern pattern);

@@ -13,6 +13,10 @@ public class RangeHighPatternTypePatientInfo {
     private String patientSurename;
     private Date patientDOB;
 
+    public RangeHighPatternTypePatientInfo(Report report) {
+        //TODO
+    }
+
     public RangeHighPatternTypePatientInfo(BigDecimal high, String patternType, String patientName, String patientSurename, Date patientDOB) {
         this.high = high;
         this.patternType = patternType;
@@ -25,8 +29,5 @@ public class RangeHighPatternTypePatientInfo {
     public String toString() {
         return "RangeHighPatternTypePatientInfo{" + "high=" + high + ", patternType=" + patternType + ", patientName=" + patientName + ", patientSurename=" + patientSurename + ", patientDOB=" + patientDOB + '}';
     }
-    
-
-   
 
 }

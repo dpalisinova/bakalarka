@@ -81,7 +81,7 @@ public class Study {
 
     @Override
     public String toString() {
-        return "Study{" + "id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", patientId=" + patientId + ", patterns=" + patterns + '}';
+        return "\nStudy{" + "id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", patientId=" + patientId + ", patterns=" + patterns  +'}';
     }
 
 }

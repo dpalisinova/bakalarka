@@ -9,7 +9,5 @@ public interface StudyDao {
 
     public void add(Study study);
 
-    public void update(Study study);
-
     public void delete(Study study);
 }

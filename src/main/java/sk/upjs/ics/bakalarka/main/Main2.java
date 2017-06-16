@@ -18,8 +18,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import sk.upjs.ics.bakalarka.dao.DaoFactory;
+import sk.upjs.ics.bakalarka.dao.PatternDao;
+import sk.upjs.ics.bakalarka.dao.PossibleCauseDao;
+import sk.upjs.ics.bakalarka.dao.GlucoseRangeDao;
 import sk.upjs.ics.bakalarka.dao.ReportDao;
+import sk.upjs.ics.bakalarka.dao.StudyDao;
+import sk.upjs.ics.bakalarka.entity.Pattern;
+import sk.upjs.ics.bakalarka.entity.PossibleCause;
 import sk.upjs.ics.bakalarka.entity.Report;
+import sk.upjs.ics.bakalarka.entity.Study;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbReportDao;
 
 /**
@@ -29,17 +36,30 @@ import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbReportDao;
 public class Main2 {
 
     private ReportDao mongoDbReportDao = DaoFactory.INSTANCE.getReportDao("mongodb");
+    private PatternDao mongoPatternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB);
+    private StudyDao mongoStudyDao = DaoFactory.INSTANCE.getStudyDao(DaoFactory.MONGODB);
+    private PossibleCauseDao mongoPossibleCause = DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.MONGODB);
+    private GlucoseRangeDao mongoRangeDao = DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.MONGODB);
 
     public void metoda() {
-        List<Report> reports = new ArrayList<>();
-        reports = mongoDbReportDao.getAll();
-        System.out.println(reports.toString());
+        /* List<Report> reports = new ArrayList<>();
+         reports = mongoDbReportDao.getAll();
+         System.out.println(reports.toString());
+         */
+        /* List<Pattern> patterns = new ArrayList<>();
+         patterns = mongoPatternDao.getAll();
+         System.out.println(patterns.toString());
+         */
+        List<Pattern> patterns = new ArrayList<>();
+        System.out.println(mongoPatternDao.getAll());
+        System.out.println("--------------------------");
+        List<Pattern> ranges = new ArrayList<>();
+        System.out.println(mongoRangeDao.getAll());
+
     }
 
     public static void main(String[] args) throws UnknownHostException, IOException {
 
-        MongoClient mongo = new MongoClient("localhost", 27017);
-        DB db = mongo.getDB("testdb");
         /**
          * ** Get collection / table from 'testdb' ***
          */
@@ -57,6 +77,7 @@ public class Main2 {
          */
         Main2 m = new Main2();
         m.metoda();
+
     }
 
 }

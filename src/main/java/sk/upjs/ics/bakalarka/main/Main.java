@@ -14,7 +14,7 @@ import sk.upjs.ics.bakalarka.dao.ReportDao;
 
 import sk.upjs.ics.bakalarka.dao.PatternDao;
 import sk.upjs.ics.bakalarka.dao.PossibleCauseDao;
-import sk.upjs.ics.bakalarka.dao.RangeDao;
+import sk.upjs.ics.bakalarka.dao.GlucoseRangeDao;
 import sk.upjs.ics.bakalarka.dao.StudyDao;
 import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 import sk.upjs.ics.bakalarka.entity.Pattern;
@@ -26,7 +26,7 @@ public class Main {
     
     PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao("postgresql");
     //PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao();
-    RangeDao rangeDao = DaoFactory.INSTANCE.getRangeDao("postgresql");
+    GlucoseRangeDao rangeDao = DaoFactory.INSTANCE.getGlucoseRangeDao("postgresql");
     StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao("postgresql");
     //ReportDao reportDao = DaoFactory.INSTANCE.getReportDao();
     private SimpleDateFormat dateFormat = new SimpleDateFormat(

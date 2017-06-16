@@ -88,6 +88,6 @@ public class GlucoseRange {
 
     @Override
     public String toString() {
-        return "Range{" + "id=" + id + ", high=" + high + ", low=" + low + ", noOfDays=" + noOfDays + ", units=" + units + '}';
+        return "\n  Range{" + "id=" + id + ", high=" + high + ", low=" + low + ", noOfDays=" + noOfDays + ", units=" + units + '}';
     }
 }

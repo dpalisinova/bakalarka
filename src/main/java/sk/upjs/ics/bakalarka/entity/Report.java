@@ -96,7 +96,7 @@ public class Report {
 
     @Override
     public String toString() {
-        return "Patient{" + "iD=" + id + ", name=" + name + ", surname=" + surname + ", DOB=" + dob + ", studies=" + studies + '}';
+        return "Patient{" + "iD=" + id + ", name=" + name + ", surname=" + surname + ", DOB=" + dob + ", studies=" + studies + '}'+"\n";
     }
 
 }

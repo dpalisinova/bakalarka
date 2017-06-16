@@ -38,6 +38,6 @@ public class PossibleCause {
 
     @Override
     public String toString() {
-        return "PossibleCause{" + "id=" + id + ", cause=" + cause + '}';
+        return "\n   PossibleCause{" + "id=" + id + ", cause=" + cause + '}';
     }
 }

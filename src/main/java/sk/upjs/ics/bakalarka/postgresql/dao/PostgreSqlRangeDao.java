@@ -1,12 +1,12 @@
 package sk.upjs.ics.bakalarka.postgresql.dao;
 
-import sk.upjs.ics.bakalarka.dao.RangeDao;
+import sk.upjs.ics.bakalarka.dao.GlucoseRangeDao;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 
-public class PostgreSqlRangeDao implements RangeDao {
+public class PostgreSqlRangeDao implements GlucoseRangeDao {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -36,11 +36,6 @@ public class PostgreSqlRangeDao implements RangeDao {
     public void add(GlucoseRange range) { 
         String sql = "INSERT INTO Range(high, low, noofdays, units) VALUES ( ?, ?, ?, ?);";
         jdbcTemplate.update(sql, range.getHigh(), range.getLow(), range.getNoOfDays(), range.getUnits());
-    }
-
-    @Override
-    public void update(GlucoseRange range) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

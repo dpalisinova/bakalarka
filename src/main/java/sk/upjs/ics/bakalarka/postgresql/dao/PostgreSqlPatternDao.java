@@ -6,7 +6,7 @@ import sk.upjs.ics.bakalarka.postgresql.dao.queries.PatternRowCallbackHandler;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
-import sk.upjs.ics.bakalarka.dao.RangeDao;
+import sk.upjs.ics.bakalarka.dao.GlucoseRangeDao;
 import sk.upjs.ics.bakalarka.dao.PossibleCauseDao;
 import sk.upjs.ics.bakalarka.dao.PatternDao;
 import sk.upjs.ics.bakalarka.dao.DaoFactory;
@@ -20,8 +20,8 @@ import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 public class PostgreSqlPatternDao implements PatternDao {
 
     private JdbcTemplate jdbcTemplate;
-    private PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao("postgresql");
-    private RangeDao rangeDao = DaoFactory.INSTANCE.getRangeDao("postgresql");
+    private PossibleCauseDao possibleCauseDao = DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.POSTGRESQL);
+    private GlucoseRangeDao rangeDao = DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.POSTGRESQL);
 
     public PostgreSqlPatternDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -124,7 +124,7 @@ public class PostgreSqlPatternDao implements PatternDao {
     }
 
     public boolean isNewPattern(Pattern pattern) {
-    //Pattern contains new possibleCause/glucoseRange
+        //Pattern contains new possibleCause/glucoseRange
         for (PossibleCause possibleCause : pattern.getPossibleCauses()) {
             if (possibleCauseDao.getIdBy(possibleCause) == -1L) {
                 return true;
@@ -165,11 +165,6 @@ public class PostgreSqlPatternDao implements PatternDao {
         PatternGetPossibleCauseByPatternHandler handler = new PatternGetPossibleCauseByPatternHandler();
         jdbcTemplate.query(sql, handler, pattern.getId());
         return handler.getPossibleCauses();
-    }
-
-    @Override
-    public void update(Pattern pattern) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

@@ -43,11 +43,6 @@ public class PostgreSqlStudyDao implements StudyDao {
     }
 
     @Override
-    public void update(Study study) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void delete(Study study) {
         String sql = "DELETE FROM Study WHERE id = ?";
         jdbcTemplate.update(sql, study.getId());
