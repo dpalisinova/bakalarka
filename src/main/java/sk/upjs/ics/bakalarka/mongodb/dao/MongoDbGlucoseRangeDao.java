@@ -9,13 +9,13 @@ import sk.upjs.ics.bakalarka.dao.GlucoseRangeDao;
 import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 import sk.upjs.ics.bakalarka.entity.Pattern;
 
-public class MongoDbRangeDao implements GlucoseRangeDao {
+public class MongoDbGlucoseRangeDao implements GlucoseRangeDao {
 
     private DB mongoConnection;
     private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB);
     private List<GlucoseRange> ranges = new ArrayList<>();
 
-    public MongoDbRangeDao(DB db) {
+    public MongoDbGlucoseRangeDao(DB db) {
         mongoConnection = db;
     }
 
@@ -29,7 +29,7 @@ public class MongoDbRangeDao implements GlucoseRangeDao {
 
     @Override
     public void add(GlucoseRange range) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Please use reportDao.add() method.");
     }
 
     @Override

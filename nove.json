@@ -1,0 +1,155 @@
+[
+   {
+      "ID": "2",
+			"Name": "Alice",
+			"Surname": "Green",
+            		"DOB": "20.05.1975",
+			 
+      "Study":[
+        {
+          
+          
+				"id": "2",
+        "StartDate": "28.9.2012",
+				"EndDate": "5.10.2012",
+				"Patterns": [
+            {   "Type": "Variable SG with Low SG",
+ 	              "Daytime": "Overnight",
+		            "TimePeriodStart": "2300",
+		            "TimePeriodEnd": "0600",
+		            "NoOfDays": 8,
+			          "GlucoseRanges": [
+				            { "NoOfDays": 3,
+					            "RangeHigh": 4.4,
+					            "RangeLow" : 2.8,
+					            "Units" : "mmol/l" 
+				            },
+					          { "NoOfDays": 2,
+					            "RangeHigh" : 2.8 ,
+					            "RangeLow" : 0,
+					            "Units" : "mmol/l" 
+					            
+				            },
+					          { "NoOfDays": 3,
+					            "RangeLow" : 8.3,
+					            "RangeHigh" : 33.3,
+					            "Units" : "mmol/l" 
+				            }
+					        ],
+	              "PossibleCauses":["Oral medication too high or incorrectly timed", "Basal insulin injection in evening(s) too high or missed","Pre-meal insulin in prior evening(s) incorrectly timed or incorrect dose","Inconsistent food intake day before","Inconsistent exercise schedule day before","Alcohol consumed in prior evening(s)"]
+			      },
+			      {   "Type": "Low SG",
+ 	              "Daytime": "Pre-dinner",
+		            "TimePeriodStart": "1700",
+		            "TimePeriodEnd": "2000",
+		            "NoOfDays": 2,
+			          "GlucoseRanges": [
+				            { "NoOfDays": 2,
+					            "RangeHigh": 3.9,
+					            "RangeLow" : 2.8,
+					            "Units" : "mmol/l" 
+				            }
+				          ],
+	              "PossibleCauses":["Oral medication too high or incorrectly timed","Basal insulin injections too high", "Dinner delayed", "Exercised before dinner"]
+	          },
+	          {   "Type": "High SG",
+ 	              "Daytime": "Post-dinner",
+		            "TimePeriodStart": "1700",
+		            "TimePeriodEnd": "2000",
+		            "NoOfDays": 2,
+			          "GlucoseRanges": [
+				            { "NoOfDays": 2,
+					            "RangeLow": 13.9,
+					            "RangeHigh": 33.3,
+					            "Units" : "mmol/l" 
+				            }
+				          ],
+	              "PossibleCauses":["Oral medication(s) missed,too low, or incorrectly timed", "Pre-dinner insulin incorrectly timed too low, or missed", "Insulin to carbohydrate ratio not optimal for pre-dinner insulin", "High calorie or high carbohydrate foods"]
+	          }
+	             ]
+  }]
+ },
+ {
+      "ID": "3",
+			"Name": "Leo",
+			"Surname": "Brown",
+            	"DOB": "20.09.1980",
+			 
+      "Study":[
+        {
+          
+          
+				"id": "3",
+        "StartDate": "01.05.2014",
+				"EndDate": "08.05.2014",
+				"Patterns": [
+            {   "Type": "Variable SG with Low SG",
+ 	              "Daytime": "Overnight",
+		            "TimePeriodStart": "2300",
+		            "TimePeriodEnd": "0600",
+		            "NoOfDays": 5,
+			          "GlucoseRanges": [
+				            { "NoOfDays": 3,
+					            "RangeHigh": 4.4,
+					            "RangeLow" : 2.8,
+					            "Units" : "mmol/l" 
+				            },
+					          { "NoOfDays": 2,
+					            "RangeHigh": 33.3,
+					            "RangeLow" : 8.3,
+					            "Units" : "mmol/l" 
+				            }
+					        ],
+	              "PossibleCauses":["Oral medication too high or incorrectly timed", "Basal insulin injection in evening(s) too high or missed","Pre-meal insulin in prior evening(s) incorrectly timed or incorrect dose","Inconsistent food intake day before","Inconsistent exercise schedule day before","Alcohol consumed in prior evening(s)"]
+			      },
+			      {   "Type": "Low SG",
+ 	              "Daytime": "Breakfast time",
+		            "TimePeriodStart": "0600",
+		            "TimePeriodEnd": "1000",
+		            "NoOfDays": 2,
+			          "GlucoseRanges": [
+				            { "NoOfDays": 2,
+					            "RangeHigh": 3.9,
+					            "RangeLow" : 2.8,
+					            "Units" : "mmol/l" 
+				            }
+				          ],
+	              "PossibleCauses":["Oral medication(s) too high or incorrectly timed in evening(s)","Basal insulin injections too high", "Pre-breakfast insulin too high", "Insulin to carbohydrate ratio not optimal for pre-breakfast insulin","Delayed or less food intake than usual", "Exercised around breakfast"]
+	          },
+ {   "Type": "High SG",
+ 	              "Daytime": "Post-dinner",
+		            "TimePeriodStart": "1700",
+		            "TimePeriodEnd": "2000",
+		            "NoOfDays": 2,
+			          "GlucoseRanges": [
+				            { "NoOfDays": 2,
+					            "RangeLow": 13.9,
+					            "RangeHigh": 33.3,
+					            "Units" : "mmol/l" 
+				            }
+				          ],
+	              "PossibleCauses":["Oral medication(s) missed,too low, or incorrectly timed", "Pre-dinner insulin incorrectly timed too low, or missed", "Insulin to carbohydrate ratio not optimal for pre-dinner insulin", "High calorie or high carbohydrate foods"]
+	          },
+	          {   "Type": "High SG",
+ 	              "Daytime": "Dinner time",
+		            "TimePeriodStart": "1700",
+		            "TimePeriodEnd": "2000",
+		            "NoOfDays": 2,
+			          "GlucoseRanges": [
+				            { "NoOfDays": 2,
+					            "RangeHigh": 4.9,
+					            "RangeLow" : 2.8,
+					            "Units" : "mmol/l" 
+				            }
+				          ],
+	              "PossibleCauses":["Oral medication(s) too high or incorrectly timed","Basal insulin injections too high", "Insulin to carbohydrate ratio not optimal for pre-dinner insulin", "Less food intake than usual", "Dinner delayed", "Exercised around dinner"]
+	          
+        
+ }
+	             ]
+        
+ }]
+   
+ }]
+ 
+ 

@@ -97,7 +97,7 @@ public class PostgreSqlReportDao implements ReportDao {
     }
 //2.select
 
-    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientBy(int noOfDays, BigDecimal rangeHigh) {
+    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientBy(int rangeNoOfDays, BigDecimal rangeHigh) {
         String sql = "SELECT r.high, p.type, pt.* from Range r \n"
                 + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
                 + "JOIN Pattern p ON p.id = rp.patternid\n"
@@ -106,7 +106,7 @@ public class PostgreSqlReportDao implements ReportDao {
                 + "JOIN Patient pt ON pt.id = s.patientid\n"
                 + "WHERE r.noofdays >= ? AND r.high > ?";
         ReportGetRangePatternPatientInfoHandler handler = new ReportGetRangePatternPatientInfoHandler();
-        jdbcTemplate.query(sql, handler, noOfDays, rangeHigh);
+        jdbcTemplate.query(sql, handler, rangeNoOfDays, rangeHigh);
         return handler.getTypes();
     }
 

@@ -38,8 +38,7 @@ public class MongoDbPatternDao implements PatternDao {
 
     @Override
     public void add(Pattern patern) {
-        //please use reportDao.add()
-        throw new UnsupportedOperationException("please use reportDao.add()");
+        throw new UnsupportedOperationException("Please use reportDao.add() method.");
     }
 
     @Override

@@ -5,6 +5,8 @@
  */
 package sk.upjs.ics.bakalarka.main;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -12,11 +14,18 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.util.JSON;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sk.upjs.ics.bakalarka.dao.DaoFactory;
 import sk.upjs.ics.bakalarka.dao.PatternDao;
 import sk.upjs.ics.bakalarka.dao.PossibleCauseDao;
@@ -27,7 +36,12 @@ import sk.upjs.ics.bakalarka.entity.Pattern;
 import sk.upjs.ics.bakalarka.entity.PossibleCause;
 import sk.upjs.ics.bakalarka.entity.Report;
 import sk.upjs.ics.bakalarka.entity.Study;
+import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbGlucoseRangeDao;
+import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbPatternDao;
+import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbPossibleCauseDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbReportDao;
+import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbStudyDao;
+import sun.text.normalizer.UCharacter;
 
 /**
  *
@@ -35,11 +49,11 @@ import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbReportDao;
  */
 public class Main2 {
 
-    private ReportDao mongoDbReportDao = DaoFactory.INSTANCE.getReportDao("mongodb");
-    private PatternDao mongoPatternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB);
-    private StudyDao mongoStudyDao = DaoFactory.INSTANCE.getStudyDao(DaoFactory.MONGODB);
-    private PossibleCauseDao mongoPossibleCause = DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.MONGODB);
-    private GlucoseRangeDao mongoRangeDao = DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.MONGODB);
+    private MongoDbReportDao mongoDbReportDao = (MongoDbReportDao) DaoFactory.INSTANCE.getReportDao("mongodb");
+    private MongoDbPatternDao mongoPatternDao = (MongoDbPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB);
+    private MongoDbStudyDao mongoStudyDao = (MongoDbStudyDao) DaoFactory.INSTANCE.getStudyDao(DaoFactory.MONGODB);
+    private MongoDbPossibleCauseDao mongoPossibleCause = (MongoDbPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.MONGODB);
+    private MongoDbGlucoseRangeDao mongoRangeDao = (MongoDbGlucoseRangeDao) DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.MONGODB);
 
     public void metoda() {
         /* List<Report> reports = new ArrayList<>();
@@ -50,34 +64,26 @@ public class Main2 {
          patterns = mongoPatternDao.getAll();
          System.out.println(patterns.toString());
          */
-        List<Pattern> patterns = new ArrayList<>();
-        System.out.println(mongoPatternDao.getAll());
-        System.out.println("--------------------------");
-        List<Pattern> ranges = new ArrayList<>();
-        System.out.println(mongoRangeDao.getAll());
-
+        /*List<Pattern> patterns = new ArrayList<>();
+         System.out.println(mongoPatternDao.getAll());
+         System.out.println("--------------------------");
+         List<Pattern> ranges = new ArrayList<>();
+         System.out.println(mongoRangeDao.getAll());
+         */
+        //System.out.println(mongoDbReportDao.getRangeHighPatternPatientBy(3, new BigDecimal(4.9)));
+        //System.out.println(mongoDbReportDao.getRangesByPatient("Amanda"));
+        System.out.println(mongoDbReportDao.getPatientByDaytimeAndRangeHigh("Dinner time", new BigDecimal(4.9)));
+        // mongoStudyDao.skuska();
+        
+        //System.out.println(mongoDbReportDao.metoda().toString());
+        System.out.println(mongoStudyDao.getAll());
     }
 
-    public static void main(String[] args) throws UnknownHostException, IOException {
+    public static void main(String[] args) {
 
-        /**
-         * ** Get collection / table from 'testdb' ***
-         */
-        // if collection doesn't exists, MongoDB will create it for you
-/*
-         DBCollection col2 = db.getCollection("report");
-
-         DBCursor c = col2.find();
-         ObjectMapper mapper = new ObjectMapper();
-         DBObject objekt = c.next();
-
-         System.out.println(objekt.toString());
-         Report ex = mapper.readValue(objekt.toString(), Report.class);
-         System.out.println(c.next());
-         */
         Main2 m = new Main2();
-        m.metoda();
 
+        m.metoda();
     }
 
 }

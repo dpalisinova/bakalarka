@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.postgresql.ds.PGSimpleDataSource;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlPatternDao;
 import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlPossibleCauseDao;
@@ -12,20 +11,14 @@ import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlGlucoseRangeDao;
 import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlReportDao;
 import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlStudyDao;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.mongodb.core.MongoOperations;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbPatternDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbPossibleCauseDao;
-import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbRangeDao;
+import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbGlucoseRangeDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbReportDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbStudyDao;
 
@@ -41,7 +34,7 @@ public enum DaoFactory {
     private PostgreSqlPossibleCauseDao postgrePossibleCauseDao;
     private MongoDbPossibleCauseDao mongoPossibleCause;
     private PostgreSqlGlucoseRangeDao postgreRangeDao;
-    private MongoDbRangeDao mongoRangeDao;
+    private MongoDbGlucoseRangeDao mongoRangeDao;
     private PostgreSqlStudyDao postgreStudyDao;
     private MongoDbStudyDao mongoStudyDao;
     public static final String POSTGRESQL = "postgresql";
@@ -54,7 +47,7 @@ public enum DaoFactory {
                     this.postgreReportDao = new PostgreSqlReportDao(getJdbcTemplate());
                 }
                 return this.postgreReportDao;
-               
+
             case MONGODB:
                 if (this.mongoReportDao == null) {
                     try {
@@ -127,7 +120,7 @@ public enum DaoFactory {
             case MONGODB:
                 if (this.mongoRangeDao == null) {
                     try {
-                        this.mongoRangeDao = new MongoDbRangeDao(getMongoConnection());
+                        this.mongoRangeDao = new MongoDbGlucoseRangeDao(getMongoConnection());
                     } catch (UnknownHostException ex) {
                         Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
                         throw new RuntimeException("Unknown host", ex);
@@ -186,7 +179,7 @@ public enum DaoFactory {
          dataSource.setPassword("dominika");
          this.dataSource = dataSource;*/
 
-        PGSimpleDataSource source = new PGSimpleDataSource();
+        source = new PGSimpleDataSource();
         source.setUrl("jdbc:postgresql://localhost:5432/study");
         source.setDatabaseName("study");
         source.setUser("postgres");

@@ -19,6 +19,5 @@ public interface ReportDao {
 
     public List<Report> getPatientByDaytimeAndRangeHigh(String daytime, BigDecimal rangeHigh);
 
-    public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientBy(int noOfDays, BigDecimal rangeHigh);
-
+    //public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientBy(int rangeNoOfDays, BigDecimal rangeHigh);
 }

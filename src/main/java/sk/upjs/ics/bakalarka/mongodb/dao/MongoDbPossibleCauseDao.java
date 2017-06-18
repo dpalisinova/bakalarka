@@ -29,9 +29,8 @@ public class MongoDbPossibleCauseDao implements PossibleCauseDao {
 
     @Override
     public void add(PossibleCause possibleCause) {
-
+        throw new UnsupportedOperationException("Please use reportDao.add() method.");
     }
-
 
     @Override
     public void delete(PossibleCause cause) {

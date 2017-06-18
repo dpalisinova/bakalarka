@@ -15,6 +15,7 @@ import sk.upjs.ics.bakalarka.entity.Report;
 public class JsonToJava {
 
     private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL);
+    private DaoFactory dao = DaoFactory.INSTANCE;
 
     public static void main(String[] args) {
         JsonToJava obj = new JsonToJava();
@@ -27,8 +28,7 @@ public class JsonToJava {
             ObjectMapper mapper = new ObjectMapper();
 
             Report[] ex = mapper.readValue(new File("C:\\Users\\Juraj\\Desktop\\nove2.json"), Report[].class);
-            JsonFactory fact = new JsonFactory();
-            
+                     
             for (Report report : ex) {
                 reportDao.add(report);
             }
