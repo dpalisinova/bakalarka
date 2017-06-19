@@ -106,14 +106,15 @@ public class MongoDbReportDao implements ReportDao {
         return ranges;
     }
 
-    @Override
-    public List<Report> getPatientByDaytimeAndRangeHigh(String daytime, BigDecimal rangeHigh) {
+   
+    public List<Report> getPatientByDaytimeAndRangeHigh(String daytime, double rangeHigh) {
         List<Report> reports = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
 
         List<BasicDBObject> partQueries = new ArrayList<>();
         partQueries.add(new BasicDBObject("Daytime", daytime));
-        partQueries.add(new BasicDBObject("GlucoseRanges.RangeHigh", rangeHigh));
+        BasicDBObject greater= new BasicDBObject("$gte", rangeHigh);
+        partQueries.add(new BasicDBObject("GlucoseRanges.RangeHigh", greater));
         BasicDBObject and = new BasicDBObject("$and", partQueries);
         BasicDBObject fields = new BasicDBObject();
         fields.put("Study", 0);
@@ -132,7 +133,7 @@ public class MongoDbReportDao implements ReportDao {
     }
 //tato metoda je len zakomentovana v interace-i, lebo tu nemozem spravit customizovanu triedu co s nou??? TODO
 
-    public List<Report> getRangeHighPatternPatientBy(int rangeNoOfDays, BigDecimal rangeHigh) {
+    public List<Report> getRangeHighPatternPatientBy(int rangeNoOfDays, double rangeHigh) {
         List<Report> reports = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
 

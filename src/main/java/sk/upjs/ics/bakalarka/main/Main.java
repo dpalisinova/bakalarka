@@ -61,24 +61,26 @@ public class Main {
          causes = possibleCauseDao.getAll();
          for (int i = 0; i < causes.size(); i++) {
          System.out.println(causes.get(i).getCause());
-         }
-         List<GlucoseRange> pole = rangeDao.getAll();
-         for (int i = 0; i < pole.size(); i++) {
-         System.out.println(pole.get(i).toString());
-         }
-         System.out.println(pole.get(0).getLow());
-         */
-        List<Study> studie = postgreStudyDao.getAll();
-        for (int i = 0; i < studie.size(); i++) {
-            System.out.println(studie.get(i).toString());
+         }*/
+        
+        List<GlucoseRange> pole = postgreRangeDao.getAll();
+        for (int i = 0; i < pole.size(); i++) {
+            System.out.println(pole.get(i).toString());
         }
-        System.out.println("--------------");
-        List<Study> studie2 = mongoDbStudyDao.getAll();
-        for (int i = 0; i < studie2.size(); i++) {
-            System.out.println(studie2.get(i).toString());
+        System.out.println(pole.get(0).getLow());
 
-        }
-        /*
+       //  System.out.println(pole.get(0).getLow());
+        /* List<Study> studie = postgreStudyDao.getAll();
+         for (int i = 0; i < studie.size(); i++) {
+         System.out.println(studie.get(i).toString());
+         }
+         System.out.println("--------------");
+         List<Study> studie2 = mongoDbStudyDao.getAll();
+         for (int i = 0; i < studie2.size(); i++) {
+         System.out.println(studie2.get(i).toString());
+
+         }
+         /*
          long startTime = System.currentTimeMillis();
 
          List<Report> reports = reportDao.getAll();
@@ -88,11 +90,11 @@ public class Main {
          System.out.println(reports.get(i).toString());
          }*/
         //System.out.println(possibleCauseDao.getIdByString("Exercised around breakfast"));
-      /*  System.out.println(patternDao.getRangesByHighRangeAndNoOfDays(new BigDecimal("33.3"), 2));
-         //System.out.println(reportDao.select1());
-         System.out.println(reportDao.getRangeHighPatternPatientInfoBy(3, new BigDecimal("33")));
-         // System.out.println(reportDao.select2());
-         System.out.println(reportDao.getRangesBy("Steve"));
+        //  System.out.println(patternDao.getRangesByHighRangeAndNoOfDays(new BigDecimal("33.3"), 2));
+        //System.out.println(reportDao.select1());
+        //System.out.println(postgreReportDao.getRangeHighPatternPatientBy(3, 33.3));
+        // System.out.println(reportDao.select2());
+        /* System.out.println(reportDao.getRangesBy("Steve"));
          System.out.println(reportDao.getPatientInfoBy("Post-dinner", new BigDecimal("33")));
          */
         /*List<GlucoseRange> pole = rangeDao.getAll();
@@ -103,7 +105,6 @@ public class Main {
         //System.out.println(patternDao.hasMissingPatternPossibleCauseRow(1L, 2L)+ "pattern+possible cause");
         // System.out.println(possibleCauseDao.getAll().get(5).toString());
         //  possibleCauseDao.getIdBy(possibleCauseDao.getAll().get(4));
-
     }
 
     public static void main(String[] args) {

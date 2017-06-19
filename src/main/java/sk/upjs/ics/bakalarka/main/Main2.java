@@ -41,7 +41,7 @@ import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbPatternDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbPossibleCauseDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbReportDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbStudyDao;
-import sun.text.normalizer.UCharacter;
+
 
 /**
  *
@@ -72,11 +72,11 @@ public class Main2 {
          */
         //System.out.println(mongoDbReportDao.getRangeHighPatternPatientBy(3, new BigDecimal(4.9)));
         //System.out.println(mongoDbReportDao.getRangesByPatient("Amanda"));
-        System.out.println(mongoDbReportDao.getPatientByDaytimeAndRangeHigh("Dinner time", new BigDecimal(4.9)));
+        System.out.println(mongoDbReportDao.getPatientByDaytimeAndRangeHigh("Dinner time", 5));
         // mongoStudyDao.skuska();
         
         //System.out.println(mongoDbReportDao.metoda().toString());
-        System.out.println(mongoStudyDao.getAll());
+        //System.out.println(mongoStudyDao.getAll());
     }
 
     public static void main(String[] args) {
