@@ -1,6 +1,7 @@
 package sk.upjs.ics.bakalarka.mongodb.dao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -16,6 +17,7 @@ import sk.upjs.ics.bakalarka.dao.PatternDao;
 import sk.upjs.ics.bakalarka.dao.StudyDao;
 import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 import sk.upjs.ics.bakalarka.entity.Pattern;
+import sk.upjs.ics.bakalarka.entity.Report;
 import sk.upjs.ics.bakalarka.entity.Study;
 
 public class MongoDbPatternDao implements PatternDao {
@@ -23,9 +25,13 @@ public class MongoDbPatternDao implements PatternDao {
     private DB mongoConnection;
     private StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao(DaoFactory.MONGODB);
     private List<Pattern> patterns = new ArrayList<>();
+    private DBCollection collection;
+    private static final String COLLECTION_REPORT = "report";
 
     public MongoDbPatternDao(DB db) {
         mongoConnection = db;
+        collection = mongoConnection.getCollection(COLLECTION_REPORT);
+
     }
 
     @Override
@@ -43,12 +49,38 @@ public class MongoDbPatternDao implements PatternDao {
 
     @Override
     public void delete(Pattern pattern) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Please use reportDao.delete() method.");
     }
 
-    @Override
-    public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(BigDecimal highRange, int noOfDays) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(double rangeHigh, int patternNoOfDays) {
+        List<GlucoseRange> ranges = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<BasicDBObject> partQueries = new ArrayList<>();
+        partQueries.add(new BasicDBObject("NoOfDays", patternNoOfDays));
+        BasicDBObject greater = new BasicDBObject("$gte", rangeHigh);
+        partQueries.add(new BasicDBObject("GlucoseRanges.RangeHigh", greater));
+        BasicDBObject and = new BasicDBObject("$and", partQueries);
+        BasicDBObject fields = new BasicDBObject();
+
+        BasicDBObject query = new BasicDBObject("Study.Patterns", new BasicDBObject("$elemMatch", and));
+        DBCursor cursor = collection.find(query, fields);
+        while (cursor.hasNext()) {
+            DBObject object = cursor.next();
+            try {
+                Report report = mapper.readValue(object.toString(), Report.class);
+                for (Study study : report.getStudies()) {
+                    for (Pattern pattern : study.getPatterns()) {
+                        ranges.addAll(pattern.getGlucoseRanges());
+
+                    }
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(MongoDbReportDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return ranges;
     }
 
 }

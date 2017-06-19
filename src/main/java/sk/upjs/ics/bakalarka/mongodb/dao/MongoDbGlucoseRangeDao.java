@@ -34,6 +34,6 @@ public class MongoDbGlucoseRangeDao implements GlucoseRangeDao {
 
     @Override
     public void delete(GlucoseRange range) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Please use reportDao.delete() method."); //To change body of generated methods, choose Tools | Templates.
     }
 }

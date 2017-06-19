@@ -34,6 +34,6 @@ public class MongoDbPossibleCauseDao implements PossibleCauseDao {
 
     @Override
     public void delete(PossibleCause cause) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Please use reportDao.delete() method.");
     }
 }

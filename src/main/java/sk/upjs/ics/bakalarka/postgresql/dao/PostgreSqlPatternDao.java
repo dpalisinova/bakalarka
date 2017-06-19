@@ -145,9 +145,9 @@ public class PostgreSqlPatternDao implements PatternDao {
     }
 
     @Override
-    public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(BigDecimal hladina, int noOfDays) {
+    public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(double hladina, int noOfDays) {
         String sql = "SELECT r.* FROM Pattern p JOIN range_pattern rp ON p.id = rp.patternid "
-                + " JOIN Range r ON r.id = rp.rangeid WHERE r.high = ? AND p.noofdays = ?";
+                + " JOIN Range r ON r.id = rp.rangeid WHERE r.high >= ? AND p.noofdays = ?";
         PatternRowCallbackHandler handler = new PatternRowCallbackHandler();
         jdbcTemplate.query(sql, handler, hladina, noOfDays);
 

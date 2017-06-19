@@ -21,6 +21,10 @@ import sk.upjs.ics.bakalarka.entity.Pattern;
 import sk.upjs.ics.bakalarka.entity.PossibleCause;
 import sk.upjs.ics.bakalarka.entity.Report;
 import sk.upjs.ics.bakalarka.entity.Study;
+import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbGlucoseRangeDao;
+import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbPatternDao;
+import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbPossibleCauseDao;
+import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbReportDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbStudyDao;
 import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlGlucoseRangeDao;
 import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlPatternDao;
@@ -35,8 +39,14 @@ public class Main {
     private PostgreSqlPatternDao postgrePatternDao = (PostgreSqlPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.POSTGRESQL);
     private PossibleCauseDao postgrePossibleCauseDao = (PostgreSqlPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.POSTGRESQL);
     private PostgreSqlGlucoseRangeDao postgreRangeDao = (PostgreSqlGlucoseRangeDao) DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.POSTGRESQL);
-    private MongoDbStudyDao mongoDbStudyDao = (MongoDbStudyDao) DaoFactory.INSTANCE.getStudyDao(DaoFactory.MONGODB);
-    //ReportDao reportDao = DaoFactory.INSTANCE.getReportDao();
+
+    private MongoDbReportDao mongoDbReportDao = (MongoDbReportDao) DaoFactory.INSTANCE.getReportDao("mongodb");
+    private MongoDbPatternDao mongoPatternDao = (MongoDbPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB);
+    private MongoDbStudyDao mongoStudyDao = (MongoDbStudyDao) DaoFactory.INSTANCE.getStudyDao(DaoFactory.MONGODB);
+    private MongoDbPossibleCauseDao mongoPossibleCause = (MongoDbPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.MONGODB);
+    private MongoDbGlucoseRangeDao mongoRangeDao = (MongoDbGlucoseRangeDao) DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.MONGODB);
+
+//ReportDao reportDao = DaoFactory.INSTANCE.getReportDao();
     private SimpleDateFormat dateFormat = new SimpleDateFormat(
             "dd.MM.yyyy");
 
@@ -62,7 +72,6 @@ public class Main {
          for (int i = 0; i < causes.size(); i++) {
          System.out.println(causes.get(i).getCause());
          }*/
-        
         List<GlucoseRange> pole = postgreRangeDao.getAll();
         for (int i = 0; i < pole.size(); i++) {
             System.out.println(pole.get(i).toString());
@@ -105,6 +114,8 @@ public class Main {
         //System.out.println(patternDao.hasMissingPatternPossibleCauseRow(1L, 2L)+ "pattern+possible cause");
         // System.out.println(possibleCauseDao.getAll().get(5).toString());
         //  possibleCauseDao.getIdBy(possibleCauseDao.getAll().get(4));
+        System.out.println(postgrePatternDao.getRangesByHighRangeAndNoOfDays(3.5, 2));
+        System.out.println(mongoPatternDao.getRangesByHighRangeAndNoOfDays(3.5, 2));
     }
 
     public static void main(String[] args) {

@@ -7,26 +7,16 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
-import java.io.BufferedReader;
-import org.bson.Document;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sk.upjs.ics.bakalarka.dao.ReportDao;
 import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 import sk.upjs.ics.bakalarka.entity.Report;
-import sk.upjs.ics.bakalarka.postgresql.dao.queries.RangeHighPatternTypePatientInfo;
-
-import org.slf4j.LoggerFactory;
 import sk.upjs.ics.bakalarka.entity.Pattern;
 import sk.upjs.ics.bakalarka.entity.Study;
 
@@ -43,11 +33,9 @@ public class MongoDbReportDao implements ReportDao {
 
     @Override
     public List<Report> getAll() {
-
-        DBCursor c = collection.find();
-
         ObjectMapper mapper = new ObjectMapper();
         List<Report> reports = new ArrayList<>();
+        DBCursor c = collection.find();
         while (c.hasNext()) {
             DBObject objekt = c.next();
             try {
@@ -61,6 +49,10 @@ public class MongoDbReportDao implements ReportDao {
         return reports;
     }
 
+    /* public Report findById(Report report) {
+     BasicDBObject field = new BasicDBObject();
+     }
+     */
     @Override
     public void add(Report report) {
         ObjectMapper mapper = new ObjectMapper();
@@ -68,7 +60,7 @@ public class MongoDbReportDao implements ReportDao {
         try {
             String jsonInString = mapper.writeValueAsString(report);
             DBObject object = (DBObject) JSON.parse(jsonInString);
-            collection.insert();
+            collection.insert(object);
         } catch (JsonProcessingException ex) {
             Logger.getLogger(MongoDbReportDao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -76,7 +68,10 @@ public class MongoDbReportDao implements ReportDao {
 
     @Override
     public void delete(Report report) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        BasicDBObject objectToRemove = new BasicDBObject("ID", report.getId());
+        collection.remove(objectToRemove);
+        System.out.println("Report has been deleted.");
+
     }
 
     @Override
@@ -86,7 +81,6 @@ public class MongoDbReportDao implements ReportDao {
 
         BasicDBObject searchQuery = new BasicDBObject("Name", patientName);
         BasicDBObject field = new BasicDBObject();
-        //field.put("GlucoseRanges", 1);
         field.put("_id", 0);
         DBCursor cursor = collection.find(searchQuery, field);
         while (cursor.hasNext()) {
@@ -106,14 +100,13 @@ public class MongoDbReportDao implements ReportDao {
         return ranges;
     }
 
-   
     public List<Report> getPatientByDaytimeAndRangeHigh(String daytime, double rangeHigh) {
         List<Report> reports = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
 
         List<BasicDBObject> partQueries = new ArrayList<>();
         partQueries.add(new BasicDBObject("Daytime", daytime));
-        BasicDBObject greater= new BasicDBObject("$gte", rangeHigh);
+        BasicDBObject greater = new BasicDBObject("$gte", rangeHigh);
         partQueries.add(new BasicDBObject("GlucoseRanges.RangeHigh", greater));
         BasicDBObject and = new BasicDBObject("$and", partQueries);
         BasicDBObject fields = new BasicDBObject();
@@ -131,14 +124,14 @@ public class MongoDbReportDao implements ReportDao {
         }
         return reports;
     }
-//tato metoda je len zakomentovana v interace-i, lebo tu nemozem spravit customizovanu triedu co s nou??? TODO
 
     public List<Report> getRangeHighPatternPatientBy(int rangeNoOfDays, double rangeHigh) {
         List<Report> reports = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
 
         List<BasicDBObject> objects = new ArrayList<>();
-        objects.add(new BasicDBObject("RangeHigh", rangeHigh));
+        BasicDBObject greater = new BasicDBObject("$gte", rangeHigh);
+        objects.add(new BasicDBObject("RangeHigh", greater));
         objects.add(new BasicDBObject("NoOfDays", rangeNoOfDays));
         BasicDBObject and = new BasicDBObject("$and", objects);
 

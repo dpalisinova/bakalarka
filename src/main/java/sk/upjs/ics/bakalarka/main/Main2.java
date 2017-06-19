@@ -41,7 +41,7 @@ import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbPatternDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbPossibleCauseDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbReportDao;
 import sk.upjs.ics.bakalarka.mongodb.dao.MongoDbStudyDao;
-
+import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlReportDao;
 
 /**
  *
@@ -70,13 +70,17 @@ public class Main2 {
          List<Pattern> ranges = new ArrayList<>();
          System.out.println(mongoRangeDao.getAll());
          */
-        //System.out.println(mongoDbReportDao.getRangeHighPatternPatientBy(3, new BigDecimal(4.9)));
-        //System.out.println(mongoDbReportDao.getRangesByPatient("Amanda"));
-        System.out.println(mongoDbReportDao.getPatientByDaytimeAndRangeHigh("Dinner time", 5));
+        //System.out.println(mongoDbReportDao.getRangeHighPatternPatientBy(3, 4.9));
+      
+        System.out.println(mongoDbReportDao.getRangesByPatient("Amanda"));
+        //System.out.println(mongoDbReportDao.getPatientByDaytimeAndRangeHigh("Dinner time", 5));
         // mongoStudyDao.skuska();
-        
+        //System.out.println(mongoDbReportDao.getAll());
+        mongoDbReportDao.delete(mongoDbReportDao.getAll().get(mongoDbReportDao.getAll().size() - 1));
+       //System.out.println(mongoDbReportDao.getAll());
         //System.out.println(mongoDbReportDao.metoda().toString());
         //System.out.println(mongoStudyDao.getAll());
+        //System.out.println(mongoPatternDao.getRangesByHighRangeAndNoOfDays(3.9, 2));
     }
 
     public static void main(String[] args) {

@@ -32,7 +32,6 @@ public class MongoDbStudyDao implements StudyDao {
         return studies;
     }
 
-   
     @Override
     public void add(Study study) {
         throw new UnsupportedOperationException("Please use reportDao.add() method.");
@@ -40,6 +39,6 @@ public class MongoDbStudyDao implements StudyDao {
 
     @Override
     public void delete(Study study) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Please use reportDao.delete() method.");
     }
 }
