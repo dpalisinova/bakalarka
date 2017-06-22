@@ -14,7 +14,7 @@ import sk.upjs.ics.bakalarka.entity.Report;
 
 public class JsonToJava {
 
-    private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL);
+    private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, true);
     private DaoFactory dao = DaoFactory.INSTANCE;
 
     public static void main(String[] args) {

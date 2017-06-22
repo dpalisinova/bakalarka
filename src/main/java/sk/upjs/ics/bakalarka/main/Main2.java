@@ -49,9 +49,9 @@ import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlReportDao;
  */
 public class Main2 {
 
-    private MongoDbReportDao mongoDbReportDao = (MongoDbReportDao) DaoFactory.INSTANCE.getReportDao("mongodb");
-    private MongoDbPatternDao mongoPatternDao = (MongoDbPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB);
-    private MongoDbStudyDao mongoStudyDao = (MongoDbStudyDao) DaoFactory.INSTANCE.getStudyDao(DaoFactory.MONGODB);
+    private MongoDbReportDao mongoDbReportDao = (MongoDbReportDao) DaoFactory.INSTANCE.getReportDao(DaoFactory.MONGODB, true);
+    private MongoDbPatternDao mongoPatternDao = (MongoDbPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB, true);
+    private MongoDbStudyDao mongoStudyDao = (MongoDbStudyDao) DaoFactory.INSTANCE.getStudyDao(DaoFactory.MONGODB, true);
     private MongoDbPossibleCauseDao mongoPossibleCause = (MongoDbPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.MONGODB);
     private MongoDbGlucoseRangeDao mongoRangeDao = (MongoDbGlucoseRangeDao) DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.MONGODB);
 
@@ -71,13 +71,13 @@ public class Main2 {
          System.out.println(mongoRangeDao.getAll());
          */
         //System.out.println(mongoDbReportDao.getRangeHighPatternPatientBy(3, 4.9));
-      
+
         System.out.println(mongoDbReportDao.getRangesByPatient("Amanda"));
         //System.out.println(mongoDbReportDao.getPatientByDaytimeAndRangeHigh("Dinner time", 5));
         // mongoStudyDao.skuska();
         //System.out.println(mongoDbReportDao.getAll());
         mongoDbReportDao.delete(mongoDbReportDao.getAll().get(mongoDbReportDao.getAll().size() - 1));
-       //System.out.println(mongoDbReportDao.getAll());
+        //System.out.println(mongoDbReportDao.getAll());
         //System.out.println(mongoDbReportDao.metoda().toString());
         //System.out.println(mongoStudyDao.getAll());
         //System.out.println(mongoPatternDao.getRangesByHighRangeAndNoOfDays(3.9, 2));

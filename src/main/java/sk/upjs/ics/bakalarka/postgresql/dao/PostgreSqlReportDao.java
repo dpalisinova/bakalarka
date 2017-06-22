@@ -24,18 +24,37 @@ import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportGetRangePatternPatient
 public class PostgreSqlReportDao implements ReportDao {
 
     private JdbcTemplate jdbcTemplate;
-    private StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao(DaoFactory.POSTGRESQL);
+    private PostgreSqlStudyDao studyDao = (PostgreSqlStudyDao) DaoFactory.INSTANCE.getStudyDao(DaoFactory.POSTGRESQL, true);
+    private PostgreSqlPatternDao patternDao = (PostgreSqlPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.POSTGRESQL, true);
+    private PostgreSqlGlucoseRangeDao rangeDao = (PostgreSqlGlucoseRangeDao) DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.POSTGRESQL);
+    private PostgreSqlPossibleCauseDao possibleCauseDao = (PostgreSqlPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.POSTGRESQL);
+    private final boolean recursiveFetch;
 
-    public PostgreSqlReportDao(JdbcTemplate jdbcTemplate) {
+    public PostgreSqlReportDao(JdbcTemplate jdbcTemplate, boolean recursiveFetch) {
         this.jdbcTemplate = jdbcTemplate;
+        this.recursiveFetch = recursiveFetch;
     }
 
     @Override
     public List<Report> getAll() {
+
         String sql = "SELECT * FROM Patient";
         BeanPropertyRowMapper<Report> mapper = BeanPropertyRowMapper.newInstance(Report.class);
+        List<Report> reports = jdbcTemplate.query(sql, mapper);
+        if (recursiveFetch) {
+            for (Report report : reports) {
+                report.setStudies(studyDao.getStudies(report));
+                for (Study study : report.getStudies()) {
+                    study.setPatterns(patternDao.getPatterns(study));
+                    for (Pattern pattern : study.getPatterns()) {
+                        pattern.setGlucoseRanges(rangeDao.getRanges(pattern));
+                        pattern.setPossibleCauses(possibleCauseDao.getCauses(pattern));
+                    }
+                }
+            }
 
-        return jdbcTemplate.query(sql, mapper);
+        }
+        return reports;
     }
 
     @Override

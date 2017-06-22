@@ -7,22 +7,38 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.bakalarka.entity.Pattern;
+import sk.upjs.ics.bakalarka.entity.Report;
 import sk.upjs.ics.bakalarka.entity.Study;
 
 public class PostgreSqlStudyDao implements StudyDao {
 
     private JdbcTemplate jdbcTemplate;
-    private PostgreSqlPatternDao patternDao = (PostgreSqlPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.POSTGRESQL);
+    private PostgreSqlPatternDao patternDao = (PostgreSqlPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.POSTGRESQL, true);
+    private PostgreSqlGlucoseRangeDao rangeDao = (PostgreSqlGlucoseRangeDao) DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.POSTGRESQL);
+    private PostgreSqlPossibleCauseDao possibleCauseDao =(PostgreSqlPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.POSTGRESQL);
+    private final boolean recursiveFetch;
 
-    public PostgreSqlStudyDao(JdbcTemplate jdbcTemplate) {
+    public PostgreSqlStudyDao(JdbcTemplate jdbcTemplate, boolean recursiveFetch) {
         this.jdbcTemplate = jdbcTemplate;
+        this.recursiveFetch = recursiveFetch;
     }
 
     @Override
     public List<Study> getAll() {
         String sql = "SELECT * FROM study";
         BeanPropertyRowMapper<Study> mapper = BeanPropertyRowMapper.newInstance(Study.class);
-        return jdbcTemplate.query(sql, mapper);
+        List<Study> studies = jdbcTemplate.query(sql, mapper);
+        if (recursiveFetch) {
+            for (Study study : studies) {
+                study.setPatterns(patternDao.getPatterns(study));
+                for (Pattern pattern : study.getPatterns()) {
+                pattern.setGlucoseRanges(rangeDao.getRanges(pattern));
+                pattern.setPossibleCauses(possibleCauseDao.getCauses(pattern));
+                }
+                
+            }
+        }
+        return studies;
     }
 
     @Override
@@ -46,6 +62,12 @@ public class PostgreSqlStudyDao implements StudyDao {
     public void delete(Study study) {
         String sql = "DELETE FROM Study WHERE id = ?";
         jdbcTemplate.update(sql, study.getId());
+    }
+
+    public List<Study> getStudies(Report report) {
+        String sql = "SELECT * FROM Study WHERE patientId = ?";
+        BeanPropertyRowMapper<Study> mapper = BeanPropertyRowMapper.newInstance(Study.class);
+        return jdbcTemplate.query(sql, mapper, report.getId());
     }
 
 }

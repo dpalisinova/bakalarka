@@ -23,7 +23,7 @@ import sk.upjs.ics.bakalarka.entity.Study;
 public class MongoDbPatternDao implements PatternDao {
 
     private DB mongoConnection;
-    private StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao(DaoFactory.MONGODB);
+    private StudyDao studyDao = DaoFactory.INSTANCE.getStudyDao(DaoFactory.MONGODB, true);
     private List<Pattern> patterns = new ArrayList<>();
     private DBCollection collection;
     private static final String COLLECTION_REPORT = "report";
@@ -51,7 +51,8 @@ public class MongoDbPatternDao implements PatternDao {
     public void delete(Pattern pattern) {
         throw new UnsupportedOperationException("Please use reportDao.delete() method.");
     }
-
+    
+    //vyskusat TODO
     public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(double rangeHigh, int patternNoOfDays) {
         List<GlucoseRange> ranges = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();

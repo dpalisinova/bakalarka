@@ -12,7 +12,7 @@ import sk.upjs.ics.bakalarka.entity.PossibleCause;
 public class MongoDbPossibleCauseDao implements PossibleCauseDao {
 
     private DB mongoConnection;
-    private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB);
+    private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB, true);
     private List<PossibleCause> causes = new ArrayList<>();
 
     public MongoDbPossibleCauseDao(DB db) {

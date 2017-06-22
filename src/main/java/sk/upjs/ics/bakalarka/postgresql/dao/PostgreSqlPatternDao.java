@@ -16,23 +16,34 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.bakalarka.entity.Pattern;
 import sk.upjs.ics.bakalarka.entity.PossibleCause;
 import sk.upjs.ics.bakalarka.entity.GlucoseRange;
+import sk.upjs.ics.bakalarka.entity.Study;
+import sk.upjs.ics.bakalarka.postgresql.dao.queries.PatternGetPatternsByStudyHandler;
 
 public class PostgreSqlPatternDao implements PatternDao {
 
     private JdbcTemplate jdbcTemplate;
     private PostgreSqlPossibleCauseDao possibleCauseDao = (PostgreSqlPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.POSTGRESQL);
     private PostgreSqlGlucoseRangeDao rangeDao = (PostgreSqlGlucoseRangeDao) DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.POSTGRESQL);
+    private final boolean recursiveFetch;
 
-    public PostgreSqlPatternDao(JdbcTemplate jdbcTemplate) {
+    public PostgreSqlPatternDao(JdbcTemplate jdbcTemplate, boolean recursiveFetch) {
         this.jdbcTemplate = jdbcTemplate;
+        this.recursiveFetch = recursiveFetch;
     }
 
     @Override
     public List<Pattern> getAll() {
         String sql = "SELECT * FROM pattern";
         BeanPropertyRowMapper<Pattern> mapper = BeanPropertyRowMapper.newInstance(Pattern.class);
+        List<Pattern> patterns = jdbcTemplate.query(sql, mapper);
+        if (recursiveFetch) {
+            for (Pattern pattern : patterns) {
+                pattern.setGlucoseRanges(rangeDao.getRanges(pattern));
+                pattern.setPossibleCauses(possibleCauseDao.getCauses(pattern));
+            }
+        }
 
-        return jdbcTemplate.query(sql, mapper);
+        return patterns;
 
     }
 
@@ -86,7 +97,7 @@ public class PostgreSqlPatternDao implements PatternDao {
 
         for (Pattern patternFromList : samePatterns) {
             rangesFromSameList = this.getRangeIdByPattern(patternFromList);
-            causesFromSameList = this.getPossibleCauseByPattern(patternFromList);
+            causesFromSameList = this.getPossibleCauseIdByPattern(patternFromList);
 
             for (GlucoseRange rangeFromRPTable : rangesFromSameList) {
                 rangeIdFromList.add(rangeFromRPTable.getId());
@@ -115,7 +126,6 @@ public class PostgreSqlPatternDao implements PatternDao {
     }
 
     //insert submethod
-
     public boolean isNewPattern(Pattern pattern) {
         //Pattern contains new possibleCause/glucoseRange
         for (PossibleCause possibleCause : pattern.getPossibleCauses()) {
@@ -125,7 +135,6 @@ public class PostgreSqlPatternDao implements PatternDao {
         }
 
         for (GlucoseRange range : pattern.getGlucoseRanges()) {
-            System.out.println("je tu vobec nejaky range???" + pattern.getGlucoseRanges().size());
             if (rangeDao.getIdBy(range) == -1L) {
                 return true;
             }
@@ -165,8 +174,18 @@ public class PostgreSqlPatternDao implements PatternDao {
 
     }
 
+    public List<Pattern> getPatterns(Study study) {
+        String sql = "SELECT p.* from Pattern P \n"
+                + "JOIN Study_pattern sp ON p.id = sp.PatternId\n"
+                + "JOIN Study s ON s.id= sp.studyId\n"
+                + "WHERE s.id = ?";
+        PatternGetPatternsByStudyHandler handler = new PatternGetPatternsByStudyHandler();
+        jdbcTemplate.query(sql, handler, study.getId());
+        return handler.getPatterns();
+    }
+
     //insert submethod
-    public List<PossibleCause> getPossibleCauseByPattern(Pattern pattern) {
+    public List<PossibleCause> getPossibleCauseIdByPattern(Pattern pattern) {
         String sql = "SELECT possibleCausesid FROM Pattern_possibleCause WHERE patternId = ?";
         PatternGetPossibleCauseByPatternHandler handler = new PatternGetPossibleCauseByPatternHandler();
         jdbcTemplate.query(sql, handler, pattern.getId());

@@ -40,11 +40,11 @@ public enum DaoFactory {
     public static final String POSTGRESQL = "postgresql";
     public static final String MONGODB = "mongodb";
 
-    public ReportDao getReportDao(String database) {
+    public ReportDao getReportDao(String database, boolean recursiveFetch) {
         switch (database) {
             case POSTGRESQL:
                 if (this.postgreReportDao == null) {
-                    this.postgreReportDao = new PostgreSqlReportDao(getJdbcTemplate());
+                    this.postgreReportDao = new PostgreSqlReportDao(getJdbcTemplate(), recursiveFetch);
                 }
                 return this.postgreReportDao;
 
@@ -64,11 +64,11 @@ public enum DaoFactory {
 
     }
 
-    public PatternDao getPatternDao(String database) {
+    public PatternDao getPatternDao(String database, boolean recursiveFetch) {
         switch (database) {
             case POSTGRESQL:
                 if (this.postgrePatternDao == null) {
-                    this.postgrePatternDao = new PostgreSqlPatternDao(getJdbcTemplate());
+                    this.postgrePatternDao = new PostgreSqlPatternDao(getJdbcTemplate(), recursiveFetch);
                 }
                 return this.postgrePatternDao;
             case MONGODB:
@@ -133,11 +133,11 @@ public enum DaoFactory {
 
     }
 
-    public StudyDao getStudyDao(String database) {
+    public StudyDao getStudyDao(String database, boolean recursiveFetch) {
         switch (database) {
             case POSTGRESQL:
                 if (this.postgreStudyDao == null) {
-                    this.postgreStudyDao = new PostgreSqlStudyDao(getJdbcTemplate());
+                    this.postgreStudyDao = new PostgreSqlStudyDao(getJdbcTemplate(), recursiveFetch);
                 }
                 return this.postgreStudyDao;
             case MONGODB:

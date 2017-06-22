@@ -1,4 +1,3 @@
-
 package sk.upjs.ics.bakalarka.postgresql.dao.queries;
 
 import java.math.BigDecimal;
@@ -30,7 +29,6 @@ public class PatternRowCallbackHandler implements RowCallbackHandler {
         range.setNoOfDays(rs.getInt(4));
         range.setUnits(rs.getString(5));
         Pattern p = new Pattern();
-        System.out.println("Processing result set" + rs.toString());
         ranges.add(range);
 
         p.setGlucoseRanges(ranges);

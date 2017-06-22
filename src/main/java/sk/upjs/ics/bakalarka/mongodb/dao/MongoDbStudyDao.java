@@ -14,9 +14,10 @@ public class MongoDbStudyDao implements StudyDao {
 
     private DB mongoConnection;
     private DBCollection collection;
-    private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.MONGODB);
+    private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.MONGODB, true);
     private List<Study> studies = new ArrayList<>();
     private static final String COLLECTION_REPORT = "report";
+    
 
     public MongoDbStudyDao(DB db) {
         mongoConnection = db;

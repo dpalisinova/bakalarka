@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import sk.upjs.ics.bakalarka.entity.GlucoseRange;
+import sk.upjs.ics.bakalarka.entity.Pattern;
+import sk.upjs.ics.bakalarka.postgresql.dao.queries.GlucoseRangeGetRangesHandler;
 
 public class PostgreSqlGlucoseRangeDao implements GlucoseRangeDao {
 
@@ -22,7 +24,17 @@ public class PostgreSqlGlucoseRangeDao implements GlucoseRangeDao {
 
     }
 
-   
+    public List<GlucoseRange> getRanges(Pattern pattern) {
+        String sql = "SELECT r.* from Range r \n"
+                + " JOIN Range_Pattern rp ON r.id = rp.rangeId\n"
+                + " JOIN Pattern p ON p.id = rp.patternId\n"
+                + " WHERE p.id = ?";
+        GlucoseRangeGetRangesHandler handler = new GlucoseRangeGetRangesHandler();
+        jdbcTemplate.query(sql, handler, pattern.getId());
+        return handler.getRanges();
+
+    }
+
     public Long getIdBy(GlucoseRange range) {
         String sql = "SELECT id FROM Range WHERE high = ? AND low = ? AND noofdays = ? AND units LIKE ?";
         BeanPropertyRowMapper<GlucoseRange> mapper = BeanPropertyRowMapper.newInstance(GlucoseRange.class);
@@ -33,7 +45,7 @@ public class PostgreSqlGlucoseRangeDao implements GlucoseRangeDao {
     }
 
     @Override
-    public void add(GlucoseRange range) { 
+    public void add(GlucoseRange range) {
         String sql = "INSERT INTO Range(high, low, noofdays, units) VALUES ( ?, ?, ?, ?);";
         jdbcTemplate.update(sql, range.getHigh(), range.getLow(), range.getNoOfDays(), range.getUnits());
     }

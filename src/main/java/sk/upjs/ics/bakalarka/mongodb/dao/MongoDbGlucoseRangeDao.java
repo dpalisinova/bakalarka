@@ -12,7 +12,7 @@ import sk.upjs.ics.bakalarka.entity.Pattern;
 public class MongoDbGlucoseRangeDao implements GlucoseRangeDao {
 
     private DB mongoConnection;
-    private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB);
+    private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB, true);
     private List<GlucoseRange> ranges = new ArrayList<>();
 
     public MongoDbGlucoseRangeDao(DB db) {
