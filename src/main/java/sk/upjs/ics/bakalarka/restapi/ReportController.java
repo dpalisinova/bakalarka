@@ -28,9 +28,9 @@ public class ReportController {
         return reportDao.getAll();
     }
 
-    @RequestMapping("/ranges")
-    public List<GlucoseRange> get() {
-        return reportDao.getRangesByPatient("Amanda");
+    @RequestMapping("/ranges{patientName}")
+    public List<GlucoseRange> get(@PathVariable String patientName) {
+        return reportDao.getRangesByPatient(patientName);
     }
 
 }

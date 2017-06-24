@@ -117,9 +117,9 @@ public class Main {
         // System.out.println(mongoPatternDao.getRangesByHighRangeAndNoOfDays(3.5, 2));
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         Main ta = new Main();
         ta.metoda();
-    }
+    }*/
 
 }

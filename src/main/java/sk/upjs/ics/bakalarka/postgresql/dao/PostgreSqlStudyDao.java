@@ -15,7 +15,7 @@ public class PostgreSqlStudyDao implements StudyDao {
     private JdbcTemplate jdbcTemplate;
     private PostgreSqlPatternDao patternDao = (PostgreSqlPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.POSTGRESQL, true);
     private PostgreSqlGlucoseRangeDao rangeDao = (PostgreSqlGlucoseRangeDao) DaoFactory.INSTANCE.getGlucoseRangeDao(DaoFactory.POSTGRESQL);
-    private PostgreSqlPossibleCauseDao possibleCauseDao =(PostgreSqlPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.POSTGRESQL);
+    private PostgreSqlPossibleCauseDao possibleCauseDao = (PostgreSqlPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.POSTGRESQL);
     private final boolean recursiveFetch;
 
     public PostgreSqlStudyDao(JdbcTemplate jdbcTemplate, boolean recursiveFetch) {
@@ -31,11 +31,6 @@ public class PostgreSqlStudyDao implements StudyDao {
         if (recursiveFetch) {
             for (Study study : studies) {
                 study.setPatterns(patternDao.getPatterns(study));
-                for (Pattern pattern : study.getPatterns()) {
-                pattern.setGlucoseRanges(rangeDao.getRanges(pattern));
-                pattern.setPossibleCauses(possibleCauseDao.getCauses(pattern));
-                }
-                
             }
         }
         return studies;
@@ -67,7 +62,13 @@ public class PostgreSqlStudyDao implements StudyDao {
     public List<Study> getStudies(Report report) {
         String sql = "SELECT * FROM Study WHERE patientId = ?";
         BeanPropertyRowMapper<Study> mapper = BeanPropertyRowMapper.newInstance(Study.class);
-        return jdbcTemplate.query(sql, mapper, report.getId());
+        List<Study> studies = jdbcTemplate.query(sql, mapper, report.getId());
+        for (Study study : studies) {
+            study.setPatterns(patternDao.getPatterns(study));
+
+        }
+
+        return studies;
     }
 
 }

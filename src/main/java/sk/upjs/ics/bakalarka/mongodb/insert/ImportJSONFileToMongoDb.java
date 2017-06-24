@@ -59,8 +59,8 @@ public class ImportJSONFileToMongoDb {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+  /*  public static void main(String[] args) throws IOException {
         insertIntoDb(readFile("C:\\Users\\Juraj\\Desktop\\nove2.json"));
-    }
+    }*/
 
 }

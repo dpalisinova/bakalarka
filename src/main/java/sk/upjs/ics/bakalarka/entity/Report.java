@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 import java.util.List;
 
@@ -18,11 +19,9 @@ import java.util.List;
     "DOB",
     "Study"
 })
-@JsonIgnoreProperties(value = { "_id" })
+@JsonIgnoreProperties(value = {"_id"})
 public class Report {
 
-    
-    
     @JsonProperty("Name")
     private String name;
     @JsonProperty("Surname")
@@ -30,6 +29,7 @@ public class Report {
     @JsonProperty("ID")
     private Long id;
     @JsonProperty("DOB")
+    @JsonSerialize(using = DateAndTimeSerializer.class)
     @JsonDeserialize(using = DateAndTimeDeserialize.class)
     private Date dob;
     @JsonProperty("Study")
@@ -96,7 +96,7 @@ public class Report {
 
     @Override
     public String toString() {
-        return "Patient{" + "iD=" + id + ", name=" + name + ", surname=" + surname + ", DOB=" + dob + ", studies=" + studies + '}'+"\n";
+        return "Patient{" + "iD=" + id + ", name=" + name + ", surname=" + surname + ", DOB=" + dob + ", studies=" + studies + '}' + "\n";
     }
 
 }

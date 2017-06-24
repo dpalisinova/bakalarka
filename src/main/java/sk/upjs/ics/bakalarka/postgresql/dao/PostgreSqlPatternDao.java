@@ -181,7 +181,12 @@ public class PostgreSqlPatternDao implements PatternDao {
                 + "WHERE s.id = ?";
         PatternGetPatternsByStudyHandler handler = new PatternGetPatternsByStudyHandler();
         jdbcTemplate.query(sql, handler, study.getId());
-        return handler.getPatterns();
+        List<Pattern> patterns = handler.getPatterns();
+        for (Pattern pattern : patterns) {
+            pattern.setGlucoseRanges(rangeDao.getRanges(pattern));
+            pattern.setPossibleCauses(possibleCauseDao.getCauses(pattern));
+        }
+        return patterns;
     }
 
     //insert submethod

@@ -44,13 +44,6 @@ public class PostgreSqlReportDao implements ReportDao {
         if (recursiveFetch) {
             for (Report report : reports) {
                 report.setStudies(studyDao.getStudies(report));
-                for (Study study : report.getStudies()) {
-                    study.setPatterns(patternDao.getPatterns(study));
-                    for (Pattern pattern : study.getPatterns()) {
-                        pattern.setGlucoseRanges(rangeDao.getRanges(pattern));
-                        pattern.setPossibleCauses(possibleCauseDao.getCauses(pattern));
-                    }
-                }
             }
 
         }

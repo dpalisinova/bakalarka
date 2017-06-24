@@ -17,11 +17,11 @@ public class JsonToJava {
     private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, true);
     private DaoFactory dao = DaoFactory.INSTANCE;
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         JsonToJava obj = new JsonToJava();
         obj.run();
         //Study e = new Study();
-    }
+    }*/
 
     private void run() {
         try {
