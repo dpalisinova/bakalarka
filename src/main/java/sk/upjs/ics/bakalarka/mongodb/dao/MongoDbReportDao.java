@@ -100,7 +100,8 @@ public class MongoDbReportDao implements ReportDao {
         return ranges;
     }
 
-    public List<Report> getPatientByDaytimeAndRangeHigh(String daytime, double rangeHigh) {
+    @Override
+    public List<Report> getReportByDaytimeAndRangeHigh(String daytime, double rangeHigh) {
         List<Report> reports = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -125,7 +126,8 @@ public class MongoDbReportDao implements ReportDao {
         return reports;
     }
 
-    public List<Report> getRangeHighPatternPatientBy(int rangeNoOfDays, double rangeHigh) {
+    @Override
+    public List<Report> getReportByNoOfDaysAndRangeHigh(int rangeNoOfDays, double rangeHigh) {
         List<Report> reports = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -134,9 +136,11 @@ public class MongoDbReportDao implements ReportDao {
         objects.add(new BasicDBObject("RangeHigh", greater));
         objects.add(new BasicDBObject("NoOfDays", rangeNoOfDays));
         BasicDBObject and = new BasicDBObject("$and", objects);
+        BasicDBObject fields = new BasicDBObject();
+        fields.put("Study", 0);
 
         BasicDBObject projection = new BasicDBObject("Study.Patterns.GlucoseRanges", new BasicDBObject("$elemMatch", and));
-        DBCursor cursor = collection.find(projection);
+        DBCursor cursor = collection.find(projection, fields);
         while (cursor.hasNext()) {
             DBObject objekt = cursor.next();
             try {

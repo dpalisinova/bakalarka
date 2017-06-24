@@ -18,7 +18,7 @@ import sk.upjs.ics.bakalarka.entity.GlucoseRange;
 import sk.upjs.ics.bakalarka.entity.Pattern;
 import sk.upjs.ics.bakalarka.entity.Report;
 import sk.upjs.ics.bakalarka.entity.Study;
-import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportGetPatientByDaytimeAndRangeHighHandler;
+import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportHandler;
 import sk.upjs.ics.bakalarka.postgresql.dao.queries.ReportGetRangePatternPatientInfoHandler;
 
 public class PostgreSqlReportDao implements ReportDao {
@@ -95,7 +95,7 @@ public class PostgreSqlReportDao implements ReportDao {
     }
 //1.select
 
-    public List<Report> getPatientByDaytimeAndRangeHigh(String daytime, double rangeHigh) {
+    public List<Report> getReportByDaytimeAndRangeHigh(String daytime, double rangeHigh) {
         String sql = "SELECT pt.* from Range r \n"
                 + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
                 + "JOIN Pattern p ON p.id = rp.patternid\n"
@@ -103,11 +103,24 @@ public class PostgreSqlReportDao implements ReportDao {
                 + "JOIN Study s ON s.id = sp.studyid\n"
                 + "JOIN Patient pt ON pt.id = s.patientid\n"
                 + "WHERE p.daytime LIKE ? AND r.high >= ?";
-        ReportGetPatientByDaytimeAndRangeHighHandler handler = new ReportGetPatientByDaytimeAndRangeHighHandler();
+        ReportHandler handler = new ReportHandler();
         jdbcTemplate.query(sql, handler, daytime, rangeHigh);
         return handler.getReports();
     }
 //2.select
+     @Override
+    public List<Report> getReportByNoOfDaysAndRangeHigh(int rangeNoOfDays, double rangeHigh) {
+       String sql = "SELECT pt.* from Range r \n"
+                + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
+                + "JOIN Pattern p ON p.id = rp.patternid\n"
+                + "JOIN Study_Pattern sp ON sp.patternid = p.id\n"
+                + "JOIN Study s ON s.id = sp.studyid\n"
+                + "JOIN Patient pt ON pt.id = s.patientid\n"
+                + "WHERE r.noofdays >= ? AND r.high >= ?";
+         ReportHandler handler = new ReportHandler();
+        jdbcTemplate.query(sql, handler, rangeNoOfDays, rangeHigh);
+        return handler.getReports();
+    }
 
     public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientBy(int rangeNoOfDays, double rangeHigh) {
         String sql = "SELECT r.high, p.type, pt.* from Range r \n"
@@ -127,5 +140,7 @@ public class PostgreSqlReportDao implements ReportDao {
         String sql = "DELETE FROM Patient WHERE id = ?";
         jdbcTemplate.update(sql, report.getId());
     }
+
+   
 
 }

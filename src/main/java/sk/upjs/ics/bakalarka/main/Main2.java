@@ -73,7 +73,7 @@ public class Main2 {
         //System.out.println(mongoDbReportDao.getRangeHighPatternPatientBy(3, 4.9));
 
         System.out.println(mongoDbReportDao.getRangesByPatient("Amanda"));
-        //System.out.println(mongoDbReportDao.getPatientByDaytimeAndRangeHigh("Dinner time", 5));
+        //System.out.println(mongoDbReportDao.getReportByDaytimeAndRangeHigh("Dinner time", 5));
         // mongoStudyDao.skuska();
         //System.out.println(mongoDbReportDao.getAll());
         mongoDbReportDao.delete(mongoDbReportDao.getAll().get(mongoDbReportDao.getAll().size() - 1));

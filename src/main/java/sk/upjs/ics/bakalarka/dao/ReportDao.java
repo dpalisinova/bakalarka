@@ -17,7 +17,9 @@ public interface ReportDao {
 
     public List<GlucoseRange> getRangesByPatient(String patientName);
 
-    public List<Report> getPatientByDaytimeAndRangeHigh(String daytime, double rangeHigh);
+    public List<Report> getReportByDaytimeAndRangeHigh(String daytime, double rangeHigh);
+    
+    public List<Report> getReportByNoOfDaysAndRangeHigh(int rangeNoOfDays, double rangeHigh);
 
-    //public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientBy(int rangeNoOfDays, BigDecimal rangeHigh);
+   // public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientBy(int rangeNoOfDays, double rangeHigh);
 }

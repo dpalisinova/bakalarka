@@ -103,7 +103,7 @@ public class Main {
         //System.out.println(postgreReportDao.getRangeHighPatternPatientBy(3, 33.3));
         // System.out.println(reportDao.select2());
         // System.out.println(reportDao.getRangesBy("Steve"));
-         System.out.println(postgreReportDao.getPatientByDaytimeAndRangeHigh("Post-dinner", 33));
+         System.out.println(postgreReportDao.getReportByDaytimeAndRangeHigh("Post-dinner", 33));
          
         /*List<GlucoseRange> pole = rangeDao.getAll();
          for (int i = 0; i < pole.size(); i++) {

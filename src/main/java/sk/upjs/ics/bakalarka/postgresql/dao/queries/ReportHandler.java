@@ -13,7 +13,7 @@ import sk.upjs.ics.bakalarka.entity.PossibleCause;
 import sk.upjs.ics.bakalarka.entity.Report;
 import sk.upjs.ics.bakalarka.entity.Study;
 
-public class ReportGetPatientByDaytimeAndRangeHighHandler implements RowCallbackHandler {
+public class ReportHandler implements RowCallbackHandler {
 
     private List<Report> reports = new ArrayList<>();
     private List<Study> studies = new ArrayList<>();
