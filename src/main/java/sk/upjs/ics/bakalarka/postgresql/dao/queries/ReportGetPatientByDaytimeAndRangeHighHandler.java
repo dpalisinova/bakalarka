@@ -24,7 +24,7 @@ public class ReportGetPatientByDaytimeAndRangeHighHandler implements RowCallback
 
     @Override
     public void processRow(ResultSet rs) throws SQLException {
-        GlucoseRange range = new GlucoseRange();
+       /* GlucoseRange range = new GlucoseRange();
         ranges.add(range);
 
         Pattern pattern = new Pattern();
@@ -33,7 +33,7 @@ public class ReportGetPatientByDaytimeAndRangeHighHandler implements RowCallback
 
         Study study = new Study();
         study.setPatterns(patterns);
-        studies.add(study);
+        studies.add(study);*/
 
         Report report = new Report();
         report.setName(rs.getString(1));
@@ -41,7 +41,7 @@ public class ReportGetPatientByDaytimeAndRangeHighHandler implements RowCallback
         report.setId(rs.getLong(3));
         report.setDOB(rs.getDate(4));
 
-        report.setStudies(studies);
+       // report.setStudies(studies);
 
         reports.add(report);
 

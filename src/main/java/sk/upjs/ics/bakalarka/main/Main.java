@@ -29,7 +29,7 @@ import sk.upjs.ics.bakalarka.postgresql.dao.PostgreSqlStudyDao;
 
 public class Main {
 
-    private PostgreSqlReportDao postgreReportDao = (PostgreSqlReportDao) DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, true);
+    private PostgreSqlReportDao postgreReportDao = (PostgreSqlReportDao) DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, false);
     private PostgreSqlStudyDao postgreStudyDao = (PostgreSqlStudyDao) DaoFactory.INSTANCE.getStudyDao(DaoFactory.POSTGRESQL, true);
     private PostgreSqlPatternDao postgrePatternDao = (PostgreSqlPatternDao) DaoFactory.INSTANCE.getPatternDao(DaoFactory.POSTGRESQL, true);
     private PossibleCauseDao postgrePossibleCauseDao = (PostgreSqlPossibleCauseDao) DaoFactory.INSTANCE.getPossibleCauseDao(DaoFactory.POSTGRESQL);
@@ -99,12 +99,12 @@ public class Main {
          }*/
         //System.out.println(possibleCauseDao.getIdByString("Exercised around breakfast"));
         //  System.out.println(patternDao.getRangesByHighRangeAndNoOfDays(new BigDecimal("33.3"), 2));
-        //System.out.println(reportDao.select1());
+       
         //System.out.println(postgreReportDao.getRangeHighPatternPatientBy(3, 33.3));
         // System.out.println(reportDao.select2());
-        /* System.out.println(reportDao.getRangesBy("Steve"));
-         System.out.println(reportDao.getPatientInfoBy("Post-dinner", new BigDecimal("33")));
-         */
+        // System.out.println(reportDao.getRangesBy("Steve"));
+         System.out.println(postgreReportDao.getPatientByDaytimeAndRangeHigh("Post-dinner", 33));
+         
         /*List<GlucoseRange> pole = rangeDao.getAll();
          for (int i = 0; i < pole.size(); i++) {
          */ // System.out.println(pole.get(i).toString());

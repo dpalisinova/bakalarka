@@ -1,12 +1,12 @@
 package sk.upjs.ics.bakalarka.entity;
 
-
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 import sk.upjs.ics.bakalarka.entity.Pattern;
 
@@ -22,10 +22,12 @@ public class Study {
     @JsonProperty("id")
     private Long id;
     @JsonProperty("StartDate")
-    @JsonDeserialize(using = DateAndTimeDeserialize.class)
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserialize.class)
     private Date startDate;
     @JsonProperty("EndDate")
-    @JsonDeserialize(using = DateAndTimeDeserialize.class)
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserialize.class)
     private Date endDate;
     private Long patientId;
     @JsonProperty("Patterns")
@@ -81,7 +83,7 @@ public class Study {
 
     @Override
     public String toString() {
-        return "\nStudy{" + "id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", patientId=" + patientId + ", patterns=" + patterns  +'}';
+        return "\nStudy{" + "id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", patientId=" + patientId + ", patterns=" + patterns + '}';
     }
 
 }

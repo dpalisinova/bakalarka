@@ -29,8 +29,8 @@ public class Report {
     @JsonProperty("ID")
     private Long id;
     @JsonProperty("DOB")
-    @JsonSerialize(using = DateAndTimeSerializer.class)
-    @JsonDeserialize(using = DateAndTimeDeserialize.class)
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserialize.class)
     private Date dob;
     @JsonProperty("Study")
     private List<Study> studies;

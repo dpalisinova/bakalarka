@@ -12,9 +12,9 @@ import java.util.Date;
  *
  * @author Juraj
  */
-class DateAndTimeSerializer extends JsonSerializer<Date> {
+class DateSerializer extends JsonSerializer<Date> {
     
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     
     @Override
     public void serialize(Date date, JsonGenerator jg, SerializerProvider sp) throws IOException, JsonProcessingException {
