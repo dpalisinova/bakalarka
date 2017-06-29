@@ -1,5 +1,7 @@
 package sk.upjs.ics.bakalarka.restapi;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +19,8 @@ import sk.upjs.ics.bakalarka.entity.Report;
 @RequestMapping("/reports")
 public class ReportController {
 
+    //private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, true);
     private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, true);
-    //private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.MONGODB, true);
 
     public ReportController() {
     }
@@ -33,15 +35,21 @@ public class ReportController {
         return reportDao.getRangesByPatient(patientName);
     }
 
-    @RequestMapping("/1{daytime},{rangeHigh}")
+    @RequestMapping("/daytime{daytime},{rangeHigh}")
     public List<Report> getReportsByDaytimeAndRangeHigh(@PathVariable String daytime, @PathVariable double rangeHigh) {
         return reportDao.getReportByDaytimeAndRangeHigh(daytime, rangeHigh);
     }
 
-    @RequestMapping("/2{rangeNoOfDays},{rangeHigh}")
+    @RequestMapping("/noofdays{rangeNoOfDays},{rangeHigh}")
     public List<Report> getReportsByNoOfDaysAnodRangeHigh(@PathVariable int rangeNoOfDays, @PathVariable double rangeHigh) {
 
         return reportDao.getReportByNoOfDaysAndRangeHigh(rangeNoOfDays, rangeHigh);
     }
+    @RequestMapping("/possiblecause{cause}")
+    public List<Report> getReportsByPossibleCause(@PathVariable String cause) throws UnsupportedEncodingException {
+        return reportDao.getReportByPossibleCause(URLDecoder.decode(cause, "UTF-8"));
+    }
+   
+    
 
 }

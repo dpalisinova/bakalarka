@@ -20,6 +20,8 @@ public interface ReportDao {
     public List<Report> getReportByDaytimeAndRangeHigh(String daytime, double rangeHigh);
     
     public List<Report> getReportByNoOfDaysAndRangeHigh(int rangeNoOfDays, double rangeHigh);
+    
+    public List<Report> getReportByPossibleCause(String cause);
 
    // public List<RangeHighPatternTypePatientInfo> getRangeHighPatternPatientBy(int rangeNoOfDays, double rangeHigh);
 }

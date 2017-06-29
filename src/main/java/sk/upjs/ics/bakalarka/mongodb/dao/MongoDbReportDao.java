@@ -154,4 +154,24 @@ public class MongoDbReportDao implements ReportDao {
         return reports;
     }
 
+    @Override
+    public List<Report> getReportByPossibleCause(String cause) {
+        List<Report> reports = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        BasicDBObject query = new BasicDBObject("PossibleCauses", cause);
+        BasicDBObject fields = new BasicDBObject();
+        fields.put("Study", 0);
+        DBCursor cursor = collection.find(query, fields);
+        while (cursor.hasNext()) {
+            DBObject objekt = cursor.next();
+            try {
+                Report report = mapper.readValue(objekt.toString(), Report.class);
+                reports.add(report);
+            } catch (IOException ex) {
+                Logger.getLogger(MongoDbReportDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return reports;
+    }
+
 }

@@ -198,6 +198,13 @@ public class PostgreSqlPatternDao implements PatternDao {
     }
 
     @Override
+    public List<Pattern> getPatternsByType(String type) {
+        String sql = "SELECT * FROM Pattern WHERE Type LIKE ?";
+        BeanPropertyRowMapper<Pattern> mapper = BeanPropertyRowMapper.newInstance(Pattern.class);
+        return jdbcTemplate.query(sql, mapper, type);
+    }
+
+    @Override
     public void delete(Pattern pattern) {
         String sql = "DELETE FROM Pattern WHERE id = ?";
         jdbcTemplate.update(sql, pattern.getId());

@@ -73,7 +73,7 @@ public class Main {
          }
          System.out.println(pole.get(0).getLow());
          */
-        List<Pattern> patterns = postgrePatternDao.getPatterns(postgreStudyDao.getAll().get(0));
+       /* List<Pattern> patterns = postgrePatternDao.getPatterns(postgreStudyDao.getAll().get(0));
         System.out.println(patterns.toString());
         List<GlucoseRange> ranges = postgreRangeDao.getRanges(postgrePatternDao.getAll().get(0));
         System.out.println(ranges);
@@ -103,12 +103,11 @@ public class Main {
         //System.out.println(postgreReportDao.getRangeHighPatternPatientBy(3, 33.3));
         // System.out.println(reportDao.select2());
         // System.out.println(reportDao.getRangesBy("Steve"));
-         System.out.println(postgreReportDao.getReportByDaytimeAndRangeHigh("Post-dinner", 33));
-         
+         System.out.println(postgrePatternDao.getPatternsByType("Low SG").size());
         /*List<GlucoseRange> pole = rangeDao.getAll();
          for (int i = 0; i < pole.size(); i++) {
          */ // System.out.println(pole.get(i).toString());
-        // }
+        // }"Pre-meal insulin in prior evening(s) incorrectly timed or missed"
         // System.out.println(rangeDao.getId(pole.get(1)));
         //System.out.println(patternDao.hasMissingPatternPossibleCauseRow(1L, 2L)+ "pattern+possible cause");
         // System.out.println(possibleCauseDao.getAll().get(5).toString());
@@ -117,9 +116,9 @@ public class Main {
         // System.out.println(mongoPatternDao.getRangesByHighRangeAndNoOfDays(3.5, 2));
     }
 
-   /* public static void main(String[] args) {
-        Main ta = new Main();
-        ta.metoda();
-    }*/
+//    public static void main(String[] args) {
+//        Main ta = new Main();
+//        ta.metoda();
+//    }
 
 }

@@ -14,10 +14,11 @@ import java.util.Date;
  */
 class DateSerializer extends JsonSerializer<Date> {
     
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    
     
     @Override
     public void serialize(Date date, JsonGenerator jg, SerializerProvider sp) throws IOException, JsonProcessingException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         String formattedDate = dateFormat.format(date);
         jg.writeString(formattedDate);
     }

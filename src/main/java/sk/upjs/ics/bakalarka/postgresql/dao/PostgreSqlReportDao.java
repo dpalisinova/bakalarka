@@ -53,24 +53,24 @@ public class PostgreSqlReportDao implements ReportDao {
     @Override
     public void add(Report report) {
 
-        for (Report r : this.getAll()) {
-            if (r.getId().equals(report.getId())) {
-                // taky pacient uz je v db, nemusim nic robit
-                return;
-            }
-        }
+        /* for (Report r : this.getAll()) {
+         if (r.getId().equals(report.getId())) {
+         // taky pacient uz je v db, nemusim nic robit
+         return;
+         }
+         }*/
         String sql = "INSERT INTO Patient(id, name, surname, \"DOB\") VALUES ( ?,?, ?, ?);";
         jdbcTemplate.update(sql, report.getId(), report.getName(), report.getSurname(), report.getDOB());
         // PostgreSqlStudyDao studyDao = (PostgreSqlStudyDao) DaoFactory.INSTANCE.getStudyDao();
         boolean studyExists = false;
         if (report.getStudies() != null) {
             for (Study study : report.getStudies()) {
-                for (Study dbStudy : studyDao.getAll()) {
-                    if (study.getId() == dbStudy.getId()) {
-                        studyExists = true;
-                        break;
-                    }
-                }
+                /* for (Study dbStudy : studyDao.getAll()) {
+                 if (study.getId() == dbStudy.getId()) {
+                 studyExists = true;
+                 break;
+                 }
+                 }*/
                 if (!studyExists) {
                     study.setPatientId(report.getId());
                     studyDao.add(study);
@@ -108,16 +108,17 @@ public class PostgreSqlReportDao implements ReportDao {
         return handler.getReports();
     }
 //2.select
-     @Override
+
+    @Override
     public List<Report> getReportByNoOfDaysAndRangeHigh(int rangeNoOfDays, double rangeHigh) {
-       String sql = "SELECT pt.* from Range r \n"
+        String sql = "SELECT pt.* from Range r \n"
                 + "JOIN Range_Pattern rp ON rp.rangeid = r.id\n"
                 + "JOIN Pattern p ON p.id = rp.patternid\n"
                 + "JOIN Study_Pattern sp ON sp.patternid = p.id\n"
                 + "JOIN Study s ON s.id = sp.studyid\n"
                 + "JOIN Patient pt ON pt.id = s.patientid\n"
                 + "WHERE r.noofdays >= ? AND r.high >= ?";
-         ReportHandler handler = new ReportHandler();
+        ReportHandler handler = new ReportHandler();
         jdbcTemplate.query(sql, handler, rangeNoOfDays, rangeHigh);
         return handler.getReports();
     }
@@ -141,6 +142,18 @@ public class PostgreSqlReportDao implements ReportDao {
         jdbcTemplate.update(sql, report.getId());
     }
 
-   
+    @Override
+    public List<Report> getReportByPossibleCause(String cause) {
+        String sql = "SELECT pt.* FROM Patient pt\n"
+                + "JOIN Study s ON pt.id = s.patientId\n"
+                + "JOIN Study_pattern sp ON s.id = sp.studyId\n"
+                + "JOIN Pattern p ON p.id = sp.patternId\n"
+                + "JOIN Pattern_possibleCause pp ON pp.patternId = p.id\n"
+                + "JOIN PossibleCause pc ON pc.id = pp.possibleCausesId\n"
+                + "WHERE cause LIKE ?";
+        ReportHandler handler = new ReportHandler();
+        jdbcTemplate.query(sql, handler, cause);
+        return handler.getReports();
+    }
 
 }

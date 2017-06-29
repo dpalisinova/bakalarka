@@ -51,7 +51,7 @@ public class MongoDbPatternDao implements PatternDao {
     public void delete(Pattern pattern) {
         throw new UnsupportedOperationException("Please use reportDao.delete() method.");
     }
-    
+
     //vyskusat TODO
     public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(double rangeHigh, int patternNoOfDays) {
         List<GlucoseRange> ranges = new ArrayList<>();
@@ -82,6 +82,35 @@ public class MongoDbPatternDao implements PatternDao {
             }
         }
         return ranges;
+    }
+
+    @Override
+    public List<Pattern> getPatternsByType(String type) {
+        List<Pattern> patterns = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        BasicDBObject query = new BasicDBObject("Study.Patterns.Type", type);
+        BasicDBObject fields = new BasicDBObject();
+        fields.put("Study.Patterns.GlucoseRanges", 0);
+        fields.put("Study.Patterns.PossibleCauses", 0);
+        DBCursor cursor = collection.find(query, fields);
+        while (cursor.hasNext()) {
+            DBObject object = cursor.next();
+            try {
+                Report report = mapper.readValue(object.toString(), Report.class);
+                for (Study study : report.getStudies()) {
+                    for (Pattern pattern : study.getPatterns()) {
+                        if (pattern.getType().equals(type)) {
+                            patterns.add(pattern);
+                        }
+
+                    }
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(MongoDbReportDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return patterns;
     }
 
 }

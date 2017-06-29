@@ -17,17 +17,16 @@ public class JsonToJava {
     private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, true);
     private DaoFactory dao = DaoFactory.INSTANCE;
 
-   /* public static void main(String[] args) {
-        JsonToJava obj = new JsonToJava();
-        obj.run();
-        //Study e = new Study();
-    }*/
+//    public static void main(String[] args) {
+//        JsonToJava obj = new JsonToJava();
+//        obj.run();
+//    }
 
     private void run() {
         try {
             ObjectMapper mapper = new ObjectMapper();
 
-            Report[] ex = mapper.readValue(new File("C:\\Users\\Juraj\\Desktop\\nove2.json"), Report[].class);
+            Report[] ex = mapper.readValue(new File("C:\\Users\\Juraj\\Desktop\\JSON_DATA.json"), Report[].class);
                      
             for (Report report : ex) {
                 reportDao.add(report);

@@ -15,4 +15,6 @@ public interface PatternDao {
 
     public List<GlucoseRange> getRangesByHighRangeAndNoOfDays(double highRange, int patternNoOfDays);
 
+    public List<Pattern> getPatternsByType(String type);
+
 }
