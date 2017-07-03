@@ -19,7 +19,8 @@ import sk.upjs.ics.bakalarka.entity.Pattern;
 @RequestMapping("/patterns")
 public class PatternController {
 
-    private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.POSTGRESQL, true);
+   // private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.POSTGRESQL, true);
+     private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB, true);
 
     public PatternController() {
     }

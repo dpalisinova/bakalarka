@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ApplicationConfiguration {
-
+    //spustac serveru
     public static void main(String[] args) {
         SpringApplication.run(ApplicationConfiguration.class, args);
     }

@@ -72,22 +72,21 @@ public class Main2 {
          */
         //System.out.println(mongoDbReportDao.getRangeHighPatternPatientBy(3, 4.9));
 
-        System.out.println(mongoDbReportDao.getRangesByPatient("Amanda"));
+        // System.out.println(mongoDbReportDao.getRangesByPatient("Amanda"));
         //System.out.println(mongoDbReportDao.getReportByDaytimeAndRangeHigh("Dinner time", 5));
         // mongoStudyDao.skuska();
         //System.out.println(mongoDbReportDao.getAll());
-        mongoDbReportDao.delete(mongoDbReportDao.getAll().get(mongoDbReportDao.getAll().size() - 1));
+        System.out.println(mongoDbReportDao.getReportByPossibleCause("Pre-meal insulin in prior evening(s) incorrectly timed or missed?"));
         //System.out.println(mongoDbReportDao.getAll());
         //System.out.println(mongoDbReportDao.metoda().toString());
         //System.out.println(mongoStudyDao.getAll());
         //System.out.println(mongoPatternDao.getRangesByHighRangeAndNoOfDays(3.9, 2));
     }
 
-    /*public static void main(String[] args) {
+    /* public static void main(String[] args) {
 
-        Main2 m = new Main2();
+     Main2 m = new Main2();
 
-        m.metoda();
-    }*/
-
+     m.metoda();
+     }*/
 }

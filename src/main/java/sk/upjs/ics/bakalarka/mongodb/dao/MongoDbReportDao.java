@@ -158,7 +158,7 @@ public class MongoDbReportDao implements ReportDao {
     public List<Report> getReportByPossibleCause(String cause) {
         List<Report> reports = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
-        BasicDBObject query = new BasicDBObject("PossibleCauses", cause);
+        BasicDBObject query = new BasicDBObject("Study.Patterns.PossibleCauses", cause);
         BasicDBObject fields = new BasicDBObject();
         fields.put("Study", 0);
         DBCursor cursor = collection.find(query, fields);

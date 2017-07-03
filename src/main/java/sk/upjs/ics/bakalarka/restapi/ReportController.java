@@ -19,8 +19,8 @@ import sk.upjs.ics.bakalarka.entity.Report;
 @RequestMapping("/reports")
 public class ReportController {
 
-    //private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, true);
-    private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, true);
+   //private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, true);
+    private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.MONGODB, true);
 
     public ReportController() {
     }
