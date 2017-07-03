@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sk.upjs.ics.bakalarka.restapi;
 
 import java.io.UnsupportedEncodingException;
@@ -18,7 +14,7 @@ import sk.upjs.ics.bakalarka.entity.Pattern;
 @RestController
 @RequestMapping("/patterns")
 public class PatternController {
-
+    //pre vyber testovanej databázy odkomentovat prislusny 
    // private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.POSTGRESQL, true);
      private PatternDao patternDao = DaoFactory.INSTANCE.getPatternDao(DaoFactory.MONGODB, true);
 

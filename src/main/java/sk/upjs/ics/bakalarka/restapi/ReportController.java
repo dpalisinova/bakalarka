@@ -18,7 +18,7 @@ import sk.upjs.ics.bakalarka.entity.Report;
 @RestController
 @RequestMapping("/reports")
 public class ReportController {
-
+    //pre vyber testovanej databázy odkomentovat prislusny 
    //private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.POSTGRESQL, true);
     private ReportDao reportDao = DaoFactory.INSTANCE.getReportDao(DaoFactory.MONGODB, true);
 
